@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html>
+<head><title>Welcome to Chunaavi Tukka!</title></head>
+  <body>
+    <h1>Welcome to Chunaavi Tukka!</h1>
+	<ul>
+	<li>See predictions by <a href="/u/admin/">admin</a></li>
+	<li>See predictions for <a href="/c/varanasi/">varanasi</a></li>
+	</ul>
+    <hr>
+
+    <a href="{{ url|safe }}">{{ url_linktext }}</a>
+
+  </body>
+</html>
+{% endautoescape %}

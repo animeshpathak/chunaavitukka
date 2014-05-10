@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html>
+<head><title>Chunaavi Tukka: {{user_name}}'s predictions</title></head>
+  <body>
+  <h1>Chunaavi Tukka: {{user_name}}'s predictions</h1>
+    {% for prediction in predictions %}
+	<div class="prediction">
+	For constituency <a href="/c/{{prediction.cons.slug}}">{{prediction.cons.name}}</a> : {{prediction.candidate.name}} of {{prediction.candidate.party}}
+	 </div>
+    {% endfor %}
+
+    <a href="{{ url|safe }}">{{ url_linktext }}</a>
+
+  </body>
+</html>
+{% endautoescape %}

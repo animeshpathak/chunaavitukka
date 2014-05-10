@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html>
+<head><title>Chunaavi Tukka: predictions for {{contest_name}}</title></head>
+  <body>
+  <h1>Chunaavi Tukka: predictions for {{contest_name}}</h1>
+    {% for prediction in predictions %}
+	<div class="prediction">
+	 {{prediction.candidate.name}} of {{prediction.candidate.party}} : {{prediction.support}}
+	 </div>
+    {% endfor %}
+
+    <a href="{{ url|safe }}">{{ url_linktext }}</a>
+
+  </body>
+</html>
+{% endautoescape %}
