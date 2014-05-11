@@ -2,6 +2,7 @@
 
 import os
 import urllib
+import json
 
 from google.appengine.api import users
 from google.appengine.ext import ndb
@@ -31,15 +32,14 @@ def user_setup(self):
 class HomeHandler(webapp2.RequestHandler):
 
     def get(self):
-        self.response.headers['Content-Type'] = 'text/html'
-#        self.response.write('Hello, ChunaaviTukka!')
         (url, url_linktext) = user_setup(self)
         template_values = {
             'greetings': [],
             'url': url,
             'url_linktext': url_linktext,
         }
-
+        
+        self.response.headers['Content-Type'] = 'text/html'
         template = JINJA_ENVIRONMENT.get_template('templates/index.html')
         self.response.write(template.render(template_values))
 		
@@ -48,9 +48,9 @@ class ContestPageHandler(webapp2.RequestHandler):
     def get(self, contest_slug):
         contest_name = contest_slug.capitalize()
 
-        self.response.headers['Content-Type'] = 'text/html'
         predictions = [{'candidate':{'name':'M.M.Malaviya','party':'BHU','coalition': 'ABC'},'support':100},{'candidate':{'name':'Guru Gobind Singh','party':'Gurdwara','coalition': 'XYZ'},'support':75}]
         (url, url_linktext) = user_setup(self)
+        format = self.request.get("f")
         template_values = {
             'contest_slug': contest_slug,
             'contest_name': contest_name,
@@ -59,14 +59,20 @@ class ContestPageHandler(webapp2.RequestHandler):
             'predictions': predictions,
         }
 
-        template = JINJA_ENVIRONMENT.get_template('templates/contest.html')
-        self.response.write(template.render(template_values))
+        if (format == 'json'):
+          self.response.headers['Content-Type'] = 'application/json'   
+          json.dump(predictions,self.response.out)
+        else:
+          self.response.headers['Content-Type'] = 'text/html'
+          template = JINJA_ENVIRONMENT.get_template('templates/contest.html')
+          self.response.write(template.render(template_values))
 
 class UserPageHandler(webapp2.RequestHandler):
     def get(self, user_id):
-        self.response.headers['Content-Type'] = 'text/html'
         predictions = [{'cons':{'name':'Varanasi','slug':'varanasi-up'},'candidate':{'name':'M.M.Malaviya','party':'BHU','coalition': 'ABC'}},{'cons':{'name':'Amritsar','slug':'amritsar-pu'},'candidate':{'name':'Guru Gobind Singh','party':'Gurdwara','coalition': 'XYZ'}}]
         (url, url_linktext) = user_setup(self)
+
+        format = self.request.get("f")
         template_values = {
             'user_name': user_id,
             'url': url,
@@ -74,8 +80,13 @@ class UserPageHandler(webapp2.RequestHandler):
             'predictions': predictions,
         }
 
-        template = JINJA_ENVIRONMENT.get_template('templates/user.html')
-        self.response.write(template.render(template_values))
+        if (format == 'json'):
+          self.response.headers['Content-Type'] = 'application/json'   
+          json.dump(predictions,self.response.out)
+        else:
+          self.response.headers['Content-Type'] = 'text/html'
+          template = JINJA_ENVIRONMENT.get_template('templates/user.html')
+          self.response.write(template.render(template_values))
 
 class UserPredictionHandler(webapp2.RequestHandler):
 
