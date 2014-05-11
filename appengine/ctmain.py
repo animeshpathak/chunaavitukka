@@ -4,6 +4,7 @@ import os
 import urllib
 import json
 import logging
+import re
 
 from google.appengine.api import users
 from google.appengine.ext import ndb
@@ -168,7 +169,11 @@ class SettingsPageHandler(webapp2.RequestHandler):
     
     def is_display_name_disallowed(self,user_dn):
         invalid_users = set(['about','account','admin','administrator','administration','app','api','backup','bin','bot','bots','cache','chi','config','db','dev','download','edit','forum','feed','faq','ftp','help','home','index','login','logout','php','public','settings','system','task','username','xxx','you'])
-        return user_dn.lower() in invalid_users
+        if user_dn.lower() in invalid_users :
+            return True
+        else:
+            p = re.compile('^[a-zA-Z0-9#@_][a-zA-Z0-9#@_ ]*$') #chars,nums,and some others allowed, no spaces in beginning
+            return not p.match(user_dn)
 
 class TempAddHandler(webapp2.RequestHandler):
     '''Show and manage settings page'''
