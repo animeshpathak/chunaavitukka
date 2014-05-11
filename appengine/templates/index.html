@@ -10,16 +10,25 @@
 	<script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
 </head>
   <body>
-    <h1>Welcome to Chunaavi Tukka!</h1>
-	<h2>...putting the guesswork back into politics</h2>
-	<ul>
-	<li>See predictions by <a href="/u/admin/">admin</a></li>
-	<li>See predictions for <a href="/c/varanasi/">varanasi</a></li>
-	</ul>
+
+  <div data-role="page">
+  	<div data-role="header">
+	    <h1>Welcome to Chunaavi Tukka!</h1>
+		<h2>...putting the guesswork back into politics</h2>
+	</div>
+	<div data-role="main" class="ui-content">
+		<ul>
+			<li>See predictions by <a href="/u/admin/">admin</a></li>
+			<li>See predictions for <a href="/c/varanasi/">varanasi</a></li>
+		</ul>
+	</div>
     <hr/>
 
-    <a href="{{ url|safe }}">{{ url_linktext }}</a> | <a href="/">Home</a> | Powered by <a href="https://github.com/animeshpathak/chunaavitukka">ChunaaviTukka</a>
-
+    <div data-role="footer">
+	    <a href="{{ url|safe }}">{{ url_linktext }}</a> | <a href="/">Home</a> | Powered by <a href="https://github.com/animeshpathak/chunaavitukka">ChunaaviTukka</a>
+	</div>
+	
+  </div> <!-- page -->
   </body>
 </html>
 {% endautoescape %}
