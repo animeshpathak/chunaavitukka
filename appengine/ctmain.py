@@ -3,9 +3,12 @@
 import os
 import urllib
 import json
+import logging
 
 from google.appengine.api import users
 from google.appengine.ext import ndb
+
+from models import CTUser #CTUser class
 
 import jinja2
 import webapp2
@@ -18,15 +21,16 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 
 def user_setup(self):
     '''Function to do basic user URL setup'''
-    if users.get_current_user():
+    google_user = users.get_current_user()
+    if google_user:
         url = users.create_logout_url(self.request.uri)
         url_linktext = 'Logout'
-        nickname = users.get_current_user().nickname()
+        ct_user = CTUser.get_or_insert(google_user)
     else:
         url = users.create_login_url(self.request.uri)
         url_linktext = 'Login'
-        nickname = None
-    return (url, url_linktext)
+        ct_user = None
+    return (ct_user, url, url_linktext)
 
 def get_predictions(user_id):
     return [{'cons':{'name':'Varanasi','slug':'varanasi-up'},'candidate':{'name':'M.M.Malaviya','party':'BHU','coalition': 'ABC'}},{'cons':{'name':'Amritsar','slug':'amritsar-pu'},'candidate':{'name':'Guru Gobind Singh','party':'Gurdwara','coalition': 'XYZ'}}]
@@ -36,9 +40,9 @@ def get_constituency_info(contest_slug):
 
 	
 class HomeHandler(webapp2.RequestHandler):
-
+    '''Shows the home page'''
     def get(self):
-        (url, url_linktext) = user_setup(self)
+        (ct_user, url, url_linktext) = user_setup(self)
         template_values = {
             'greetings': [],
             'url': url,
@@ -55,7 +59,7 @@ class ContestPageHandler(webapp2.RequestHandler):
         contest_name = contest_slug.capitalize()
 
         predictions = get_constituency_info(contest_slug)
-        (url, url_linktext) = user_setup(self)
+        (ct_user, url, url_linktext) = user_setup(self)
         format = self.request.get("f")
         template_values = {
             'contest_slug': contest_slug,
@@ -77,7 +81,7 @@ class UserPageHandler(webapp2.RequestHandler):
     '''Handler for showing a user's page'''
     def get(self, user_id):
         predictions = get_predictions(user_id)
-        (url, url_linktext) = user_setup(self)
+        (ct_user, url, url_linktext) = user_setup(self)
 
         format = self.request.get("f")
         template_values = {
@@ -101,9 +105,46 @@ class UserPredictionHandler(webapp2.RequestHandler):
         self.response.headers['Content-Type'] = 'text/plain'
         self.response.write('Show contest detail!')
 
+class SettingsPageHandler(webapp2.RequestHandler):
+    '''Show and manage settings page'''
+    def get(self):
+        (ct_user, url, url_linktext) = user_setup(self)
+        if not ct_user:
+            return webapp2.redirect(url)
+        template_values = {
+            'ct_user': ct_user,
+            'url': url,
+            'url_linktext': url_linktext,
+        }
+        self.response.headers['Content-Type'] = 'text/html'
+        template = JINJA_ENVIRONMENT.get_template('templates/settings.html')
+        self.response.write(template.render(template_values))
+    def post(self):
+        (ct_user, url, url_linktext) = user_setup(self)
+        if not ct_user:
+            return webapp2.redirect(url)
+        user_dn = self.request.get("display_name")
+        
+        #TODO check against bad display names
+        ct_user.display_name = user_dn
+        ct_user.put()
+        update_success = True
+        
+        template_values = {
+            'success': update_success,
+            'ct_user': ct_user,
+            'url': url,
+            'url_linktext': url_linktext,
+        }
+        self.response.headers['Content-Type'] = 'text/html'
+        template = JINJA_ENVIRONMENT.get_template('templates/settings.html')
+        self.response.write(template.render(template_values))
+
+        
 application = webapp2.WSGIApplication([
     webapp2.Route(r'/', handler=HomeHandler, name='home'),
     webapp2.Route(r'/c/<contest_slug>/', handler=ContestPageHandler, name='contest_page'),
+    webapp2.Route(r'/s/', handler=SettingsPageHandler, name='settings_page'),
     webapp2.Route(r'/u/<user_id>/', handler=UserPageHandler, name='user_page'),
     webapp2.Route(r'/u/<user_id>/<contest_slug>/', handler=UserPredictionHandler, name='user_prediction'),
 ], debug=True)

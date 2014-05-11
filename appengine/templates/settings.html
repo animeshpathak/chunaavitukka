@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html>
+<head><title>Chunaavi Tukka: Settings</title></head>
+  <body>
+    <h1>Chunaavi Tukka: Settings</h1>
+	{%if success %}<div class="toast">Display name changed successfully</div>{%endif %}
+	<form action="/s/" method="POST">
+		Display Name: <input name="display_name" value="{{ ct_user.display_name }}"/><br/>
+		<input type="submit"/>
+	</form>
+	<a href="/u/{{ ct_user.key.id() }}/">See your profile</a>
+    <hr/>
+
+    <a href="{{ url|safe }}">{{ url_linktext }}</a> | <a href="/">Home</a> | Powered by <a href="https://github.com/animeshpathak/chunaavitukka">ChunaaviTukka</a>
+
+  </body>
+</html>
+{% endautoescape %}
