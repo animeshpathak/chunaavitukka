@@ -85,7 +85,7 @@ class ContestPageHandler(webapp2.RequestHandler):
 
         if (format == 'json'):
           self.response.headers['Content-Type'] = 'application/json'   
-          json.dump(predictions,self.response.out)
+          json.dump(cons_info,self.response.out)
         else:
           self.response.headers['Content-Type'] = 'text/html'
           template = JINJA_ENVIRONMENT.get_template('templates/contest.html')
