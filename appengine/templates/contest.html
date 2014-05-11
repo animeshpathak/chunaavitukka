@@ -1,19 +1,30 @@
 <!DOCTYPE html>
 {% autoescape true %}
 <html>
-<head><title>Chunaavi Tukka: predictions for {{contest_name}}</title></head>
+<head><title>Chunaavi Tukka: predictions for {{contest_name}}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css">
+  <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+  <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+</head>
   <body>
-  <h1>Chunaavi Tukka: predictions for {{contest_name}}</h1>
-    {% for prediction in predictions %}
-	<div class="prediction">
-	 {{prediction.candidate.name}} of {{prediction.candidate.party}}{% if prediction.candidate.coalition %}/{{prediction.candidate.coalition}}{% endif %} : {{prediction.support}} :: <input type="button" value="Declare Support!"/>
+    <div data-role="page">
+      <div data-role="header">
+        <h1>Chunaavi Tukka: predictions for {{contest_name}}</h1>
+        {% for prediction in predictions %}
+      </div> <!-- header -->
+	<div class="prediction ui-content" role="main">
+	 {{prediction.candidate.name}} of {{prediction.candidate.party}}{% if prediction.candidate.coalition %}/{{prediction.candidate.coalition}}{% endif %} : {{prediction.support}} :: <input type="button" class="ui-btn" value="Declare Support!"/>
 	 </div>
     {% endfor %}
 
     <hr/>
 
-    <a href="{{ url|safe }}">{{ url_linktext }}</a> | <a href="/">Home</a> | Powered by <a href="https://github.com/animeshpathak/chunaavitukka">ChunaaviTukka</a>
+    <div data-role="footer">
+      <a href="{{ url|safe }}" data-transition="slide">{{ url_linktext }}</a> | <a href="/" data-transition="slide" data-direction="reverse">Home</a> | Powered by <a href="https://github.com/animeshpathak/chunaavitukka" data-transition="slide">ChunaaviTukka</a>
+    </div>
 
+  </div>
   </body>
 </html>
 {% endautoescape %}
