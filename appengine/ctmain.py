@@ -28,6 +28,12 @@ def user_setup(self):
         nickname = None
     return (url, url_linktext)
 
+def get_predictions(user_id):
+    return [{'cons':{'name':'Varanasi','slug':'varanasi-up'},'candidate':{'name':'M.M.Malaviya','party':'BHU','coalition': 'ABC'}},{'cons':{'name':'Amritsar','slug':'amritsar-pu'},'candidate':{'name':'Guru Gobind Singh','party':'Gurdwara','coalition': 'XYZ'}}]
+
+def get_constituency_info(contest_slug):
+    return [{'candidate':{'name':'M.M.Malaviya','party':'BHU','coalition': 'ABC'},'support':100},{'candidate':{'name':'Guru Gobind Singh','party':'Gurdwara','coalition': 'XYZ'},'support':75}]
+
 	
 class HomeHandler(webapp2.RequestHandler):
 
@@ -44,11 +50,11 @@ class HomeHandler(webapp2.RequestHandler):
         self.response.write(template.render(template_values))
 		
 class ContestPageHandler(webapp2.RequestHandler):
-
+    '''Handler for showing a contest's page'''
     def get(self, contest_slug):
         contest_name = contest_slug.capitalize()
 
-        predictions = [{'candidate':{'name':'M.M.Malaviya','party':'BHU','coalition': 'ABC'},'support':100},{'candidate':{'name':'Guru Gobind Singh','party':'Gurdwara','coalition': 'XYZ'},'support':75}]
+        predictions = get_constituency_info(contest_slug)
         (url, url_linktext) = user_setup(self)
         format = self.request.get("f")
         template_values = {
@@ -68,8 +74,9 @@ class ContestPageHandler(webapp2.RequestHandler):
           self.response.write(template.render(template_values))
 
 class UserPageHandler(webapp2.RequestHandler):
+    '''Handler for showing a user's page'''
     def get(self, user_id):
-        predictions = [{'cons':{'name':'Varanasi','slug':'varanasi-up'},'candidate':{'name':'M.M.Malaviya','party':'BHU','coalition': 'ABC'}},{'cons':{'name':'Amritsar','slug':'amritsar-pu'},'candidate':{'name':'Guru Gobind Singh','party':'Gurdwara','coalition': 'XYZ'}}]
+        predictions = get_predictions(user_id)
         (url, url_linktext) = user_setup(self)
 
         format = self.request.get("f")
@@ -89,7 +96,7 @@ class UserPageHandler(webapp2.RequestHandler):
           self.response.write(template.render(template_values))
 
 class UserPredictionHandler(webapp2.RequestHandler):
-
+    '''Handler for recording user predictions'''
     def get(self, user_id, contest_slug):
         self.response.headers['Content-Type'] = 'text/plain'
         self.response.write('Show contest detail!')
