@@ -129,6 +129,7 @@ class SettingsPageHandler(webapp2.RequestHandler):
             'ct_user': ct_user,
             'url': url,
             'url_linktext': url_linktext,
+            'error_message':'',
         }
         self.response.headers['Content-Type'] = 'text/html'
         template = JINJA_ENVIRONMENT.get_template('templates/settings.html')
@@ -138,14 +139,25 @@ class SettingsPageHandler(webapp2.RequestHandler):
         if not ct_user:
             return webapp2.redirect(url)
         user_dn = self.request.get("display_name")
+        error_message = ''
         
-        #TODO check against bad display names
-        ct_user.display_name = user_dn
-        ct_user.put()
-        update_success = True
+        if (ct_user.display_name == user_dn):
+            update_success = False
+            error_message = 'New name same as old.' 
+        elif self.is_display_name_disallowed(user_dn):
+            update_success = False
+            error_message = 'New name not allowed.' 
+        elif CTUser.is_display_name_taken(user_dn):
+            update_success = False
+            error_message = 'Someone already has this name.' 
+        else:
+            ct_user.display_name = user_dn
+            ct_user.put()
+            update_success = True
         
         template_values = {
             'success': update_success,
+            'error_message': error_message,
             'ct_user': ct_user,
             'url': url,
             'url_linktext': url_linktext,
@@ -153,6 +165,10 @@ class SettingsPageHandler(webapp2.RequestHandler):
         self.response.headers['Content-Type'] = 'text/html'
         template = JINJA_ENVIRONMENT.get_template('templates/settings.html')
         self.response.write(template.render(template_values))
+    
+    def is_display_name_disallowed(self,user_dn):
+        invalid_users = set(['about','account','admin','administrator','administration','app','api','backup','bin','bot','bots','cache','chi','config','db','dev','download','edit','forum','feed','faq','ftp','help','home','index','login','logout','php','public','settings','system','task','username','xxx','you'])
+        return user_dn.lower() in invalid_users
 
 class TempAddHandler(webapp2.RequestHandler):
     '''Show and manage settings page'''

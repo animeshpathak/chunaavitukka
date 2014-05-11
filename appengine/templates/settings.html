@@ -12,7 +12,7 @@
       <div data-role="header">
     <h1>Chunaavi Tukka: Settings</h1>
       </div> <!-- header -->
-	{%if success %}<div class="toast">Display name changed successfully</div>{%endif %}
+	<div class="toast">{%if success %}Display name changed successfully{%else%}ERROR!!! {{error_message}}{%endif %}</div>
 	<form action="/s/" method="POST">
 		Display Name: <input name="display_name" value="{{ ct_user.display_name }}"/><br/>
 		<input type="submit" value="Submit"/>

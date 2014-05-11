@@ -1,6 +1,7 @@
 #Models.py, for defining all data models
 from google.appengine.ext import ndb
 
+import logging
 
 
 #CTUser
@@ -32,6 +33,18 @@ class CTUser(ndb.Model):
         #this is the user
         ct_user = userlist[0]
     return ct_user
+    
+  @classmethod
+  def is_display_name_taken(cls,name):
+    '''returns the user whose name is provided'''
+    qry = CTUser.query(CTUser.display_name == name)
+    userlist = qry.fetch(2)
+    if not userlist:
+        return False
+    else:
+        if (len(userlist) > 1):
+            logging.error("Username " + name + " multiple assigned!!")
+        return True
     
 #candidate
 #	- ID : ID
