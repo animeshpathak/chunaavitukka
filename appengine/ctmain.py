@@ -49,7 +49,7 @@ class ContestPageHandler(webapp2.RequestHandler):
         contest_name = contest_slug.capitalize()
 
         self.response.headers['Content-Type'] = 'text/html'
-        predictions = [{'candidate':{'name':'M.M.Malaviya','party':'BHU'},'support':100},{'candidate':{'name':'Guru Gobind Singh','party':'Gurdwara'},'support':75}]
+        predictions = [{'candidate':{'name':'M.M.Malaviya','party':'BHU','coalition': 'ABC'},'support':100},{'candidate':{'name':'Guru Gobind Singh','party':'Gurdwara','coalition': 'XYZ'},'support':75}]
         (url, url_linktext) = user_setup(self)
         template_values = {
             'contest_slug': contest_slug,
@@ -65,7 +65,7 @@ class ContestPageHandler(webapp2.RequestHandler):
 class UserPageHandler(webapp2.RequestHandler):
     def get(self, user_id):
         self.response.headers['Content-Type'] = 'text/html'
-        predictions = [{'cons':{'name':'Varanasi','slug':'varanasi-up'},'candidate':{'name':'M.M.Malaviya','party':'BHU'}},{'cons':{'name':'Amritsar','slug':'amritsar-pu'},'candidate':{'name':'Guru Gobind Singh','party':'Gurdwara'}}]
+        predictions = [{'cons':{'name':'Varanasi','slug':'varanasi-up'},'candidate':{'name':'M.M.Malaviya','party':'BHU','coalition': 'ABC'}},{'cons':{'name':'Amritsar','slug':'amritsar-pu'},'candidate':{'name':'Guru Gobind Singh','party':'Gurdwara','coalition': 'XYZ'}}]
         (url, url_linktext) = user_setup(self)
         template_values = {
             'user_name': user_id,

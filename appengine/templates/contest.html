@@ -6,7 +6,7 @@
   <h1>Chunaavi Tukka: predictions for {{contest_name}}</h1>
     {% for prediction in predictions %}
 	<div class="prediction">
-	 {{prediction.candidate.name}} of {{prediction.candidate.party}} : {{prediction.support}} :: <input type="button" value="Declare Support!"/>
+	 {{prediction.candidate.name}} of {{prediction.candidate.party}}{% if prediction.candidate.coalition %}/{{prediction.candidate.coalition}}{% endif %} : {{prediction.support}} :: <input type="button" value="Declare Support!"/>
 	 </div>
     {% endfor %}
 
