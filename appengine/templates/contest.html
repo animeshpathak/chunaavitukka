@@ -14,7 +14,7 @@
         {% for prediction in predictions %}
       </div> <!-- header -->
 	<div class="prediction ui-content" role="main">
-	 {{prediction.candidate.name}} of {{prediction.candidate.party}}{% if prediction.candidate.coalition %}/{{prediction.candidate.coalition}}{% endif %} : {{prediction.support}} :: <input type="button" value="Declare Support!"/>
+	 {{prediction.candidate.name}} of {{prediction.candidate.party}}{% if prediction.candidate.coalition %}/{{prediction.candidate.coalition}}{% endif %} : {{prediction.support}} :: <input type="button" class="ui-btn" value="Declare Support!"/>
 	 </div>
     {% endfor %}
 
