@@ -11,8 +11,8 @@
     <div data-role="page">
       <div data-role="header">
         <h1>Chunaavi Tukka: predictions for {{contest_name}}</h1>
-        {% for prediction in predictions %}
       </div> <!-- header -->
+        {% for prediction in predictions %}
 	<div class="prediction ui-content" role="main">
 	 {{prediction.candidate.name}} of {{prediction.candidate.party}}{% if prediction.candidate.coalition %}/{{prediction.candidate.coalition}}{% endif %} : {{prediction.support}} :: <input type="button" class="ui-btn" value="Declare Support!"/>
 	 </div>
