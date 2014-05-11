@@ -8,7 +8,9 @@ import logging
 from google.appengine.api import users
 from google.appengine.ext import ndb
 
-from models import CTUser #CTUser class
+from models import CTUser 
+from models import CTCandidate 
+from models import CTConstituency 
 
 import jinja2
 import webapp2
@@ -36,8 +38,24 @@ def get_predictions(user_id):
     return [{'cons':{'name':'Varanasi','slug':'varanasi-up'},'candidate':{'name':'M.M.Malaviya','party':'BHU','coalition': 'ABC'}},{'cons':{'name':'Amritsar','slug':'amritsar-pu'},'candidate':{'name':'Guru Gobind Singh','party':'Gurdwara','coalition': 'XYZ'}}]
 
 def get_constituency_info(contest_slug):
-    return [{'candidate':{'name':'M.M.Malaviya','party':'BHU','coalition': 'ABC'},'support':100},{'candidate':{'name':'Guru Gobind Singh','party':'Gurdwara','coalition': 'XYZ'},'support':75}]
+    if contest_slug != 'varanasi':
+        return {'name':'Some city', 'state': 'some state', 'predictions':[{'candidate':{'name':'M.M.Malaviya','party':'BHU','coalition': 'ABC'},'support':100},{'candidate':{'name':'Guru Gobind Singh','party':'Gurdwara','coalition': 'XYZ'},'support':75}]}
+    else:
+        conskey = ndb.Key(CTConstituency, contest_slug)
+        logging.error(conskey)
+        #TODO exception handling
+        cons = conskey.get()
+        logging.error(cons)
+        predictions = []
+        for candidate_key in cons.candidates:
+            c = candidate_key.get()
+            predictions.append({'candidate':{'name':c.name,'party':c.party,'coalition': c.coalition},'support':get_support(conskey,candidate_key)})
+        return {'name':cons.name, 'state': cons.state, 'predictions':predictions};
 
+def get_support(conskey,candidate_key):
+    '''overall support for a candidate in a constituency'''
+    #TODO implement this
+    return 100
 	
 class HomeHandler(webapp2.RequestHandler):
     '''Shows the home page'''
@@ -56,17 +74,13 @@ class HomeHandler(webapp2.RequestHandler):
 class ContestPageHandler(webapp2.RequestHandler):
     '''Handler for showing a contest's page'''
     def get(self, contest_slug):
-        contest_name = contest_slug.capitalize()
-
-        predictions = get_constituency_info(contest_slug)
+        cons_info = get_constituency_info(contest_slug)
         (ct_user, url, url_linktext) = user_setup(self)
         format = self.request.get("f")
         template_values = {
-            'contest_slug': contest_slug,
-            'contest_name': contest_name,
+            'contest_info': cons_info,
             'url': url,
             'url_linktext': url_linktext,
-            'predictions': predictions,
         }
 
         if (format == 'json'):
@@ -140,6 +154,25 @@ class SettingsPageHandler(webapp2.RequestHandler):
         template = JINJA_ENVIRONMENT.get_template('templates/settings.html')
         self.response.write(template.render(template_values))
 
+class TempAddHandler(webapp2.RequestHandler):
+    '''Show and manage settings page'''
+    def get(self):
+        candidate1 = CTCandidate(name='Arvind Kejriwal',party='AAP')
+        candidate1.put()
+        candidate2 = CTCandidate(name='Narendra Modi',party='BJP', coalition='NDA')
+        candidate2.put()
+        candidate3 = CTCandidate(name='Ajay Rai',party='Congress', coalition='UPA')
+        candidate3.put()
+        candidate4 = CTCandidate(name='Vijay Jaiswal',party='BSP')
+        candidate4.put()
+        candidate5 = CTCandidate(name='Mukhtar Ansari',party='Independent')
+        candidate5.put()
+        candidate6 = CTCandidate(name='Kailash Chaurasia',party='SP')
+        candidate6.put()
+        
+        conskey = ndb.Key(CTConstituency, 'varanasi')
+        cons = CTConstituency(key=conskey,name='Varanasi',state='Uttar Pradesh', candidates=[candidate1.key,candidate2.key,candidate3.key,candidate4.key,candidate5.key])
+        cons.put()
         
 application = webapp2.WSGIApplication([
     webapp2.Route(r'/', handler=HomeHandler, name='home'),
@@ -147,6 +180,7 @@ application = webapp2.WSGIApplication([
     webapp2.Route(r'/s/', handler=SettingsPageHandler, name='settings_page'),
     webapp2.Route(r'/u/<user_id>/', handler=UserPageHandler, name='user_page'),
     webapp2.Route(r'/u/<user_id>/<contest_slug>/', handler=UserPredictionHandler, name='user_prediction'),
+#    webapp2.Route(r'/adddata/', handler=TempAddHandler, name='temp_addition'),
 ], debug=True)
 
 # URL mapping, for reference

@@ -1,11 +1,6 @@
 #Models.py, for defining all data models
 from google.appengine.ext import ndb
 
-#candidate
-#	- ID : ID
-#	- Name : String
-#	- Party : ref
-#	- Coalition
 
 
 #CTUser
@@ -37,5 +32,32 @@ class CTUser(ndb.Model):
         #this is the user
         ct_user = userlist[0]
     return ct_user
+    
+#candidate
+#	- ID : ID
+#	- Name : String
+#	- Party : String
+#	- Coalition : String, none possible
+class CTCandidate(ndb.Model):
+    '''Models a candidate'''
+    name = ndb.StringProperty(required=True)
+    party = ndb.StringProperty(required=True)
+    coalition = ndb.StringProperty(required=False)
+    created_at = ndb.DateTimeProperty(auto_now_add=True)
+    updated_at = ndb.DateTimeProperty(auto_now=True)
+    
+# constituency
+# slug - key
+# name - string
+# state - string
+# candidates - keys of candidates
+# sums are stored elsewhere
+class CTConstituency(ndb.Model):
+    '''Models a constituency, always use the slug as the key'''
+    name = ndb.StringProperty(required=True)
+    state = ndb.StringProperty(required=True)
+    candidates = ndb.KeyProperty(kind=CTCandidate,repeated=True)
+    created_at = ndb.DateTimeProperty(auto_now_add=True)
+    updated_at = ndb.DateTimeProperty(auto_now=True)
 
 
