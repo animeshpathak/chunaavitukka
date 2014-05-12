@@ -294,7 +294,7 @@ application = webapp2.WSGIApplication([
     webapp2.Route(r'/t/', handler=TukkaPageHandler, name='tukka_page'),
     webapp2.Route(r'/u/<user_id>/', handler=UserPageHandler, name='user_page'),
     webapp2.Route(r'/u/<user_id>/<contest_slug>/', handler=UserPredictionHandler, name='user_prediction'),
-    #webapp2.Route(r'/adddata/', handler=TempAddHandler, name='temp_addition'),
+    # webapp2.Route(r'/adddata/', handler=TempAddHandler, name='temp_addition'),
 ], debug=True)
 
 # URL mapping, for reference
