@@ -36,11 +36,11 @@ def user_setup(self):
     return (ct_user, url, url_linktext)
 
 def get_predictions(user_id):
-    return [{'cons':{'name':'Varanasi','slug':'varanasi-up'},'candidate':{'name':'M.M.Malaviya','party':'BHU','coalition': 'ABC'}},{'cons':{'name':'Amritsar','slug':'amritsar-pu'},'candidate':{'name':'Guru Gobind Singh','party':'Gurdwara','coalition': 'XYZ'}}]
+    return [{'cons':{'name':'Varanasi','slug':'varanasi-up'},'candidate':{'id':'1234','name':'M.M.Malaviya','party':'BHU','coalition': 'ABC'}},{'cons':{'name':'Amritsar','slug':'amritsar-pu'},'candidate':{'id':'5678','name':'Guru Gobind Singh','party':'Gurdwara','coalition': 'XYZ'}}]
 
 def get_constituency_info(contest_slug):
     if contest_slug != 'varanasi':
-        return {'name':'Some city', 'state': 'some state', 'predictions':[{'candidate':{'name':'M.M.Malaviya','party':'BHU','coalition': 'ABC'},'support':100},{'candidate':{'name':'Guru Gobind Singh','party':'Gurdwara','coalition': 'XYZ'},'support':75}]}
+        return {'name':'Some city', 'state': 'some state', 'predictions':[{'candidate':{'id':'1234','name':'M.M.Malaviya','party':'BHU','coalition': 'ABC'},'support':100},{'candidate':{'id':'5678','name':'Guru Gobind Singh','party':'Gurdwara','coalition': 'XYZ'},'support':75}]}
     else:
         conskey = ndb.Key(CTConstituency, contest_slug)
 #        logging.error(conskey)
@@ -50,7 +50,7 @@ def get_constituency_info(contest_slug):
         predictions = []
         for candidate_key in cons.candidates:
             c = candidate_key.get()
-            predictions.append({'candidate':{'name':c.name,'party':c.party,'coalition': c.coalition},'support':get_support(conskey,candidate_key)})
+            predictions.append({'candidate':{'id':c.key.id(),'name':c.name,'party':c.party,'coalition': c.coalition},'support':get_support(conskey,candidate_key)})
         return {'name':cons.name, 'state': cons.state, 'predictions':predictions};
 
 def get_support(conskey,candidate_key):
@@ -79,6 +79,7 @@ class ContestPageHandler(webapp2.RequestHandler):
         (ct_user, url, url_linktext) = user_setup(self)
         format = self.request.get("f")
         template_values = {
+            'slug': contest_slug,
             'contest_info': cons_info,
             'url': url,
             'url_linktext': url_linktext,
