@@ -1,0 +1,14 @@
+{% extends "templates/base.html" %}
+{% block title %}Chunaavi Tukka: Make a Prediction{% endblock %}
+{% block page_header%}
+    <h1>Chunaavi Tukka: Predictions test form</h1>
+{% endblock%}
+
+{% block main_content %}
+	You are: {{ ct_user.display_name }}
+	<form action="/t/" method="POST">
+		Constituency Slug: <input name="contest_slug"/><br/>
+		Candidate ID: <input name="candidate_id"/><br/>
+		<input type="submit" value="Submit"/>
+	</form>
+{% endblock %}

@@ -11,7 +11,8 @@ from google.appengine.ext import ndb
 
 from models import CTUser 
 from models import CTCandidate 
-from models import CTConstituency 
+from models import CTConstituency
+from models import CTTukka 
 
 import jinja2
 import webapp2
@@ -39,7 +40,7 @@ def get_predictions(user_id):
     return [{'cons':{'name':'Varanasi','slug':'varanasi-up'},'candidate':{'id':'1234','name':'M.M.Malaviya','party':'BHU','coalition': 'ABC'}},{'cons':{'name':'Amritsar','slug':'amritsar-pu'},'candidate':{'id':'5678','name':'Guru Gobind Singh','party':'Gurdwara','coalition': 'XYZ'}}]
 
 def get_constituency_info(contest_slug):
-    if contest_slug != 'varanasi':
+    if contest_slug != 'varanasi' and contest_slug != 'lucknow':
         return {'name':'Some city', 'state': 'some state', 'predictions':[{'candidate':{'id':'1234','name':'M.M.Malaviya','party':'BHU','coalition': 'ABC'},'support':100},{'candidate':{'id':'5678','name':'Guru Gobind Singh','party':'Gurdwara','coalition': 'XYZ'},'support':75}]}
     else:
         conskey = ndb.Key(CTConstituency, contest_slug)
@@ -180,6 +181,64 @@ class SettingsPageHandler(webapp2.RequestHandler):
         template = JINJA_ENVIRONMENT.get_template('templates/settings.html')
         self.response.write(template.render(template_values))
     
+class TukkaPageHandler(webapp2.RequestHandler):
+    '''Show and process predictions form'''
+    def get(self):
+        (ct_user, url, url_linktext) = user_setup(self)
+        if not ct_user:
+            return webapp2.redirect(url)
+        template_values = {
+            'ct_user': ct_user,
+            'url': url,
+            'url_linktext': url_linktext,
+            'error_message':'So, what is your prediction?',
+        }
+        self.response.headers['Content-Type'] = 'text/html'
+        template = JINJA_ENVIRONMENT.get_template('templates/tukka.html')
+        self.response.write(template.render(template_values))
+    def post(self):
+        (ct_user, url, url_linktext) = user_setup(self)
+        if not ct_user:
+            return webapp2.redirect(url)
+
+        status = 500 #defaults to error
+        cons_slug = self.request.get("contest_slug")
+        candidate_id = self.request.get("candidate_id")
+        
+        tukka_response = {'message':'','total':-1} # empty response object
+
+        #TODO exception handling
+        # if constituency not found, send 404
+        conskey = ndb.Key(CTConstituency, cons_slug)
+        cons = conskey.get()
+        if not cons :
+            status = 404
+            tukka_response['message'] = "Constituency not found"
+        else:
+            #TODO check candidate key in the list of candidates for this cons!
+            # if candiate not found, send 404
+            candidate_key = ndb.Key(CTCandidate, int(candidate_id))
+            if not (candidate_key in set(cons.candidates)):
+                status = 404
+                logging.error(candidate_key)
+                logging.error(set(cons.candidates))
+                logging.error(cons.candidates)
+                tukka_response['message'] = "Candidate not participating in this constituency."
+            elif CTTukka.get_tukka(ct_user,cons):
+                # if user+const has already voted for this, say he has already voted. Send 409
+                status = 409
+                tukka_response['message'] = "You already voted for this candidate in this constituency."
+            else:
+                # insert, send 200 and the sum (for now, send a 42) TODO
+                status = 200 
+                tukka = CTTukka(user=ct_user.key,constituency = cons.key, candidate = candidate_key)
+                tukka.put()
+                tukka_response['total'] = 42
+                
+        self.response.headers['Content-Type'] = 'application/json'   
+        self.response.status = status
+        json.dump(tukka_response,self.response.out)
+
     def is_display_name_disallowed(self,user_dn):
         invalid_users = set(['about','account','admin','administrator','administration','app','api','backup','bin','bot','bots','cache','chi','config','db','dev','download','edit','forum','feed','faq','ftp','help','home','index','login','logout','php','public','settings','system','task','username','xxx','you'])
         if user_dn.lower() in invalid_users :
@@ -205,15 +264,33 @@ class TempAddHandler(webapp2.RequestHandler):
         conskey = ndb.Key(CTConstituency, 'varanasi')
         cons = CTConstituency(key=conskey,name='Varanasi',state='Uttar Pradesh', candidates=[candidate1.key,candidate2.key,candidate3.key,candidate4.key,candidate5.key])
         cons.put()
+
+        candidate11 = CTCandidate(name='Jaaved Jaaferi',party='AAP')
+        candidate11.put()
+        candidate12 = CTCandidate(name='Rajnath Singh',party='BJP', coalition='NDA')
+        candidate12.put()
+        candidate13 = CTCandidate(name='Rita Bahuguna Joshi',party='Congress', coalition='UPA')
+        candidate13.put()
+        candidate14 = CTCandidate(name='Nakul Dubey',party='BSP')
+        candidate14.put()
+        candidate15 = CTCandidate(name='Ashok Bajpai',party='SP')
+        candidate15.put()
+        
+        conskey2 = ndb.Key(CTConstituency, 'lucknow')
+        cons = CTConstituency(key=conskey2,name='Lucknow',state='Uttar Pradesh', candidates=[candidate11.key,candidate12.key,candidate13.key,candidate14.key,candidate15.key])
+        cons.put()
+
+
         
 application = webapp2.WSGIApplication([
     webapp2.Route(r'/', handler=HomeHandler, name='home'),
     webapp2.Route(r'/constituencies/', handler=AllConsHandler, name='constituencies'),
     webapp2.Route(r'/c/<contest_slug>/', handler=ContestPageHandler, name='contest_page'),
     webapp2.Route(r'/s/', handler=SettingsPageHandler, name='settings_page'),
+    webapp2.Route(r'/t/', handler=TukkaPageHandler, name='tukka_page'),
     webapp2.Route(r'/u/<user_id>/', handler=UserPageHandler, name='user_page'),
     webapp2.Route(r'/u/<user_id>/<contest_slug>/', handler=UserPredictionHandler, name='user_prediction'),
-#    webapp2.Route(r'/adddata/', handler=TempAddHandler, name='temp_addition'),
+    #webapp2.Route(r'/adddata/', handler=TempAddHandler, name='temp_addition'),
 ], debug=True)
 
 # URL mapping, for reference

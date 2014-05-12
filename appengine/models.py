@@ -73,4 +73,24 @@ class CTConstituency(ndb.Model):
     created_at = ndb.DateTimeProperty(auto_now_add=True)
     updated_at = ndb.DateTimeProperty(auto_now=True)
 
+# tukka
+# - CTUser ref
+# - CTCons ref
+# - CTCandidate ref
+class CTTukka(ndb.Model):
+    '''Models a prediction'''
+    user = ndb.KeyProperty(kind=CTUser,repeated=False)
+    constituency = ndb.KeyProperty(kind=CTConstituency,repeated=False)
+    candidate = ndb.KeyProperty(kind=CTCandidate,repeated=False)
+    created_at = ndb.DateTimeProperty(auto_now_add=True)
+    updated_at = ndb.DateTimeProperty(auto_now=True)
 
+    @classmethod
+    def get_tukka(cls,ct_user,ct_cons):
+        '''Returns the candidate key if a prediction exists for this constituency by this user'''
+        qry = CTTukka.query(CTTukka.user == ct_user.key, CTTukka.constituency == ct_cons.key)
+        tukkalist = qry.fetch(1)
+        if not tukkalist:
+            return None
+        else:
+            return tukkalist[0]
