@@ -292,8 +292,8 @@ application = webapp2.WSGIApplication([
     webapp2.Route(r'/c/<contest_slug>/', handler=ContestPageHandler, name='contest_page'),
     webapp2.Route(r'/s/', handler=SettingsPageHandler, name='settings_page'),
     webapp2.Route(r'/t/', handler=TukkaPageHandler, name='tukka_page'),
-    webapp2.Route(r'/u/<user_id>/', handler=UserPageHandler, name='user_page'),
-    webapp2.Route(r'/u/<user_id>/<contest_slug>/', handler=UserPredictionHandler, name='user_prediction'),
+    webapp2.Route(r'/u/<user_id:\d+>/', handler=UserPageHandler, name='user_page'),
+    webapp2.Route(r'/u/<user_id:\d+>/<contest_slug>/', handler=UserPredictionHandler, name='user_prediction'),
     # webapp2.Route(r'/adddata/', handler=TempAddHandler, name='temp_addition'),
 ], debug=True)
 

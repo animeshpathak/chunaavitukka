@@ -8,7 +8,7 @@
 {% block main_content %}
 		<ul>
 			<li>See <a href="/constituencies/" data-transition="slide">Top Constituencies</a></li>
-			<li>See predictions by <a href="/u/admin/" data-transition="slide">admin</a></li>
+			<li>{% if ct_user %}See predictions by <a href="/u/{{ct_user.key.id()}}/" data-transition="slide">you</a> {% else %} <a href="{{url|escape}}" data-transition="slide" data-ajax="false">Log in to see some predictions</a>{% endif %}</li>
 			<li>See predictions for <a href="/c/varanasi/" data-transition="slide">varanasi</a>, <a href="/c/some-other-city/" data-transition="slide">some-other-city</a></li>
 			<li>Go to your <a href="/s/" data-transition="slide" data-ajax="false">user settings</a></li>
 		</ul>
