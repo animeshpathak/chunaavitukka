@@ -43,10 +43,10 @@ def get_constituency_info(contest_slug):
         return {'name':'Some city', 'state': 'some state', 'predictions':[{'candidate':{'name':'M.M.Malaviya','party':'BHU','coalition': 'ABC'},'support':100},{'candidate':{'name':'Guru Gobind Singh','party':'Gurdwara','coalition': 'XYZ'},'support':75}]}
     else:
         conskey = ndb.Key(CTConstituency, contest_slug)
-        logging.error(conskey)
+#        logging.error(conskey)
         #TODO exception handling
         cons = conskey.get()
-        logging.error(cons)
+#        logging.error(cons)
         predictions = []
         for candidate_key in cons.candidates:
             c = candidate_key.get()
@@ -186,10 +186,8 @@ class TempAddHandler(webapp2.RequestHandler):
         candidate3.put()
         candidate4 = CTCandidate(name='Vijay Jaiswal',party='BSP')
         candidate4.put()
-        candidate5 = CTCandidate(name='Mukhtar Ansari',party='Independent')
+        candidate5 = CTCandidate(name='Kailash Chaurasia',party='SP')
         candidate5.put()
-        candidate6 = CTCandidate(name='Kailash Chaurasia',party='SP')
-        candidate6.put()
         
         conskey = ndb.Key(CTConstituency, 'varanasi')
         cons = CTConstituency(key=conskey,name='Varanasi',state='Uttar Pradesh', candidates=[candidate1.key,candidate2.key,candidate3.key,candidate4.key,candidate5.key])
