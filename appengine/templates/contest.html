@@ -9,11 +9,10 @@
         {% for prediction in contest_info.predictions %}
 	<div class="prediction">
 	 {{prediction.candidate.name}} of {{prediction.candidate.party}}{% if prediction.candidate.coalition %}/{{prediction.candidate.coalition}}{% endif %} : {{prediction.support}}
-	 <input type="button" class="ui-btn" href="#myPopup1" data-position-to="origin" value="Declare Support!"/>
+	 <input type="button" class="ui-btn" href="#myPopup1" data-position-to="origin" data-rel="popup" value="Declare Support!">
 	 <input type="hidden" name="candidate_id" value="{{prediction.candidate.id}}"/>
 
-
-	 <div data-role="popup" id="myPopup1" class="ui-content">Registered!</div>
+	 	<div data-role="popup" id="myPopup1" class="ui-content">Registered!</div>
 	 </div>
     {% endfor %}
 {% endblock %}
