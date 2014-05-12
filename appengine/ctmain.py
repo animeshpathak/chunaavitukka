@@ -27,9 +27,9 @@ def user_setup(self):
     '''Function to do basic user URL setup'''
     google_user = users.get_current_user()
     if google_user:
-        url = users.create_logout_url(self.request.uri)
-        url_linktext = 'Logout'
         ct_user = CTUser.get_or_insert(google_user)
+        url = users.create_logout_url(self.request.uri)
+        url_linktext = 'Logout ' + ct_user.display_name
     else:
         url = users.create_login_url(self.request.uri)
         url_linktext = 'Login'
