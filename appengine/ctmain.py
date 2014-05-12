@@ -63,7 +63,6 @@ class HomeHandler(webapp2.RequestHandler):
     def get(self):
         (ct_user, url, url_linktext) = user_setup(self)
         template_values = {
-            'greetings': [],
             'url': url,
             'url_linktext': url_linktext,
         }
@@ -72,6 +71,19 @@ class HomeHandler(webapp2.RequestHandler):
         template = JINJA_ENVIRONMENT.get_template('templates/index.html')
         self.response.write(template.render(template_values))
 		
+class AllConsHandler(webapp2.RequestHandler):
+    '''Shows the all constituencies page'''
+    def get(self):
+        (ct_user, url, url_linktext) = user_setup(self)
+        template_values = {
+            'url': url,
+            'url_linktext': url_linktext,
+        }
+        
+        self.response.headers['Content-Type'] = 'text/html'
+        template = JINJA_ENVIRONMENT.get_template('templates/constituencies.html')
+        self.response.write(template.render(template_values))
+
 class ContestPageHandler(webapp2.RequestHandler):
     '''Handler for showing a contest's page'''
     def get(self, contest_slug):
@@ -196,6 +208,7 @@ class TempAddHandler(webapp2.RequestHandler):
         
 application = webapp2.WSGIApplication([
     webapp2.Route(r'/', handler=HomeHandler, name='home'),
+    webapp2.Route(r'/constituencies/', handler=AllConsHandler, name='constituencies'),
     webapp2.Route(r'/c/<contest_slug>/', handler=ContestPageHandler, name='contest_page'),
     webapp2.Route(r'/s/', handler=SettingsPageHandler, name='settings_page'),
     webapp2.Route(r'/u/<user_id>/', handler=UserPageHandler, name='user_page'),
