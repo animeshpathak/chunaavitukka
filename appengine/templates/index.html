@@ -1,35 +1,14 @@
-<!DOCTYPE html>
-{% autoescape true %}
-<html>
-<head>
-
-	<title>Welcome to Chunaavi Tukka!</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css">
-	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-	<script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
-</head>
-  <body>
-
-  <div data-role="page">
-  	<div data-role="header">
+{% extends "templates/base.html" %}
+{% block title %}Welcome to Chunaavi Tukka!{% endblock %}
+{% block page_header%}
 	    <h1>Welcome to Chunaavi Tukka!</h1>
 		<h2>...putting the guesswork back into politics</h2>
-	</div>
-	<div data-role="main" class="ui-content">
+{% endblock%}
+
+{% block main_content %}
 		<ul>
 			<li>See predictions by <a href="/u/admin/" data-transition="slide">admin</a></li>
 			<li>See predictions for <a href="/c/varanasi/" data-transition="slide">varanasi</a>, <a href="/c/some-other-city/" data-transition="slide">some-other-city</a></li>
 			<li>Go to your <a href="/s/" data-transition="slide">user settings</a></li>
 		</ul>
-	</div>
-    <hr/>
-
-    <div data-role="footer">
-	    <a href="{{ url|safe }}" data-transition="slide">{{ url_linktext }}</a> | <a href="/" data-transition="slide" data-direction="reverse">Home</a> | Powered by <a href="https://github.com/animeshpathak/chunaavitukka" data-transition="slide">ChunaaviTukka</a>
-	</div>
-	
-  </div> <!-- page -->
-  </body>
-</html>
-{% endautoescape %}
+{% endblock %}

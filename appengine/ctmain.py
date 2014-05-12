@@ -130,7 +130,7 @@ class SettingsPageHandler(webapp2.RequestHandler):
             'ct_user': ct_user,
             'url': url,
             'url_linktext': url_linktext,
-            'error_message':'',
+            'error_message':'Remember, only letters, numbers, #, @, _, and spaces.',
         }
         self.response.headers['Content-Type'] = 'text/html'
         template = JINJA_ENVIRONMENT.get_template('templates/settings.html')

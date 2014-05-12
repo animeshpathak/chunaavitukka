@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html>
+<head>
+
+	<title>{% block title %}{% endblock %}</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css">
+	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+	{% block html_head %}{% endblock %}
+</head>
+  <body>
+
+  <div data-role="page">
+  	<div data-role="header">
+		{% block page_header %}{% endblock %}
+	</div>
+	<div data-role="main" class="ui-content {% block main_css_class %}{% endblock%}">
+		{% block main_content %}{% endblock %}
+	</div>
+    <hr/>
+
+    <div data-role="footer">
+	    <a href="{{ url|safe }}" data-transition="slide">{{ url_linktext }}</a> | <a href="/" data-transition="slide" data-direction="reverse">Home</a> | Powered by <a href="https://github.com/animeshpathak/chunaavitukka" data-transition="slide">ChunaaviTukka</a>
+	</div>
+	
+  </div> <!-- page -->
+  </body>
+</html>
+{% endautoescape %}
