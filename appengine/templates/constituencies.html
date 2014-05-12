@@ -6,9 +6,8 @@
 
 {% block main_content %}
 <ul data-role="listview" data-autodividers="true">
-  <li data-icon="check" class="voted"><a href="#">Allahabad</a></li>
-  <li><a href="#">Amethi</a></li>
-  <li><a href="/c/lucknow/">Lucknow</a></li>
-  <li><a href="/c/varanasi/">Varanasi</a></li>
+{% for cons in cons_list %}
+  <li {% if False %}data-icon="check" class="voted"{% endif %}><a href="/c/{{cons.key.id()}}/">{{ cons.name }}</a></li>
+{% endfor %}
 </ul>
 {% endblock %}

@@ -42,7 +42,6 @@ def get_predictions(ct_user):
     #make a query in the DB for predictions by this user.
     #TODO exception handling
     qry = CTTukka.query(CTTukka.user == ct_user.key)
-    tukkalist = qry.fetch()
     #TODO make this a map()?
     for tukka in qry.iter():
         candidate = tukka.candidate.get()
@@ -51,19 +50,14 @@ def get_predictions(ct_user):
     return predictions
 
 def get_constituency_info(contest_slug):
-    if contest_slug != 'varanasi' and contest_slug != 'lucknow':
-        return {'name':'Some city', 'state': 'some state', 'predictions':[{'candidate':{'id':'1234','name':'M.M.Malaviya','party':'BHU','coalition': 'ABC'},'support':100},{'candidate':{'id':'5678','name':'Guru Gobind Singh','party':'Gurdwara','coalition': 'XYZ'},'support':75}]}
-    else:
-        conskey = ndb.Key(CTConstituency, contest_slug)
-#        logging.error(conskey)
-        #TODO exception handling
-        cons = conskey.get()
-#        logging.error(cons)
-        predictions = []
-        for candidate_key in cons.candidates:
-            c = candidate_key.get()
-            predictions.append({'candidate':{'id':c.key.id(),'name':c.name,'party':c.party,'coalition': c.coalition},'support':get_support(conskey,candidate_key)})
-        return {'name':cons.name, 'state': cons.state, 'predictions':predictions};
+    conskey = ndb.Key(CTConstituency, contest_slug)
+    #TODO exception handling
+    cons = conskey.get()
+    predictions = []
+    for candidate_key in cons.candidates:
+        c = candidate_key.get()
+        predictions.append({'candidate':{'id':c.key.id(),'name':c.name,'party':c.party,'coalition': c.coalition},'support':get_support(conskey,candidate_key)})
+    return {'name':cons.name, 'state': cons.state, 'predictions':predictions};
 
 def get_support(conskey,candidate_key):
     '''overall support for a candidate in a constituency'''
@@ -94,10 +88,19 @@ class AllConsHandler(webapp2.RequestHandler):
     '''Shows the all constituencies page'''
     def get(self):
         (ct_user, url, url_linktext) = user_setup(self)
+        cons_list = []
+        #make a query in the DB for all constituencies.
+        #TODO exception handling
+        qry = CTConstituency.query()
+        #TODO make this a map()?
+        for cons in qry.iter(projection=['name']): #only getting name, update if you want more info in templates
+            cons_list.append(cons)
+        
         template_values = {
             'url': url,
             'ct_user': ct_user,
             'url_linktext': url_linktext,
+            'cons_list': cons_list,
         }
         
         self.response.headers['Content-Type'] = 'text/html'
@@ -276,35 +279,34 @@ class TukkaPageHandler(webapp2.RequestHandler):
 class TempAddHandler(webapp2.RequestHandler):
     '''Show and manage settings page'''
     def get(self):
-        candidate1 = CTCandidate(name='Arvind Kejriwal',party='AAP')
-        candidate1.put()
-        candidate2 = CTCandidate(name='Narendra Modi',party='BJP', coalition='NDA')
-        candidate2.put()
-        candidate3 = CTCandidate(name='Ajay Rai',party='Congress', coalition='UPA')
-        candidate3.put()
-        candidate4 = CTCandidate(name='Vijay Jaiswal',party='BSP')
-        candidate4.put()
-        candidate5 = CTCandidate(name='Kailash Chaurasia',party='SP')
-        candidate5.put()
-        
-        conskey = ndb.Key(CTConstituency, 'varanasi')
-        cons = CTConstituency(key=conskey,name='Varanasi',state='Uttar Pradesh', candidates=[candidate1.key,candidate2.key,candidate3.key,candidate4.key,candidate5.key])
-        cons.put()
+        user = users.get_current_user()
 
-        candidate11 = CTCandidate(name='Jaaved Jaaferi',party='AAP')
-        candidate11.put()
-        candidate12 = CTCandidate(name='Rajnath Singh',party='BJP', coalition='NDA')
-        candidate12.put()
-        candidate13 = CTCandidate(name='Rita Bahuguna Joshi',party='Congress', coalition='UPA')
-        candidate13.put()
-        candidate14 = CTCandidate(name='Nakul Dubey',party='BSP')
-        candidate14.put()
-        candidate15 = CTCandidate(name='Ashok Bajpai',party='SP')
-        candidate15.put()
+        if not user:
+            return
+        if not users.is_current_user_admin():
+            return
         
-        conskey2 = ndb.Key(CTConstituency, 'lucknow')
-        cons = CTConstituency(key=conskey2,name='Lucknow',state='Uttar Pradesh', candidates=[candidate11.key,candidate12.key,candidate13.key,candidate14.key,candidate15.key])
-        cons.put()
+        infos = [(('amritsar','Amritsar','Punjab'),[('Dajit Singh','AAP',None), ('Arun Jaitley','BJP','NDA'), ('Amrinder Singh','Congress','UPA')]),
+(('bangalore-s','Bangalore (South)','Karnataka'),[('Nina Nayak','AAP',None), ('Ananth Kumar','BJP','NDA'), ('Nandan Nilekani','Congress','UPA'),('Pramod Muthalik','Independent',None)]),
+(('guna','Guna','Madhya Pradesh'),[('Shailendra Singh Kushwaha','AAP',None), ('Jaibhan Singh Pawaiyya','BJP','NDA'), ('Jyotiradiya Scindia','Congress','UPA')]),	
+(('barmer','Barmer','Rajasthan'),[('Mangilal Gaur','AAP',None), ('Col. Sonaram Choudhary','BJP','NDA'), ('Harish Choudhary','Congress','UPA'),('Jaswant Singh','Independent',None)]),
+(('gandhinagar','Gandhinagar','Gujarat'),[('Riturajbhai Maheta','AAP',None), ('L.K. Advani','BJP','NDA'), ('Kirit Patel','Congress','UPA')]),
+(('kanpur-urban','Kanpur (Urban)','Uttar Pradesh'),[('Mahmood Husain Rehmani','AAP',None), ('Murali Manohar Joshi','BJP','NDA'), ('Sriprakash Jaiswal','Congress','UPA'),('Salim Ahmed','BSP',None),('Surendra Mohan Agarwal','SP',None)]),
+(('gurgaon','Gurgaon','Haryana'),[('Yogendra Yadav','AAP',None), ('Rao Indrajeet Singh','BJP','NDA'), ('Rao Dharampal','Congress','UPA')])]	
+
+        for (cons,candidates) in infos:
+            (slug,name,state) = cons
+            print slug, name, state
+            print "candidates"
+            candidate_list = []
+            for (cname, cparty, ccoalition) in candidates:
+                print "   ", cname, cparty, ccoalition
+                candidate = CTCandidate(name=cname,party=cparty, coalition=ccoalition)
+                candidate.put()
+                candidate_list.append(candidate.key)
+            conskey = ndb.Key(CTConstituency, slug)
+            cons = CTConstituency(key=conskey,name=name,state=state, candidates=candidate_list)
+            cons.put()
 
 
         
@@ -316,7 +318,7 @@ application = webapp2.WSGIApplication([
     webapp2.Route(r'/t/', handler=TukkaPageHandler, name='tukka_page'),
     webapp2.Route(r'/u/<user_id:\d+>/', handler=UserPageHandler, name='user_page'),
     webapp2.Route(r'/u/<user_id:\d+>/<contest_slug>/', handler=UserPredictionHandler, name='user_prediction'),
-    # webapp2.Route(r'/adddata/', handler=TempAddHandler, name='temp_addition'),
+    # -- this is admin only webapp2.Route(r'/adddata/', handler=TempAddHandler, name='temp_addition'),
 ], debug=True)
 
 # URL mapping, for reference
