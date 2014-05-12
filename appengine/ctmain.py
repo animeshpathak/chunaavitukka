@@ -36,8 +36,19 @@ def user_setup(self):
         ct_user = None
     return (ct_user, url, url_linktext)
 
-def get_predictions(user_id):
-    return [{'cons':{'name':'Varanasi','slug':'varanasi-up'},'candidate':{'id':'1234','name':'M.M.Malaviya','party':'BHU','coalition': 'ABC'}},{'cons':{'name':'Amritsar','slug':'amritsar-pu'},'candidate':{'id':'5678','name':'Guru Gobind Singh','party':'Gurdwara','coalition': 'XYZ'}}]
+def get_predictions(ct_user):
+    '''Get predictions of a user object'''
+    predictions = []
+    #make a query in the DB for predictions by this user.
+    #TODO exception handling
+    qry = CTTukka.query(CTTukka.user == ct_user.key)
+    tukkalist = qry.fetch()
+    #TODO make this a map()?
+    for tukka in qry.iter():
+        candidate = tukka.candidate.get()
+        constituency = tukka.constituency.get()
+        predictions.append({'cons':{'name':constituency.name,'slug':constituency.key.id()},'candidate':{'id':candidate.key.id(),'name':candidate.name,'party':candidate.party,'coalition': candidate.coalition}})
+    return predictions
 
 def get_constituency_info(contest_slug):
     if contest_slug != 'varanasi' and contest_slug != 'lucknow':
@@ -56,8 +67,14 @@ def get_constituency_info(contest_slug):
 
 def get_support(conskey,candidate_key):
     '''overall support for a candidate in a constituency'''
-    #TODO implement this
-    return 100
+    count = 0
+    qry = CTTukka.query(CTTukka.candidate == candidate_key, CTTukka.constituency == conskey)
+    tukkalist = qry.fetch()
+    for tukka in qry.iter(keys_only=True):
+        #no need of non-key things when we are only counting
+        count = count + 1
+    #TODO insert into memcache?
+    return count
 	
 class HomeHandler(webapp2.RequestHandler):
     '''Shows the home page'''
@@ -112,25 +129,30 @@ class ContestPageHandler(webapp2.RequestHandler):
 class UserPageHandler(webapp2.RequestHandler):
     '''Handler for showing a user's page'''
     def get(self, user_id):
-        predictions = get_predictions(user_id)
-        (ct_user, url, url_linktext) = user_setup(self)
+        userkey = ndb.Key(CTUser, int(user_id))
+        user = userkey.get()
+        if user:
+            predictions = get_predictions(user)
+            (ct_user, url, url_linktext) = user_setup(self)
 
-        format = self.request.get("f")
-        template_values = {
-            'user_name': user_id,
-            'ct_user': ct_user,
-            'url': url,
-            'url_linktext': url_linktext,
-            'predictions': predictions,
-        }
+            format = self.request.get("f")
+            template_values = {
+                'ct_user': ct_user,
+                'url': url,
+                'url_linktext': url_linktext,
+                'predictions': predictions,
+            }
 
-        if (format == 'json'):
-          self.response.headers['Content-Type'] = 'application/json'   
-          json.dump(predictions,self.response.out)
+            if (format == 'json'):
+              self.response.headers['Content-Type'] = 'application/json'   
+              json.dump(predictions,self.response.out)
+            else:
+              self.response.headers['Content-Type'] = 'text/html'
+              template = JINJA_ENVIRONMENT.get_template('templates/user.html')
+              self.response.write(template.render(template_values))
         else:
-          self.response.headers['Content-Type'] = 'text/html'
-          template = JINJA_ENVIRONMENT.get_template('templates/user.html')
-          self.response.write(template.render(template_values))
+            self.response.status = '404 User does not exist'#not found
+
 
 class UserPredictionHandler(webapp2.RequestHandler):
     '''Handler for recording user predictions'''

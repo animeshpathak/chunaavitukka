@@ -1,7 +1,7 @@
 {% extends "templates/base.html" %}
-{% block title %}Chunaavi Tukka: {{user_name}}'s predictions{% endblock %}
+{% block title %}Chunaavi Tukka: {{ct_user.display_name}}'s predictions{% endblock %}
 {% block page_header%}
-    <h1>Chunaavi Tukka: {{user_name}}'s predictions</h1>
+    <h1>Chunaavi Tukka: {{ct_user.display_name}}'s predictions</h1>
 {% endblock%}
 
 {% block main_content %}
