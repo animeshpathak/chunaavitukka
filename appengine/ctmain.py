@@ -65,6 +65,7 @@ class HomeHandler(webapp2.RequestHandler):
         (ct_user, url, url_linktext) = user_setup(self)
         template_values = {
             'url': url,
+            'ct_user': ct_user,
             'url_linktext': url_linktext,
         }
         
@@ -78,6 +79,7 @@ class AllConsHandler(webapp2.RequestHandler):
         (ct_user, url, url_linktext) = user_setup(self)
         template_values = {
             'url': url,
+            'ct_user': ct_user,
             'url_linktext': url_linktext,
         }
         
@@ -94,6 +96,7 @@ class ContestPageHandler(webapp2.RequestHandler):
         template_values = {
             'slug': contest_slug,
             'contest_info': cons_info,
+            'ct_user': ct_user,
             'url': url,
             'url_linktext': url_linktext,
         }
@@ -115,6 +118,7 @@ class UserPageHandler(webapp2.RequestHandler):
         format = self.request.get("f")
         template_values = {
             'user_name': user_id,
+            'ct_user': ct_user,
             'url': url,
             'url_linktext': url_linktext,
             'predictions': predictions,
