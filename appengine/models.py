@@ -17,6 +17,7 @@ class CTUser(ndb.Model):
   display_name = ndb.StringProperty(required=False)
   created_at = ndb.DateTimeProperty(auto_now_add=True)
   updated_at = ndb.DateTimeProperty(auto_now=True)
+  follows = ndb.KeyProperty(kind='CTUser',repeated=True)
   
   #TODO make this transactional
   @classmethod

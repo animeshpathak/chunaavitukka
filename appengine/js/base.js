@@ -64,5 +64,41 @@ $(document).on('pageinit', function() {
 			}
 		});
 	});
+	
+		$("#user_follow_button").click( function() {
+		var user_id = $(this).attr('data-other-id');
+		console.log('Going to follow user ' + user_id);
+		//TODO - if user is currently not logged in, he should log in and then only can he follow
+		$.ajax({
+			type: 'POST',
+			url: "/follow/",
+			data: { user_id: user_id },
+			beforeSend: function() {
+				$.mobile.loading('show');
+			}
+
+		}).done( function(data) {
+			console.log (data);
+			$("#toast").html("Following succeeded").show().delay(2500).fadeOut('slow');
+			$("#user_follow_button").value('Following succeded');
+			$("#user_follow_button").button('disable');
+
+		}).complete( function(complete_object) {
+			//the complete_object is not a direct map of the JSON
+			//need to do a ['responseJSON']
+			console.log( 'complete ');
+			console.log( complete_object);
+			var message = complete_object['responseJSON']['message'];
+			console.log("message: " + message);
+			if(complete_object.status != 200){
+				//something went wrong
+				console.log("Error: got status " + complete_object.status);
+				$("#toast").html(message).show().delay(2500).fadeOut('slow');
+			}
+			//TODO post this message in the UI
+			console.log('at end of complete');
+			$.mobile.loading('hide');
+		});
+	});
 
 });

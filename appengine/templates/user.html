@@ -1,15 +1,25 @@
 {% extends "templates/base.html" %}
-{% block title %}Chunaavi Tukka: {{ct_user.display_name}}'s predictions{% endblock %}
+{% block title %}Chunaavi Tukka: {{other_user.display_name}}'s predictions{% endblock %}
 {% block page_header%}
-    <h1>Chunaavi Tukka: {{ct_user.display_name}}'s predictions</h1>
+    <h1>Chunaavi Tukka: {{other_user.display_name}}'s profile</h1>
 {% endblock%}
 
 {% block main_content %}
+	<h2>Predictions</h2>
 	{% for prediction in predictions %}
 	<div class="prediction">
 	For constituency <a href="/c/{{prediction.cons.slug}}/" data-transition="slide">{{prediction.cons.name}}</a> : {{prediction.candidate.name}} of {{prediction.candidate.party}}{% if prediction.candidate.coalition %}/{{prediction.candidate.coalition}}{% endif %}
 	 </div>
     {% endfor %}
+	{%if ct_user != other_user %}<div id="toast" class="ui-content" style='display:none; background:#eeeeee; text-align:center; font-weight:bold; color:red; '></div>
+	<div>{% if can_follow %}{% if ct_user %}<input type="button" id="user_follow_button" data-other-id="{{other_user.key.id()}}" value="Follow"/>{%else%}<a href="{{url}}" data-transition="slide" class="ui-btn" data-ajax="false">Login to Follow</a>{%endif%}{%else %} Already Following{%endif%}</div>{%else%}
+	<div><h2>Following</h2>
+	<ul>
+	{% for other in follows %}
+	<li><a href="/u/{{other.id}}/" data-transition="slide">{{other.display_name}}</a></li>
+	{% endfor %}
+	</ul>
+	</div>{% endif %}
 {% endblock %}
 
 

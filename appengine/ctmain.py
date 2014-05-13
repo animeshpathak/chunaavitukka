@@ -179,13 +179,34 @@ class UserPageHandler(webapp2.RequestHandler):
         if user:
             predictions = get_predictions(user)
             (ct_user, url, url_linktext) = user_setup(self)
+            follows = [] #list of people whom this guy follows, but only if it is me!
 
+            if not ct_user:
+                can_follow = True
+            else:
+                id_list = []
+                for key in ct_user.follows:
+                    id_list.append(int(key.id()))
+                logging.error(id_list)
+                follow_set = set(id_list)
+                logging.error(follow_set)
+                can_follow = (userkey != ct_user.key) and not (userkey.id() in follow_set)
+                if user == ct_user:
+                    for (other_id) in follow_set:
+                        #TODO properly cast this object
+                        other = ndb.Key(CTUser, int(other_id)).get()
+                        logging.error(other)
+                        follows.append({'id':other_id, 'display_name':other.display_name})
+            
             format = self.request.get("f")
             template_values = {
                 'ct_user': ct_user,
+                'other_user': user,
+                'follows': follows,
                 'url': url,
                 'url_linktext': url_linktext,
                 'predictions': predictions,
+                'can_follow': can_follow
             }
 
             if (format == 'json'):
@@ -251,7 +272,48 @@ class SettingsPageHandler(webapp2.RequestHandler):
         self.response.headers['Content-Type'] = 'text/html'
         template = JINJA_ENVIRONMENT.get_template('templates/settings.html')
         self.response.write(template.render(template_values))
+    def is_display_name_disallowed(self,user_dn):
+        invalid_users = set(['about','account','admin','administrator','administration','app','api','backup','bin','bot','bots','cache','chi','config','db','dev','download','edit','forum','feed','faq','ftp','help','home','index','login','logout','php','public','settings','system','task','username','xxx','you'])
+        if user_dn.lower() in invalid_users :
+            return True
+        else:
+            p = re.compile('^[a-zA-Z0-9#@_][a-zA-Z0-9#@_ ]*$') #chars,nums,and some others allowed, no spaces in beginning
+            return not p.match(user_dn)
     
+
+class UserFollowHandler(webapp2.RequestHandler):
+    '''Follow. Only accessible by POST, user_id needed. 200 if all is well, 404 is other user not found. 409 if re-try adding'''
+    def post(self):
+        (ct_user, url, url_linktext) = user_setup(self)
+        #not signed in, sorry.
+        if not ct_user:
+            return webapp2.redirect(url)
+
+        status = 500 #defaults to error
+        other_id = self.request.get("user_id")
+        
+        follow_response = {'message':''} # empty response object
+
+        #TODO exception handling
+        # if constituency not found, send 404
+        other_user_key = ndb.Key(CTUser, other_id)
+        #TODO check if he exists
+        if not other_user_key :
+            status = 404
+            follow_response['message'] = "User with ID " + other_id + " not found"
+        else:
+            #add him to my list of follows
+            ct_user.follows.append(other_user_key)
+            ct_user.put()
+            #TODO check other candidate key in the list of candidates for this cons!
+            status = 200 
+                
+        self.response.headers['Content-Type'] = 'application/json'   
+        self.response.status = status
+        json.dump(follow_response,self.response.out)
+
+
+        
 class TukkaPageHandler(webapp2.RequestHandler):
     '''Show and process predictions form'''
     def get(self):
@@ -312,14 +374,6 @@ class TukkaPageHandler(webapp2.RequestHandler):
         self.response.status = status
         json.dump(tukka_response,self.response.out)
 
-    def is_display_name_disallowed(self,user_dn):
-        invalid_users = set(['about','account','admin','administrator','administration','app','api','backup','bin','bot','bots','cache','chi','config','db','dev','download','edit','forum','feed','faq','ftp','help','home','index','login','logout','php','public','settings','system','task','username','xxx','you'])
-        if user_dn.lower() in invalid_users :
-            return True
-        else:
-            p = re.compile('^[a-zA-Z0-9#@_][a-zA-Z0-9#@_ ]*$') #chars,nums,and some others allowed, no spaces in beginning
-            return not p.match(user_dn)
-
 class TempAddHandler(webapp2.RequestHandler):
     '''Show and manage settings page'''
     def get(self):
@@ -357,6 +411,7 @@ application = webapp2.WSGIApplication([
     webapp2.Route(r'/t/', handler=TukkaPageHandler, name='tukka_page'),
     webapp2.Route(r'/u/<user_id:\d+>/', handler=UserPageHandler, name='user_page'),
     webapp2.Route(r'/u/<user_id:\d+>/<contest_slug>/', handler=UserPredictionHandler, name='user_prediction'),
+    webapp2.Route(r'/follow/', handler=UserFollowHandler, name='follow_user'),
     #webapp2.Route(r'/overall-tally/', handler=OverallTallyHandler, name='overall-tally'),
     # -- this is admin only webapp2.Route(r'/adddata/', handler=TempAddHandler, name='temp_addition'),
 ], debug=True)
