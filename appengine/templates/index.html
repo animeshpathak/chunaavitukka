@@ -6,6 +6,7 @@
 {% endblock%}
 
 {% block main_content %}
+		<p><i>Chunaavi Tukka</i> is a place where you can record your predictions of who will win in the most important electoral races in India in 2014, and then show it to your friends once the results are out. But be careful, once you make a prediction, there is no going back! :)</p>
 		<ul>
 			<li>See <a href="/constituencies/" data-transition="slide">Top Constituencies</a></li>
 			<li>{% if ct_user %}See predictions by <a href="/u/{{ct_user.key.id()}}/" data-transition="slide">you</a> {% else %} <a href="{{url|escape}}" data-transition="slide" data-ajax="false">Log in to see some predictions</a>{% endif %}</li>
