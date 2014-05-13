@@ -11,6 +11,9 @@ libraries:
   version: latest
 
 handlers:
+- url: /(robots\.txt)
+  static_files: \1
+  upload: (robots\.txt)
 - url: /css
   static_dir: css
 - url: /js
