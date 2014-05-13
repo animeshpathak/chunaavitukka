@@ -256,7 +256,7 @@ class TukkaPageHandler(webapp2.RequestHandler):
             elif CTTukka.get_tukka(ct_user,cons):
                 # if user+const has already voted for this, say he has already voted. Send 409
                 status = 409
-                tukka_response['message'] = "You already voted for this candidate in this constituency."
+                tukka_response['message'] = "You have already made a prediction for this constituency."
             else:
                 # insert, send 200 and the sum (for now, send a 42) TODO
                 # get total before insert
