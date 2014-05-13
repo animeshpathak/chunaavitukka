@@ -1,2 +1,6 @@
 User-agent: *
-Disallow: /
+Disallow: /t/ #no access to the tukka form
+Disallow: /constituencies/ #nor to cons
+Disallow: /c/ #nor this
+Disallow: /s/ #nor this
+#We allow user pages /u/ -- this is OK
