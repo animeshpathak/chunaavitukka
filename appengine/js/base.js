@@ -52,6 +52,12 @@ $(document).on('pageinit', function() {
 	$("#const_search").keyup( function() {
 		var t = $(this).val();
 		t = t.toLowerCase();
+		console.log(t.length);
+		if (t.length > 0) { 
+			$(".ui-li-divider").hide(); 
+		} else {
+			$(".ui-li-divider").show(); 
+		}
 
 		$("li > a").each( function() {
 			var text = $(this).html();
