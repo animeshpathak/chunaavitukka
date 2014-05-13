@@ -80,8 +80,7 @@ $(document).on('pageinit', function() {
 		}).done( function(data) {
 			console.log (data);
 			$("#toast").html("Following succeeded").show().delay(2500).fadeOut('slow');
-			$("#user_follow_button").value('Following succeded');
-			$("#user_follow_button").button('disable');
+			$("#user_follow_button").parent().fadeOut('fast');
 
 		}).complete( function(complete_object) {
 			//the complete_object is not a direct map of the JSON
