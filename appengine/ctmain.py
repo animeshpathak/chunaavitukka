@@ -49,7 +49,7 @@ def get_predictions(ct_user):
         predictions.append({'cons':{'name':constituency.name,'slug':constituency.key.id()},'candidate':{'id':candidate.key.id(),'name':candidate.name,'party':candidate.party,'coalition': candidate.coalition}})
     return predictions
 
-def get_constituency_info(contest_slug):
+def get_constituency_info(contest_slug, top20 = False):
     conskey = ndb.Key(CTConstituency, contest_slug)
     #TODO exception handling
     cons = conskey.get()
@@ -97,6 +97,48 @@ class AllConsHandler(webapp2.RequestHandler):
             cons_list.append(cons)
         
         template_values = {
+            'url': url,
+            'ct_user': ct_user,
+            'url_linktext': url_linktext,
+            'cons_list': cons_list,
+        }
+        
+        self.response.headers['Content-Type'] = 'text/html'
+        template = JINJA_ENVIRONMENT.get_template('templates/constituencies.html')
+        self.response.write(template.render(template_values))
+
+class TopConsHandler(webapp2.RequestHandler):
+    '''Shows the top 20 constituencies page'''
+    def get(self):
+        (ct_user, url, url_linktext) = user_setup(self)
+        cons_list = []
+        toplist = [
+('ajmer','Ajmer','Rajasthan'),
+('amritsar','Amritsar','Punjab'),
+('bangalore-s','Bangalore (South)','Karnataka'),
+('baramati','Baramati','Maharashtra'),
+('barmer','Barmer','Rajasthan'),
+('bastar','Bastar','Chhattisgarh'),
+('chandigarh','Chandigarh','Chandigarh'),
+('delhi-chandnichowk','Chandni Chowk','Delhi'),
+('gandhinagar','Gandhinagar','Gujarat'),
+('guna','Guna','Madhya Pradesh'),
+('gurdaspur','Gurdaspur','Punjab'),
+('gurgaon','Gurgaon','Haryana'),
+('jaipur-rural','Jaipur (Rural)','Rajasthan'),
+('kanpur-urban','Kanpur (Urban)','Uttar Pradesh'),
+('lucknow','Lucknow','Uttar Pradesh'),
+('madhepura','Madhepura','Bihar'),
+('mumbai-ne','Mumbai (North East)','Maharashtra'),
+('delhi-new','New Delhi','Delhi'),
+('shimoga','Shimoga','Karnataka'),
+('varanasi','Varanasi','Uttar Pradesh'),
+]
+        for (slug,name,state) in toplist:
+            cons_list.append({'slug':slug,'name':name,'state':state})
+        
+        template_values = {
+            'toplist' : True,
             'url': url,
             'ct_user': ct_user,
             'url_linktext': url_linktext,
@@ -309,11 +351,13 @@ class TempAddHandler(webapp2.RequestHandler):
 application = webapp2.WSGIApplication([
     webapp2.Route(r'/', handler=HomeHandler, name='home'),
     webapp2.Route(r'/constituencies/', handler=AllConsHandler, name='constituencies'),
+    webapp2.Route(r'/top20/', handler=TopConsHandler, name='constituencies'),
     webapp2.Route(r'/c/<contest_slug>/', handler=ContestPageHandler, name='contest_page'),
     webapp2.Route(r'/s/', handler=SettingsPageHandler, name='settings_page'),
     webapp2.Route(r'/t/', handler=TukkaPageHandler, name='tukka_page'),
     webapp2.Route(r'/u/<user_id:\d+>/', handler=UserPageHandler, name='user_page'),
     webapp2.Route(r'/u/<user_id:\d+>/<contest_slug>/', handler=UserPredictionHandler, name='user_prediction'),
+    #webapp2.Route(r'/overall-tally/', handler=OverallTallyHandler, name='overall-tally'),
     # -- this is admin only webapp2.Route(r'/adddata/', handler=TempAddHandler, name='temp_addition'),
 ], debug=True)
 
