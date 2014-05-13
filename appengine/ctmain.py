@@ -259,10 +259,12 @@ class TukkaPageHandler(webapp2.RequestHandler):
                 tukka_response['message'] = "You already voted for this candidate in this constituency."
             else:
                 # insert, send 200 and the sum (for now, send a 42) TODO
-                status = 200 
+                # get total before insert
+                prev_total = get_support(cons.key,candidate_key)
                 tukka = CTTukka(user=ct_user.key,constituency = cons.key, candidate = candidate_key)
                 tukka.put()
-                tukka_response['total'] = 42
+                status = 200 
+                tukka_response['total'] = prev_total + 1
                 
         self.response.headers['Content-Type'] = 'application/json'   
         self.response.status = status
