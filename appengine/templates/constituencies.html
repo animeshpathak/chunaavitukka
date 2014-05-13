@@ -1,5 +1,6 @@
 {% extends "templates/base.html" %}
-{% block title %}Constituencies{% endblock %}
+{% block title %}{% if toplist %}Top 20 {% endif %}Constituencies{% endblock %}
+{% block fb_title %}Chunaavi Tukka: {% if toplist %}Top 20 {% endif %}Constituencies{% endblock%}
 {% block page_header%}
     <h1>{% if toplist %}Top 20 {% endif %}Constituencies</h1>
 {% endblock%}
