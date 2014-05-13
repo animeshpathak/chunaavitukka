@@ -26,7 +26,7 @@
     <hr/>
 
     <div data-role="footer">
-	    <a href="/s/" data-transition="slide" class="ui-btn" data-ajax="false">Settings</a> Powered by <a href="https://github.com/animeshpathak/chunaavitukka" data-transition="slide">ChunaaviTukka</a> Share <a href="http://twitter.com/ChunaaviTukka" data-ajax="false" target="_blank">Feedback (Twitter)</a> | <a href="mailto:animesh@gmail.com?subject=ChunaaviTukka%20Feedback" data-ajax="false">Feedback (Email)</a>
+	    {% if ct_user %}<a href="/u/{{ct_user.key.id()}}/" data-transition="slide">My Predictions</a> {% endif %}<a href="/s/" data-transition="slide" class="ui-btn" data-ajax="false">Settings</a> Powered by <a href="https://github.com/animeshpathak/chunaavitukka" data-transition="slide">ChunaaviTukka</a> Share <a href="http://twitter.com/ChunaaviTukka" data-ajax="false" target="_blank">Feedback (Twitter)</a> | <a href="mailto:animesh@gmail.com?subject=ChunaaviTukka%20Feedback" data-ajax="false">Feedback (Email)</a>
 	</div>
 	
   </div> <!-- page -->

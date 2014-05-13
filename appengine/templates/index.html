@@ -6,11 +6,16 @@
 {% endblock%}
 
 {% block main_content %}
-		<p><i>Chunaavi Tukka</i> is a place where you can record your predictions of who will win in the most important electoral races in India in 2014, and then show it to your friends once the results are out. But be careful, once you make a prediction, there is no going back! :)</p>
+		<p>Who doesn’t like attempting a good old </emph>Tukka</emph>?</p>
+		<p><emph>Chunaavi Tukka</emph> gives you that chance – to place your guesses, share them with your friends, and to have some fun, democracy style.</p>
+		<p>Here you can:</p>
 		<ul>
-			<li>See <a href="/constituencies/" data-transition="slide">Top Constituencies</a></li>
-			<li>{% if ct_user %}See predictions by <a href="/u/{{ct_user.key.id()}}/" data-transition="slide">you</a> {% else %} <a href="{{url|escape}}" data-transition="slide" data-ajax="false">Log in to see some predictions</a>{% endif %}</li>
-			<li>See predictions for <a href="/c/varanasi/" data-transition="slide">varanasi</a>, <a href="/c/some-other-city/" data-transition="slide">some-other-city</a></li>
-			<li>Go to your <a href="/s/" data-transition="slide" data-ajax="false">user settings</a></li>
+		<li>Put <emph>tukkas</emph> for <a href="/constituencies/" data-transition="slide">most important 105 constituencies</a> nationally.</li>
+		<li>Put <emph>tukkas</emph> for <a href="/top20/" data-transition="slide">Top 20</a>, most bitterly fought constituencies.</li>
+		<li>Put <emph>tukkas</emph> for the <a href="/overall-tally/" data-transition="slide">final national tallies</a> of all the major political parties.</li>
+		<li>SHARE {% if ct_user %}<a href="/u/{{ct_user.key.id()}}/" data-transition="slide">your guesses/predictions/<emph>tukkas</emph></a>{% else %}your guesses/predictions/<emph>tukkas</emph>{% endif %} with your friends.</li>
+		<li>See the average of all the predictions cast till now.</li>
 		</ul>
+		<p>Just one word of caution – you can place your guesses only once. Just like polling!</p>
+
 {% endblock %}
