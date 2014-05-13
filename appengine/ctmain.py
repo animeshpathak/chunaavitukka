@@ -84,6 +84,19 @@ class HomeHandler(webapp2.RequestHandler):
         template = JINJA_ENVIRONMENT.get_template('templates/index.html')
         self.response.write(template.render(template_values))
 		
+class FAQHandler(webapp2.RequestHandler):
+    '''Shows the FAQ page'''
+    def get(self):
+        (ct_user, url, url_linktext) = user_setup(self)
+        template_values = {
+            'url': url,
+            'ct_user': ct_user,
+            'url_linktext': url_linktext,
+        }        
+        self.response.headers['Content-Type'] = 'text/html'
+        template = JINJA_ENVIRONMENT.get_template('templates/faq.html')
+        self.response.write(template.render(template_values))
+
 class AllConsHandler(webapp2.RequestHandler):
     '''Shows the all constituencies page'''
     def get(self):
@@ -419,6 +432,7 @@ class TempAddHandler(webapp2.RequestHandler):
         
 application = webapp2.WSGIApplication([
     webapp2.Route(r'/', handler=HomeHandler, name='home'),
+    webapp2.Route(r'/faq/', handler=FAQHandler, name='faq'),
     webapp2.Route(r'/constituencies/', handler=AllConsHandler, name='constituencies'),
     webapp2.Route(r'/top20/', handler=TopConsHandler, name='constituencies'),
     webapp2.Route(r'/c/<contest_slug>/', handler=ContestPageHandler, name='contest_page'),

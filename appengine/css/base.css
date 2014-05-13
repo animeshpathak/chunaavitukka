@@ -7,3 +7,8 @@
 .gap {
 	margin-left: 20px;
 }
+
+.faq dt {
+	font-weight: bold;
+	margin-top: 10px;
+}
