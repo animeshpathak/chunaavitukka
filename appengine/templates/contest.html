@@ -1,6 +1,8 @@
 {% extends "templates/base.html" %}
 {% block title %}Chunaavi Tukka: predictions for {{contest_name}}{% endblock %}
 {% block fb_title %}Chunaavi Tukka: predictions for {{contest_name}}{% endblock%}
+{% block twitter_title%}Chunaavi Tukka: predictions for {{contest_name}}{%endblock%}
+{%block gtitle%}Chunaavi Tukka: predictions for {{contest_name}}{%endblock%}
 {% block page_header%}
         <h1>Chunaavi Tukka: predictions for {{contest_info.name}}, {{contest_info.state}}</h1>
 {% endblock%}
@@ -12,11 +14,15 @@
 	 	<div id="thanks" class="ui-content" style='display:none; background:#fffff0; text-align:center; font-weight:bold; '>Thanks for making a prediction!</div>
         {% for prediction in contest_info.predictions %}
 	<div class="prediction">
-	 {{prediction.candidate.name}} of {{prediction.candidate.party}}{% if prediction.candidate.coalition %}/{{prediction.candidate.coalition}}{% endif %} : <span id="score_{{prediction.candidate.id}}">{{prediction.support}}</span>
+	 {{prediction.candidate.name}} of {{prediction.candidate.party}}{% if prediction.candidate.coalition %}/{{prediction.candidate.coalition}}{% endif %} : <span id="score_{{prediction.candidate.id}}">{{prediction.support}}</span>	 {%if selected_candidate%}{%if selected_candidate.key.id() == prediction.candidate.id%} <- Your Selection{%endif%}{%endif%}
+
+	 
+	 {%if not selected_candidate%}
 
 	 <input type="button" id="button_{{prediction.candidate.id}}" class="ui-btn {% if ct_user %}vote{% else %}login{%endif%}" data-position-to="origin" data-rel="popup" value="{% if ct_user %}I Predict Victory!!{% else %}Sign in to claim{%endif%}" data-candidate-id="{{prediction.candidate.id}}" data-contest-slug="{{slug}}" />
 
 	 <input type="hidden" name="candidate_id" value="{{prediction.candidate.id}}"/>
+	 {%endif%}
 
 	 </div>
 
