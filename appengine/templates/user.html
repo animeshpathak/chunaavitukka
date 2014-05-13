@@ -20,8 +20,13 @@
 	<li><a href="/u/{{other.id}}/" data-transition="slide">{{other.display_name}}</a></li>
 	{% endfor %}
 	</ul>
-	</div>{% endif %}
+	<!-- put where you want the button to appear -->
+	<div class="fb-share-button" data-href="http://www.chunaavitukka.com/u/{{ct_user.key.id()}}/" data-type="box_count"></div>
+</div>{% endif %}
 {% endblock %}
+
+
+
 
 
 
