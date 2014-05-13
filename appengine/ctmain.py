@@ -49,15 +49,25 @@ def get_predictions(ct_user):
         predictions.append({'cons':{'name':constituency.name,'slug':constituency.key.id()},'candidate':{'id':candidate.key.id(),'name':candidate.name,'party':candidate.party,'coalition': candidate.coalition}})
     return predictions
 
-def get_constituency_info(contest_slug, top20 = False):
+def get_constituency_info(ct_user, contest_slug):
     conskey = ndb.Key(CTConstituency, contest_slug)
     #TODO exception handling
     cons = conskey.get()
     predictions = []
+
+    #initialize to None
+    selected_candidate = None
+    #this may be a tukka, or None
+    selected_candidate_key = CTTukka.get_tukka(ct_user,cons).candidate
+
     for candidate_key in cons.candidates:
         c = candidate_key.get()
         predictions.append({'candidate':{'id':c.key.id(),'name':c.name,'party':c.party,'coalition': c.coalition},'support':get_support(conskey,candidate_key)})
-    return {'name':cons.name, 'state': cons.state, 'predictions':predictions};
+        if candidate_key == selected_candidate_key:
+            selected_candidate = c
+                
+    #figure out if ct_user already voted for this one
+    return {'name':cons.name, 'state': cons.state, 'predictions':predictions, 'selected_candidate': selected_candidate};
 
 def get_support(conskey,candidate_key):
     '''overall support for a candidate in a constituency'''
@@ -165,8 +175,8 @@ class TopConsHandler(webapp2.RequestHandler):
 class ContestPageHandler(webapp2.RequestHandler):
     '''Handler for showing a contest's page'''
     def get(self, contest_slug):
-        cons_info = get_constituency_info(contest_slug)
         (ct_user, url, url_linktext) = user_setup(self)
+        cons_info = get_constituency_info(ct_user, contest_slug)
         format = self.request.get("f")
         template_values = {
             'slug': contest_slug,
@@ -200,15 +210,12 @@ class UserPageHandler(webapp2.RequestHandler):
                 id_list = []
                 for key in ct_user.follows:
                     id_list.append(int(key.id()))
-                logging.error(id_list)
                 follow_set = set(id_list)
-                logging.error(follow_set)
                 can_follow = (userkey != ct_user.key) and not (userkey.id() in follow_set)
                 if user == ct_user:
                     for (other_id) in follow_set:
                         #TODO properly cast this object
                         other = ndb.Key(CTUser, int(other_id)).get()
-                        logging.error(other)
                         follows.append({'id':other_id, 'display_name':other.display_name})
             
             format = self.request.get("f")
@@ -366,9 +373,6 @@ class TukkaPageHandler(webapp2.RequestHandler):
             candidate_key = ndb.Key(CTCandidate, int(candidate_id))
             if not (candidate_key in set(cons.candidates)):
                 status = 404
-                logging.error(candidate_key)
-                logging.error(set(cons.candidates))
-                logging.error(cons.candidates)
                 tukka_response['message'] = "Candidate not participating in this constituency."
             elif CTTukka.get_tukka(ct_user,cons):
                 # if user+const has already voted for this, say he has already voted. Send 409

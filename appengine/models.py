@@ -88,7 +88,7 @@ class CTTukka(ndb.Model):
 
     @classmethod
     def get_tukka(cls,ct_user,ct_cons):
-        '''Returns the candidate key if a prediction exists for this constituency by this user'''
+        '''Returns the tukka if a prediction exists for this constituency by this user'''
         qry = CTTukka.query(CTTukka.user == ct_user.key, CTTukka.constituency == ct_cons.key)
         tukkalist = qry.fetch(1)
         if not tukkalist:
