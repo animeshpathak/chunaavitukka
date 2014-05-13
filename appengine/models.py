@@ -28,7 +28,7 @@ class CTUser(ndb.Model):
     userlist = qry.fetch(1)
     if not userlist:
         #insert this user
-        ct_user = CTUser(google_user = google_user, display_name='Unknown Display Name')
+        ct_user = CTUser(google_user = google_user, display_name='NoName')
         ct_user.put()
     else:
         #this is the user
