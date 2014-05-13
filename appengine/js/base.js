@@ -49,4 +49,20 @@ $(document).on('pageinit', function() {
 		});
 	});
 
+	$("#const_search").keyup( function() {
+		var t = $(this).val();
+		t = t.toLowerCase();
+
+		$("li > a").each( function() {
+			var text = $(this).html();
+			text = text.toLowerCase();
+
+			if ( text.indexOf(t) == -1 ) {
+				$(this).parent().hide();
+			} else {
+				$(this).parent().show();
+			}
+		});
+	});
+
 });

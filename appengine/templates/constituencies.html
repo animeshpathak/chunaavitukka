@@ -5,7 +5,8 @@
 {% endblock%}
 
 {% block main_content %}
-<ul data-role="listview" data-autodividers="true">
+<input type="text" name="search" placeholder="Search Constituency" id="const_search" />
+<ul data-role="listview" data-autodividers="true" id="const_list">
 {% for cons in cons_list %}
   <li {% if False %}data-icon="check" class="voted"{% endif %}><a href="/c/{%if toplist %}{{cons.slug}}{%else%}{{cons.key.id()}}{%endif%}/">{{ cons.name }}</a></li>
 {% endfor %}
