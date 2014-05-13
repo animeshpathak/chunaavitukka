@@ -267,7 +267,7 @@ class SettingsPageHandler(webapp2.RequestHandler):
             'error_message': error_message,
             'ct_user': ct_user,
             'url': url,
-            'url_linktext': url_linktext,
+            'url_linktext': 'Logout ' + ct_user.display_name, #hard hack for issue#15
         }
         self.response.headers['Content-Type'] = 'text/html'
         template = JINJA_ENVIRONMENT.get_template('templates/settings.html')
