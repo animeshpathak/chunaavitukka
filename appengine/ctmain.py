@@ -286,13 +286,7 @@ class TempAddHandler(webapp2.RequestHandler):
         if not users.is_current_user_admin():
             return
         
-        infos = [(('amritsar','Amritsar','Punjab'),[('Dajit Singh','AAP',None), ('Arun Jaitley','BJP','NDA'), ('Amrinder Singh','Congress','UPA')]),
-(('bangalore-s','Bangalore (South)','Karnataka'),[('Nina Nayak','AAP',None), ('Ananth Kumar','BJP','NDA'), ('Nandan Nilekani','Congress','UPA'),('Pramod Muthalik','Independent',None)]),
-(('guna','Guna','Madhya Pradesh'),[('Shailendra Singh Kushwaha','AAP',None), ('Jaibhan Singh Pawaiyya','BJP','NDA'), ('Jyotiradiya Scindia','Congress','UPA')]),	
-(('barmer','Barmer','Rajasthan'),[('Mangilal Gaur','AAP',None), ('Col. Sonaram Choudhary','BJP','NDA'), ('Harish Choudhary','Congress','UPA'),('Jaswant Singh','Independent',None)]),
-(('gandhinagar','Gandhinagar','Gujarat'),[('Riturajbhai Maheta','AAP',None), ('L.K. Advani','BJP','NDA'), ('Kirit Patel','Congress','UPA')]),
-(('kanpur-urban','Kanpur (Urban)','Uttar Pradesh'),[('Mahmood Husain Rehmani','AAP',None), ('Murali Manohar Joshi','BJP','NDA'), ('Sriprakash Jaiswal','Congress','UPA'),('Salim Ahmed','BSP',None),('Surendra Mohan Agarwal','SP',None)]),
-(('gurgaon','Gurgaon','Haryana'),[('Yogendra Yadav','AAP',None), ('Rao Indrajeet Singh','BJP','NDA'), ('Rao Dharampal','Congress','UPA')])]	
+        infos = []
 
         for (cons,candidates) in infos:
             (slug,name,state) = cons

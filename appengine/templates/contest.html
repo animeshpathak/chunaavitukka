@@ -12,7 +12,7 @@
 	<div class="prediction">
 	 {{prediction.candidate.name}} of {{prediction.candidate.party}}{% if prediction.candidate.coalition %}/{{prediction.candidate.coalition}}{% endif %} : {{prediction.support}}
 
-	 <input type="button" class="ui-btn {% if ct_user %}vote{% else %}login{%endif%}" data-position-to="origin" data-rel="popup" value="{% if ct_user %}Declare Support!{% else %}Sign in to support{%endif%}" data-candidate-id="{{prediction.candidate.id}}" />
+	 <input type="button" class="ui-btn {% if ct_user %}vote{% else %}login{%endif%}" data-position-to="origin" data-rel="popup" value="{% if ct_user %}I Predict Victory!!{% else %}Sign in to claim{%endif%}" data-candidate-id="{{prediction.candidate.id}}" />
 
 	 <input type="hidden" name="candidate_id" value="{{prediction.candidate.id}}"/>
 
