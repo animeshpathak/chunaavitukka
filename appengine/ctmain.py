@@ -374,6 +374,21 @@ class TukkaPageHandler(webapp2.RequestHandler):
         self.response.status = status
         json.dump(tukka_response,self.response.out)
 
+class OverallTallyHandler(webapp2.RequestHandler):
+    '''Show and process predictions form'''
+    def get(self):
+        (ct_user, url, url_linktext) = user_setup(self)
+        if not ct_user:
+            return webapp2.redirect(url)
+        template_values = {
+            'ct_user': ct_user,
+            'url': url,
+            'url_linktext': url_linktext,
+        }
+        self.response.headers['Content-Type'] = 'text/html'
+        template = JINJA_ENVIRONMENT.get_template('templates/overalltally.html')
+        self.response.write(template.render(template_values))
+
 class TempAddHandler(webapp2.RequestHandler):
     '''Show and manage settings page'''
     def get(self):
@@ -412,7 +427,7 @@ application = webapp2.WSGIApplication([
     webapp2.Route(r'/u/<user_id:\d+>/', handler=UserPageHandler, name='user_page'),
     webapp2.Route(r'/u/<user_id:\d+>/<contest_slug>/', handler=UserPredictionHandler, name='user_prediction'),
     webapp2.Route(r'/follow/', handler=UserFollowHandler, name='follow_user'),
-    #webapp2.Route(r'/overall-tally/', handler=OverallTallyHandler, name='overall-tally'),
+    webapp2.Route(r'/overall-tally/', handler=OverallTallyHandler, name='overall-tally'),
     # -- this is admin only webapp2.Route(r'/adddata/', handler=TempAddHandler, name='temp_addition'),
 ], debug=True)
 

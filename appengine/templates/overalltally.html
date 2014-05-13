@@ -1,0 +1,34 @@
+{% extends "templates/base.html" %}
+{% block title %}Chunaavi Tukka: Make a Prediction{% endblock %}
+{% block page_header%}
+    <h1>Chunaavi Tukka: Overall Tally</h1>
+{% endblock%}
+
+{% block main_content %}
+	You are: {{ ct_user.display_name }}
+	<form action="/t/" method="POST">
+	<!-- the first two are coalitions -->
+UPA	<input type="number" name="UPA" limit="538" min="1" max="" step="1"/>
+NDA	<input type="number" name="NDA" limit="542"  min="1" max="" step="1"/>
+	
+INC	<input type="number" name="INC" limit="462"  min="1" max="" step="1"/>
+BJP	<input type="number" name="BJP" limit="427"  min="1" max="" step="1"/>
+AAP	<input type="number" name="AAP" limit=""  min="1" max="" step="1"/>
+TMC	<input type="number" name="TMC" limit=""  min="1" max="" step="1"/>
+DMK	<input type="number" name="DMK" limit=""  min="1" max="" step="1"/>
+AIADMK	<input type="number" name="AIADMK" limit=""  min="1" max="" step="1"/>
+SP	<input type="number" name="SP" limit=""  min="1" max="" step="1"/>
+BSP	<input type="number" name="BSP" limit=""  min="1" max="" step="1"/>
+JD	<input type="number" name="JD(U)" limit=""  min="1" max="" step="1"/>
+RJD	<input type="number" name="RJD" limit=""  min="1" max="" step="1"/>
+CPI	<input type="number" name="CPI(M)" limit=""  min="1" max="" step="1"/>
+BJD	<input type="number" name="BJD" limit=""  min="1" max="" step="1"/>
+SS	<input type="number" name="SS" limit="" min="1" max="" step="1"/>
+MNS	<input type="number" name="MNS"limit="7"  min="1" max="" step="1"/>
+NCP	<input type="number" name="NCP" limit=""  min="1" max="" step="1"/>
+Others	<input type="number" name="Others" limit=""  min="1" max="" step="1"/>
+	<input type="submit" value="Submit"/>
+	</form>
+{% endblock %}
+
+
