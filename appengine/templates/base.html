@@ -2,7 +2,7 @@
 {% autoescape true %}
 <html>
 <!-- Welcome, fellow hacker! It is nice that you are interested in how ChunaaviTukka works. Please have a look at https://github.com/animeshpathak/chunaavitukka/ and let us know if you'd like to be part of the team. -- the devs. -->
-<head>
+<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# quick_election: http://ogp.me/ns/quick_election#">
 
 	<title>{% block title %}{% endblock %}</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,6 +14,14 @@
 	<!--script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script-->
 	<script src="/js/base.js"></script>
 	<link rel="stylesheet" href="/css/base.css" />
+
+	<!-- Open Graph tags -->
+	<meta property="og:locale" content="en_US" />
+	<meta property="og:image" content="/images/tukka_logo.png" />
+	<meta property="og:title" content="Title here" />
+	<meta property="og:url" content="URL here" />
+	<meta property="og:site_name" content="Chunaavi Tukka" />
+	<meta property="og:type" content="quick_election.election" />
 	{% block html_head %}{% endblock %}
 </head>
   <body>
@@ -31,7 +39,7 @@
     <hr/>
 
     <div data-role="footer">
-	    {% if ct_user %}<a href="/u/{{ct_user.key.id()}}/" data-transition="slide">My Predictions</a> {% endif %}<a href="/s/" data-transition="slide" class="ui-btn" data-ajax="false">Settings</a> Powered by <a href="https://github.com/animeshpathak/chunaavitukka" data-transition="slide">ChunaaviTukka</a> Share <a href="http://twitter.com/ChunaaviTukka" data-ajax="false" target="_blank">Feedback (Twitter)</a> | <a href="mailto:animesh@gmail.com?subject=ChunaaviTukka%20Feedback" data-ajax="false">Feedback (Email)</a>
+	    {% if ct_user %}<a href="/u/{{ct_user.key.id()}}/" data-transition="slide">My Predictions</a> {% endif %}<a href="/s/" data-transition="slide" class="ui-btn" data-ajax="false">Settings</a> Powered by <a href="https://github.com/animeshpathak/chunaavitukka" data-transition="slide">ChunaaviTukka</a> Share <a href="http://twitter.com/ChunaaviTukka" data-ajax="false" target="_blank">Feedback (Twitter)</a> <a href="mailto:animesh@gmail.com?subject=ChunaaviTukka%20Feedback" data-ajax="false">Feedback (Email)</a>
 	</div>
 	
   </div> <!-- page -->
