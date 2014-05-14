@@ -63,7 +63,7 @@
   	<div data-role="header">
   		<a href="/" data-transition="slide" data-direction="reverse" class="ui-btn ui-icon-home ui-btn-icon-left">Home</a>
 		{% block page_header %}{% endblock %}
-		{% if ct_user %}<a href="/u/{{ct_user.key.id()}}/" data-transition="slide">My Page</a> {% endif %}
+		{% if ct_user %}<a href="/u/{{ct_user.key.id()}}/" data-transition="slide"  data-ajax="false">My Page</a> {% endif %}
 		
 	</div>
 	<div data-role="main" class="ui-content {% block main_css_class %}{% endblock%}">
