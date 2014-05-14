@@ -1,0 +1,55 @@
+/* base.css */
+
+#const_list {
+	margin-top: 15px;
+}
+
+.gap {
+	margin-left: 20px;
+}
+
+.faq dt {
+	font-weight: bold;
+	margin-top: 10px;
+}
+
+.selected {
+	background: #67aa54;
+	color: #fff;
+	border-radius: 6px;
+	padding: 0 7px;
+	text-shadow: none;
+}
+
+.ui-footer {
+	padding-left: 10px;
+}
+
+#overall {
+	max-width: 480px;
+	margin: auto;
+}
+
+#overall label {
+	float: left;
+	line-height: 53px;
+	clear: both;
+	margin-right: 30px;
+	min-width: 65px;
+}
+
+#overall .ui-input-text {
+	float: left;
+}
+
+#overall .ui-input-btn {
+	float: left;
+	
+}
+
+#total {
+	line-height: 2em;
+	min-width: 65px;
+	float: left;
+	clear: both;
+}
