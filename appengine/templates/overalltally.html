@@ -6,27 +6,28 @@
 
 {% block main_content %}
 	You are: {{ ct_user.display_name }}
-	<form action="/t/" method="POST">
+	<form action="/t/" method="POST" id="overall">
 	<!-- the first two are coalitions -->
-UPA	<input type="number" name="UPA" limit="538" min="1" max="" step="1"/>
-NDA	<input type="number" name="NDA" limit="542"  min="1" max="" step="1"/>
-	
-INC	<input type="number" name="INC" limit="462"  min="1" max="" step="1"/>
-BJP	<input type="number" name="BJP" limit="427"  min="1" max="" step="1"/>
-AAP	<input type="number" name="AAP" limit=""  min="1" max="" step="1"/>
-TMC	<input type="number" name="TMC" limit=""  min="1" max="" step="1"/>
-DMK	<input type="number" name="DMK" limit=""  min="1" max="" step="1"/>
-AIADMK	<input type="number" name="AIADMK" limit=""  min="1" max="" step="1"/>
-SP	<input type="number" name="SP" limit=""  min="1" max="" step="1"/>
-BSP	<input type="number" name="BSP" limit=""  min="1" max="" step="1"/>
-JD	<input type="number" name="JD(U)" limit=""  min="1" max="" step="1"/>
-RJD	<input type="number" name="RJD" limit=""  min="1" max="" step="1"/>
-CPI	<input type="number" name="CPI(M)" limit=""  min="1" max="" step="1"/>
-BJD	<input type="number" name="BJD" limit=""  min="1" max="" step="1"/>
-SS	<input type="number" name="SS" limit="" min="1" max="" step="1"/>
-MNS	<input type="number" name="MNS"limit="7"  min="1" max="" step="1"/>
-NCP	<input type="number" name="NCP" limit=""  min="1" max="" step="1"/>
-Others	<input type="number" name="Others" limit=""  min="1" max="" step="1"/>
+	<label for="UPA">UPA</label>	<input type="number" name="UPA" limit="538" min="0" max="538" step="1"/>
+	<label for="NDA">NDA</label>	<input type="number" name="NDA" limit="542"  min="0" max="542" step="1"/>
+	<br />
+	<label for="INC">INC</label>	<input type="number" name="INC" limit="462"  min="0" max="462" step="1"/>
+	<label for="BJP">BJP</label>	<input type="number" name="BJP" limit="427"  min="0" max="427" step="1"/>
+	<label for="AAP">AAP</label>	<input type="number" name="AAP" limit=""  min="0" max="" step="1"/>
+	<label for="TMC">TMC</label>	<input type="number" name="TMC" limit=""  min="0" max="" step="1"/>
+	<label for="DMK">DMK</label>	<input type="number" name="DMK" limit=""  min="0" max="" step="1"/>
+	<label for="AIADMK">AIADMK</label>	<input type="number" name="AIADMK" limit=""  min="0" max="" step="1"/>
+	<label for="SP">SP</label>	<input type="number" name="SP" limit=""  min="0" max="" step="1"/>
+	<label for="BSP">BSP</label>	<input type="number" name="BSP" limit=""  min="0" max="" step="1"/>
+	<label for="JD">JD</label>	<input type="number" name="JD(U)" limit=""  min="0" max="" step="1"/>
+	<label for="RJD">RJD</label>	<input type="number" name="RJD" limit=""  min="0" max="" step="1"/>
+	<label for="CPI">CPI</label>	<input type="number" name="CPI(M)" limit=""  min="0" max="" step="1"/>
+	<label for="BJD">BJD</label>	<input type="number" name="BJD" limit=""  min="0" max="" step="1"/>
+	<label for="SS">SS</label>	<input type="number" name="SS" limit="" min="0" max="" step="1"/>
+	<label for="MNS">MNS</label>	<input type="number" name="MNS"limit="7"  min="0" max="" step="1"/>
+	<label for="NCP">NCP</label>	<input type="number" name="NCP" limit=""  min="0" max="" step="1"/>
+	<label for="Others">Others</label>	<input type="number" name="Others" limit=""  min="0" max="" step="1"/>
+	<div class="ui-content" id="total">Total: 0</div>
 	<input type="submit" value="Submit"/>
 	</form>
 {% endblock %}
