@@ -52,6 +52,7 @@ $(document).on('pageinit', function() {
 	$("#const_search").keyup( function() {
 		var t = $(this).val();
 		t = t.toLowerCase();
+		t = t.trim();
 		console.log(t.length);
 		if (t.length > 0) { 
 			$(".ui-li-divider").hide(); 
