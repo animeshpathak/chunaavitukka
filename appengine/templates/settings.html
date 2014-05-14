@@ -5,6 +5,7 @@
 {% endblock%}
 
 {% block main_content %}
+<a href="/constituencies/" class='ui-btn' data-transition="slide">Most Important 105</a> <a href="/top20/" class='ui-btn' data-transition="slide">Top 20</a>
 	<div class="toast">{%if success %}Display name changed successfully{%else%} {{error_message}}{%endif %}</div>
 	<form action="/s/" method="POST" data-ajax="false">
 		Display Name: <input name="display_name" value="{{ ct_user.display_name }}"/><br/>

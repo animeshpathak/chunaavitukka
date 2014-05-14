@@ -142,6 +142,7 @@ class TopConsHandler(webapp2.RequestHandler):
         cons_list = []
         toplist = [
 ('ajmer','Ajmer','Rajasthan'),
+('amethi','Amethi','Uttar Pradesh'),
 ('amritsar','Amritsar','Punjab'),
 ('bangalore-s','Bangalore (South)','Karnataka'),
 ('baramati','Baramati','Maharashtra'),
