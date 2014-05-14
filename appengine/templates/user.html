@@ -12,7 +12,7 @@
 	<h3>Predictions</h3>
 	{% for prediction in predictions %}
 	<div class="prediction">
-	For constituency <a href="/c/{{prediction.cons.slug}}/" data-transition="slide"  data-ajax="false>{{prediction.cons.name}}</a> : {{prediction.candidate.name}} of {{prediction.candidate.party}}{% if prediction.candidate.coalition %}/{{prediction.candidate.coalition}}{% endif %}
+	For constituency <a href="/c/{{prediction.cons.slug}}/" data-transition="slide" data-ajax="false">{{prediction.cons.name}}</a> : {{prediction.candidate.name}} of {{prediction.candidate.party}}{% if prediction.candidate.coalition %}/{{prediction.candidate.coalition}}{% endif %}
 	 </div>
     {% endfor %}
 	{%if ct_user != other_user %}<div id="toast" class="ui-content" style='display:none; background:#eeeeee; text-align:center; font-weight:bold; color:red; '></div>
