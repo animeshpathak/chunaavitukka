@@ -403,10 +403,34 @@ class OverallTallyHandler(webapp2.RequestHandler):
         (ct_user, url, url_linktext) = user_setup(self)
         if not ct_user:
             return webapp2.redirect(url)
+        
+        conslist = [
+ ('UPA', 'UPA', 538, 'coalition'),
+('NDA', 'NDA', 542, 'coalition'),
+('INC',	'INC',	464, 'party'),
+('BJP',	'BJP',	428, 'party'),
+('AAP',	'AAP',	432, 'party'),
+('TMC',	'AITC', 131, 'party'),
+('DMK',	'DMK',	35, 'party'),
+('AIADMK', 'AIADMK',	40, 'party'),
+('SP',	'SP',	197, 'party'),
+('BSP',	'BSP',	503, 'party'),
+('JD',	'JDU',	93, 'party'),
+('RJD',	'RJD',	29, 'party'),
+('CPI',	'CPI',	68, 'party'),
+('BJD',	'BJD',	21, 'party'),
+('SS',	'SS',	0, 'party'),
+('MNS',	'MNS',	10, 'party'),
+('NCP',	'NCP',	36, 'party'),
+('Others',	'Others',	543, 'party'),
+]
+        consinfo = [{'key': key, 'title': title, 'max':max, 'teamtype': teamtype} for (key, title, max, teamtype) in conslist]
+            
         template_values = {
             'ct_user': ct_user,
             'url': url,
             'url_linktext': url_linktext,
+            'conslist': consinfo,
         }
         self.response.headers['Content-Type'] = 'text/html'
         template = JINJA_ENVIRONMENT.get_template('templates/overalltally.html')

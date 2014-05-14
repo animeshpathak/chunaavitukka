@@ -5,28 +5,13 @@
 {% endblock%}
 
 {% block main_content %}
-	You are: {{ ct_user.display_name }}
+<a href="/constituencies/" class='ui-btn ui-corner-all ui-shadow' data-transition="slide">Most Important 105</a> 
+<a href="/top20/" class='ui-btn ui-corner-all ui-shadow' data-transition="slide">Top 20</a>
 	<form action="/t/" method="POST" id="overall">
-	<!-- the first two are coalitions -->
-	<label for="UPA">UPA</label>	<input type="number" name="UPA" limit="538" min="0" max="538" step="1"/>
-	<label for="NDA">NDA</label>	<input type="number" name="NDA" limit="542"  min="0" max="542" step="1"/>
 	<br />
-	<label for="INC">INC</label>	<input type="number" name="INC" limit="462"  min="0" max="462" step="1"/>
-	<label for="BJP">BJP</label>	<input type="number" name="BJP" limit="427"  min="0" max="427" step="1"/>
-	<label for="AAP">AAP</label>	<input type="number" name="AAP" limit=""  min="0" max="" step="1"/>
-	<label for="TMC">TMC</label>	<input type="number" name="TMC" limit=""  min="0" max="" step="1"/>
-	<label for="DMK">DMK</label>	<input type="number" name="DMK" limit=""  min="0" max="" step="1"/>
-	<label for="AIADMK">AIADMK</label>	<input type="number" name="AIADMK" limit=""  min="0" max="" step="1"/>
-	<label for="SP">SP</label>	<input type="number" name="SP" limit=""  min="0" max="" step="1"/>
-	<label for="BSP">BSP</label>	<input type="number" name="BSP" limit=""  min="0" max="" step="1"/>
-	<label for="JD">JD</label>	<input type="number" name="JD(U)" limit=""  min="0" max="" step="1"/>
-	<label for="RJD">RJD</label>	<input type="number" name="RJD" limit=""  min="0" max="" step="1"/>
-	<label for="CPI">CPI</label>	<input type="number" name="CPI(M)" limit=""  min="0" max="" step="1"/>
-	<label for="BJD">BJD</label>	<input type="number" name="BJD" limit=""  min="0" max="" step="1"/>
-	<label for="SS">SS</label>	<input type="number" name="SS" limit="" min="0" max="" step="1"/>
-	<label for="MNS">MNS</label>	<input type="number" name="MNS"limit="7"  min="0" max="" step="1"/>
-	<label for="NCP">NCP</label>	<input type="number" name="NCP" limit=""  min="0" max="" step="1"/>
-	<label for="Others">Others</label>	<input type="number" name="Others" limit=""  min="0" max="" step="1"/>
+	{% for cons in conslist %}
+	<label for="{{cons.key}}">{{cons.title}}</label>	<input type="number" name="{{cons.key}}" limit="{{cons.max}}"  min="0" max="{{cons.max}}" step="1" team-type="{{cons.teamtype}}"/>
+	{% endfor %}
 	<div class="ui-content" id="total">Total: 0</div>
 	<input type="submit" value="Submit"/>
 	</form>
