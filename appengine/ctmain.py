@@ -336,7 +336,8 @@ class UserFollowHandler(webapp2.RequestHandler):
             ct_user.follows.append(other_user_key)
             ct_user.put()
             #TODO check other candidate key in the list of candidates for this cons!
-            status = 200 
+            status = 200
+            
                 
         self.response.headers['Content-Type'] = 'application/json'   
         self.response.status = status
@@ -407,6 +408,11 @@ class OverallTallyHandler(webapp2.RequestHandler):
         (ct_user, url, url_linktext) = user_setup(self)
         if not ct_user:
             return webapp2.redirect(url)
+            
+        if CTOverallTukka.get_overall_tukka(ct_user):
+            #already make a tukka
+            return webapp2.redirect('/u/' + str(ct_user.key.id())+'/')
+
         conslist = [
  ('UPA', 'UPA', 538, 'coalition'),
 ('NDA', 'NDA', 542, 'coalition'),
@@ -455,27 +461,29 @@ class OverallTallyHandler(webapp2.RequestHandler):
         else:
             # insert, send 200 
             overall_tukka = CTOverallTukka(user=ct_user.key,
-                upa = int(self.request.get("upa")),
-                nda = int(self.request.get("nda")),
-                inc = int(self.request.get("inc")),
-                bjp = int(self.request.get("bjp")),
-                aap = int(self.request.get("aap")),
-                tmc = int(self.request.get("tmc")),
-                dmk = int(self.request.get("dmk")),
-                aiadmk = int(self.request.get("aiadmk")),
-                sp = int(self.request.get("sp")),
-                bsp = int(self.request.get("bsp")),
-                jd = int(self.request.get("jd")),
-                rjd = int(self.request.get("rjd")),
-                cpi = int(self.request.get("cpi")),
-                bjd = int(self.request.get("bjd")),
-                ss = int(self.request.get("ss")),
-                mns = int(self.request.get("mns")),
-                ncp = int(self.request.get("ncp")),
-                others = int(self.request.get("others"))
+                upa = int(self.request.get("UPA")),
+                nda = int(self.request.get("NDA")),
+                inc = int(self.request.get("INC")),
+                bjp = int(self.request.get("BJP")),
+                aap = int(self.request.get("AAP")),
+                tmc = int(self.request.get("TMC")),
+                dmk = int(self.request.get("DMK")),
+                aiadmk = int(self.request.get("AIADMK")),
+                sp = int(self.request.get("SP")),
+                bsp = int(self.request.get("BSP")),
+                jd = int(self.request.get("JD")),
+                rjd = int(self.request.get("RJD")),
+                cpi = int(self.request.get("CPI")),
+                bjd = int(self.request.get("BJD")),
+                ss = int(self.request.get("SS")),
+                mns = int(self.request.get("MNS")),
+                ncp = int(self.request.get("NCP")),
+                others = int(self.request.get("Others"))
             )
             overall_tukka.put()
             status = 200 
+            return webapp2.redirect('/u/' + str(ct_user.key.id())+'/')
+
                 
         self.response.headers['Content-Type'] = 'application/json'   
         self.response.status = status
