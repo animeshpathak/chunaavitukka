@@ -13,6 +13,7 @@ from models import CTUser
 from models import CTCandidate 
 from models import CTConstituency
 from models import CTTukka 
+from models import CTOverallTukka 
 
 import jinja2
 import webapp2
@@ -403,26 +404,25 @@ class OverallTallyHandler(webapp2.RequestHandler):
         (ct_user, url, url_linktext) = user_setup(self)
         if not ct_user:
             return webapp2.redirect(url)
-        
         conslist = [
- ('UPA', 'UPA', 538, 'coalition'),
-('NDA', 'NDA', 542, 'coalition'),
-('INC',	'INC',	464, 'party'),
-('BJP',	'BJP',	428, 'party'),
-('AAP',	'AAP',	432, 'party'),
-('TMC',	'AITC', 131, 'party'),
-('DMK',	'DMK',	35, 'party'),
-('AIADMK', 'AIADMK',	40, 'party'),
-('SP',	'SP',	197, 'party'),
-('BSP',	'BSP',	503, 'party'),
-('JD',	'JDU',	93, 'party'),
-('RJD',	'RJD',	29, 'party'),
-('CPI',	'CPI',	68, 'party'),
-('BJD',	'BJD',	21, 'party'),
-('SS',	'SS',	0, 'party'),
-('MNS',	'MNS',	10, 'party'),
-('NCP',	'NCP',	36, 'party'),
-('Others',	'Others',	543, 'party'),
+('upa', 'UPA', 538, 'coalition'),
+('nda', 'NDA', 542, 'coalition'),
+('inc',	'INC',	464, 'party'),
+('bjp',	'BJP',	428, 'party'),
+('aap',	'AAP',	432, 'party'),
+('tmc',	'AITC', 131, 'party'),
+('dmk',	'DMK',	35, 'party'),
+('aiadmk', 'AIADMK',	40, 'party'),
+('sp',	'SP',	197, 'party'),
+('bsp',	'BSP',	503, 'party'),
+('jd',	'JDU',	93, 'party'),
+('rjd',	'RJD',	29, 'party'),
+('cpi',	'CPI',	68, 'party'),
+('bjd',	'BJD',	21, 'party'),
+('ss',	'SS',	0, 'party'),
+('mns',	'MNS',	10, 'party'),
+('ncp',	'NCP',	36, 'party'),
+('others',	'Others',	543, 'party'),
 ]
         consinfo = [{'key': key, 'title': title, 'max':max, 'teamtype': teamtype} for (key, title, max, teamtype) in conslist]
             
@@ -435,6 +435,49 @@ class OverallTallyHandler(webapp2.RequestHandler):
         self.response.headers['Content-Type'] = 'text/html'
         template = JINJA_ENVIRONMENT.get_template('templates/overalltally.html')
         self.response.write(template.render(template_values))
+    def post(self):
+        (ct_user, url, url_linktext) = user_setup(self)
+        if not ct_user:
+            return webapp2.redirect(url)
+
+        status = 500 #defaults to error
+        
+        tukka_response = {'message':''} # empty response object
+
+        #TODO exception handling
+        if CTOverallTukka.get_overall_tukka(ct_user):
+            # if user has already voted for this, say he has already voted. Send 409
+            status = 409
+            tukka_response['message'] = "You have already made an overall prediction."
+        else:
+            # insert, send 200 
+            overall_tukka = CTOverallTukka(user=ct_user.key,
+                upa = int(self.request.get("upa")),
+                nda = int(self.request.get("nda")),
+                inc = int(self.request.get("inc")),
+                bjp = int(self.request.get("bjp")),
+                aap = int(self.request.get("aap")),
+                tmc = int(self.request.get("tmc")),
+                dmk = int(self.request.get("dmk")),
+                aiadmk = int(self.request.get("aiadmk")),
+                sp = int(self.request.get("sp")),
+                bsp = int(self.request.get("bsp")),
+                jd = int(self.request.get("jd")),
+                rjd = int(self.request.get("rjd")),
+                cpi = int(self.request.get("cpi")),
+                bjd = int(self.request.get("bjd")),
+                ss = int(self.request.get("ss")),
+                mns = int(self.request.get("mns")),
+                ncp = int(self.request.get("ncp")),
+                others = int(self.request.get("others"))
+            )
+            overall_tukka.put()
+            status = 200 
+                
+        self.response.headers['Content-Type'] = 'application/json'   
+        self.response.status = status
+        json.dump(tukka_response,self.response.out)
+    
 
 class TempAddHandler(webapp2.RequestHandler):
     '''Temp adding bit'''

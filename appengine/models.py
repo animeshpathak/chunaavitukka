@@ -99,3 +99,58 @@ class CTTukka(ndb.Model):
             return None
         else:
             return tukkalist[0]
+
+# overall tukka
+# - CTUser ref
+class CTOverallTukka(ndb.Model):
+    '''Models a prediction for overall scores'''
+    user = ndb.KeyProperty(kind=CTUser,repeated=False)
+    upa = ndb.IntegerProperty(repeated=False)
+    nda = ndb.IntegerProperty(repeated=False)
+    inc = ndb.IntegerProperty(repeated=False)
+    bjp = ndb.IntegerProperty(repeated=False)
+    aap = ndb.IntegerProperty(repeated=False)
+    tmc = ndb.IntegerProperty(repeated=False)
+    dmk = ndb.IntegerProperty(repeated=False)
+    aiadmk = ndb.IntegerProperty(repeated=False)
+    sp = ndb.IntegerProperty(repeated=False)
+    bsp = ndb.IntegerProperty(repeated=False)
+    jd = ndb.IntegerProperty(repeated=False)
+    rjd = ndb.IntegerProperty(repeated=False)
+    cpi = ndb.IntegerProperty(repeated=False)
+    bjd = ndb.IntegerProperty(repeated=False)
+    ss = ndb.IntegerProperty(repeated=False)
+    mns = ndb.IntegerProperty(repeated=False)
+    ncp = ndb.IntegerProperty(repeated=False)
+    others = ndb.IntegerProperty(repeated=False)
+    
+    @classmethod
+    def get_overall_tukka(cls,ct_user):
+        '''Returns the tukka if a prediction exists by this user, or None'''
+        if not ct_user:
+            return None
+        qry = CTOverallTukka.query(CTOverallTukka.user == ct_user.key)
+        tukkalist = qry.fetch(1)
+        if not tukkalist:
+            return None
+        else:
+            return tukkalist[0]
+    
+    
+    nda = ndb.IntegerProperty(repeated=False)
+    created_at = ndb.DateTimeProperty(auto_now_add=True)
+    updated_at = ndb.DateTimeProperty(auto_now=True)
+
+    @classmethod
+    def get_tukka(cls,ct_user,ct_cons):
+        '''Returns the tukka if a prediction exists for this constituency by this user'''
+        if not ct_user:
+            return None
+        if not ct_cons:
+            return None
+        qry = CTTukka.query(CTTukka.user == ct_user.key, CTTukka.constituency == ct_cons.key)
+        tukkalist = qry.fetch(1)
+        if not tukkalist:
+            return None
+        else:
+            return tukkalist[0]
