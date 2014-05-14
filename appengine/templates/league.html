@@ -1,0 +1,153 @@
+{% extends "templates/base.html" %}
+{% block title %}Chunaavi Tukka League: {{league_name}}{% endblock %}
+{% block fb_title %}Chunaavi Tukka League: {{league_name}}{% endblock%}
+{% block twitter_title%}Chunaavi Tukka League: {{league_name}}{%endblock%}
+{%block gtitle%}Chunaavi Tukka League: {{league_name}}{%endblock%}
+{% block page_header%}
+    <h1>Chunaavi Tukka League: {{league_name}}</h1>
+{% endblock%}
+
+{% block main_content %}
+<a href="/constituencies/" class='ui-btn third' data-transition="slide">Hot 105</a> <a href="/top20/" class='ui-btn third' data-transition="slide">Top 20</a> <a href="/overall-tally/" class="ui-btn third last" data-transition="slide" data-ajax="false">The Lok Sabha</a>
+
+<h1>{{league_name}}</h1>
+<h2>by {{league_creator.display_name}}</h2>
+	<div>{% if not ct_user %}<a href="{{url}}" data-transition="slide" class="ui-btn" data-ajax="false">Login to Join</a>{% elif ct_user not in league_members %}<form action="/l/{{league_id}}/" method="POST" data-ajax="false"><input type="hidden" name="league_id" value="{{league_id}}"><input type="submit" value="Follow"/></form>{% endif 	%}</div>
+
+	<h3>Members</h3>
+	<ul>
+	{% for other in league_members %}
+	<li><a href="/u/{{other.key.id()}}/" data-transition="slide">{{other.display_name}}</a></li>
+	{% endfor %}
+	</ul>
+	<hr/>
+	<h3>Overall Predictions</h3>
+		<h3>Overall Predictions</h3>
+	<div id="overall_predictions">
+	<table cellborder="1px">
+		<tr><td></td>
+			{% for prediction in predictions %}
+				<td>{{ prediction.user.display_name }}</td>
+			{% endfor %}
+		</tr>
+		<tr><td>UPA</td>
+			{% for prediction in predictions %}
+				<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.upa}}{% else %} - {% endif %}</td>
+			{% endfor %}
+		</tr>
+		<tr><td>NDA</td>
+		{% for prediction in predictions %}
+			<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.nda}}{% else %} - {% endif %}</td>
+			{% endfor %}
+		</tr>
+		<tr><td>INC</td>
+		{% for prediction in predictions %}
+			<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.inc}}{% else %} - {% endif %}</td>
+		{% endfor %}
+		</tr>
+		<tr><td>BJP</td>
+		{% for prediction in predictions %}
+			<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.bjp}}{% else %} - {% endif %}</td>
+		{% endfor %}
+		</tr>
+		<tr><td>AAP</td>
+		{% for prediction in predictions %}
+			<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.aap}}{% else %} - {% endif %}</td>
+		{% endfor %}
+		</tr>
+		<tr><td>TMC</td>
+		{% for prediction in predictions %}
+			<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.tmc}}{% else %} - {% endif %}</td>
+		{% endfor %}
+		</tr>
+		<tr><td>DMK</td>
+		{% for prediction in predictions %}
+			<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.dmk}}{% else %} - {% endif %}</td>
+		{% endfor %}
+		</tr>
+		<tr><td>AIADMK</td>
+		{% for prediction in predictions %}
+			<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.aiadmk}}{% else %} - {% endif %}</td>
+		{% endfor %}
+		</tr>
+		<tr><td>SP</td>
+		{% for prediction in predictions %}
+			<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.sp}}{% else %} - {% endif %}</td>
+		{% endfor %}
+		</tr>
+		<tr><td>BSP</td>
+		{% for prediction in predictions %}
+			<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.bsp}}{% else %} - {% endif %}</td>
+		{% endfor %}
+		</tr>
+		<tr><td>JD</td>
+		{% for prediction in predictions %}
+			<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.jd}}{% else %} - {% endif %}</td>
+		{% endfor %}
+		</tr>
+		<tr><td>RJD</td>
+		{% for prediction in predictions %}
+			<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.rjd}}{% else %} - {% endif %}</td>
+		{% endfor %}
+		</tr>
+		<tr><td>CPI</td>
+		{% for prediction in predictions %}
+			<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.cpi}}{% else %} - {% endif %}</td>
+		{% endfor %}
+		</tr>
+		<tr><td>BJD</td>
+		{% for prediction in predictions %}
+			<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.bjd}}{% else %} - {% endif %}</td>
+		{% endfor %}
+		</tr>
+		<tr><td>SS</td>
+		{% for prediction in predictions %}
+			<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.ss}}{% else %} - {% endif %}</td>
+		{% endfor %}
+		</tr>
+		<tr><td>MNS</td>
+		{% for prediction in predictions %}
+			<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.mns}}{% else %} - {% endif %}</td>
+		{% endfor %}
+		</tr>
+		<tr><td>NCP</td>
+		{% for prediction in predictions %}
+			<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.ncp}}{% else %} - {% endif %}</td>
+		{% endfor %}
+		</tr>
+		<tr><td>Others</td>
+		{% for prediction in predictions %}
+			<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.others}}{% else %} - {% endif %}</td>
+		{% endfor %}
+		</tr>
+	</table>
+	</div>
+
+	<hr/>
+	
+	<div id="share_tukkas">
+	<h3>Invite your friends to this league by sending them the (secret) URL of this page, or using the buttons below.  Let's see whose tukkas are better!</h3>
+	(Please reload page if you do not see the buttons)<br/>
+	<!-- put where you want the button to appear -->
+	<div class="fb-share-button" data-href="http://www.chunaavitukka.com/l/{{league_id}}/" data-type="button"></div> 
+	<br/><br/><br/>
+	<a  data-ajax="false" href="https://twitter.com/share/?via=chunaavitukka&url=http://www.chunaavitukka.com/l/{{league_id}}/" class="twitter-share-button" data-lang="en">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+	<br/><br/><br/>
+
+<!-- Place this tag where you want the share button to render. -->
+<div class="g-plus" data-action="share" data-annotation="none" data-height="24" data-href="http://www.chunaavitukka.com/l/{{league_id}}/"></div>
+
+<!-- Place this render call where appropriate. -->
+<script type="text/javascript">gapi.plus.go();</script>
+
+	</div>
+{% endblock %}
+
+
+
+
+
+
+
+
