@@ -5,17 +5,18 @@
 {% endblock%}
 
 {% block main_content %}
+<a href="/constituencies/" class='ui-btn' data-transition="slide">Most Imp 105</a> <a href="/top20/" class='ui-btn' data-transition="slide">Top 20</a>
 		<center><img src="/images/logo@0.5x.png" style='margin:0 auto; text-align:center'/>
 	    <h1>Chunaavi Tukka</h1>
 		<h2>...putting the guesswork back into politics</h2></center>
-		<p>Who doesn’t like attempting a good old </emph>Tukka</emph>?</p>
-		<p><emph>Chunaavi Tukka</emph> gives you that chance – to place your guesses, share them with your friends, and to have some fun, democracy style.</p>
+		<p>Who doesn’t like attempting a good old </em>Tukka</em>?</p>
+		<p><em>Chunaavi Tukka</em> gives you that chance – to place your guesses, share them with your friends, and to have some fun, democracy style.</p>
 		<p>Here you can:</p>
 		<ul>
-		<li>Put <emph>tukkas</emph> for <a href="/constituencies/" data-transition="slide">most important 105 constituencies</a> nationally.</li>
-		<li>Put <emph>tukkas</emph> for <a href="/top20/" data-transition="slide">Top 20</a>, most bitterly fought constituencies.</li>
-		<li>Put <emph>tukkas</emph> for the <strong>final national tallies</strong> of all the major political parties. [<strong>coming very soon!</strong>]</li>
-		<li>SHARE {% if ct_user %}<a href="/u/{{ct_user.key.id()}}/" data-transition="slide">your guesses/predictions/<emph>tukkas</emph></a>{% else %}your guesses/predictions/<emph>tukkas</emph>{% endif %} with your friends.</li>
+		<li>Put <em>tukkas</em> for <a href="/constituencies/" data-transition="slide">most important 105 constituencies</a> nationally.</li>
+		<li>Put <em>tukkas</em> for <a href="/top20/" data-transition="slide">Top 20</a>, most bitterly fought constituencies.</li>
+		<li>Put <em>tukkas</em> for the <strong>final national tallies</strong> of all the major political parties. [<strong>coming very soon!</strong>]</li>
+		<li>SHARE {% if ct_user %}<a href="/u/{{ct_user.key.id()}}/" data-transition="slide">your guesses/predictions/<em>tukkas</em></a>{% else %}your guesses/predictions/<em>tukkas</em>{% endif %} with your friends.</li>
 		<li>See the average of all the predictions cast till now.</li>
 		</ul>
 		<p>Just one word of caution – you can place your guesses only once. Just like polling!</p>
