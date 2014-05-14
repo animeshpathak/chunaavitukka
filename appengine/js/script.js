@@ -31,6 +31,7 @@ $(document).on('pageinit', function() {
 			//Show the new total
 			$("#score_" + candidate_id).html(value);
 			console.log('updated');
+			$("#selected_" + candidate_id).show();
 			$("#thanks").show();
 
 		}).complete( function(complete_object) {

@@ -12,10 +12,9 @@
 
 <h2>{{contest_info.name}}, {{contest_info.state}}</h2>
 	 	<div id="toast" class="ui-content" style='display:none; background:#eeeeee; text-align:center; font-weight:bold; color:red; '></div>
-	 	<div id="thanks" class="ui-content" style='display:none; background:#fffff0; text-align:center; font-weight:bold; '>Thanks for making a prediction!</div>
         {% for prediction in contest_info.predictions %}
 	<div class="prediction">
-	 {{prediction.candidate.name}} of {{prediction.candidate.party}}{% if prediction.candidate.coalition %}/{{prediction.candidate.coalition}}{% endif %} : <span id="score_{{prediction.candidate.id}}">{{prediction.support}}</span>	 {%if contest_info.selected_candidate%}{%if contest_info.selected_candidate.key.id() == prediction.candidate.id%} <span class="selected">You Selected</span> {%endif%}{%endif%}
+	 {{prediction.candidate.name}} of {{prediction.candidate.party}}{% if prediction.candidate.coalition %}/{{prediction.candidate.coalition}}{% endif %} : <span id="score_{{prediction.candidate.id}}">{{prediction.support}}</span>	  <span class="selected" id="selected_{{prediction.candidate.id}}" {%if contest_info.selected_candidate%}{%if contest_info.selected_candidate.key.id() == prediction.candidate.id%}style='display:inline'{% else %}style='display:none'{%endif%}{%else%}style='display:none'{%endif%}>You Selected</span> 
 
 	 
 	 {%if not contest_info.selected_candidate%}
@@ -28,6 +27,10 @@
 	 </div>
 
     {% endfor %}
+	 	<div id="thanks" class="ui-content" style='display:none; background:#fffff0; text-align:center; font-weight:bold; '>Thanks for making a prediction! How about making some more tukkas?<br/>
+		<a href="/top20/" class='ui-btn' data-transition="slide">Top 20</a>
+		<a href="/constituencies/" class='ui-btn' data-transition="slide">Big 105</a> 
+		</div>
 		 	<div id="share_tukkas">
 	<h3>Share this election's page with friends, let's see how good their tukkas are!</h3>
 	(Please reload page if you do not see the buttons)<br/>
