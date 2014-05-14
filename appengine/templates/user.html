@@ -82,6 +82,15 @@
     {% endfor %}
 	{%if ct_user != other_user %}<div id="toast" class="ui-content" style='display:none; background:#eeeeee; text-align:center; font-weight:bold; color:red; '></div>
 	<div>{% if can_follow %}{% if ct_user %}<input type="button" id="user_follow_button" data-other-id="{{other_user.key.id()}}" value="Follow"/>{%else%}<a href="{{url}}" data-transition="slide" class="ui-btn" data-ajax="false">Login to Follow</a>{%endif%}{%else %} Already Following{%endif%}</div>{%else%}
+
+	<div><h3>My Leagues</h3>
+	<ul>
+	{% for league in my_leagues %}
+		<li><a href="/l/{{league.key.id()}}/" data-transition="slide">{{league.name}}</a></li>
+	{% endfor %}
+	</ul>
+	</div>
+
 	<div><h3>Following</h3>
 	<ul>
 	{% for other in follows %}

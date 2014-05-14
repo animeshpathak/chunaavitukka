@@ -18,6 +18,7 @@ class CTUser(ndb.Model):
   created_at = ndb.DateTimeProperty(auto_now_add=True)
   updated_at = ndb.DateTimeProperty(auto_now=True)
   follows = ndb.KeyProperty(kind='CTUser',repeated=True)
+  leagues = ndb.KeyProperty(kind='CTLeague',repeated=True)
   
   #TODO make this transactional
   @classmethod
@@ -140,17 +141,17 @@ class CTOverallTukka(ndb.Model):
     nda = ndb.IntegerProperty(repeated=False)
     created_at = ndb.DateTimeProperty(auto_now_add=True)
     updated_at = ndb.DateTimeProperty(auto_now=True)
-
-    @classmethod
-    def get_tukka(cls,ct_user,ct_cons):
-        '''Returns the tukka if a prediction exists for this constituency by this user'''
-        if not ct_user:
-            return None
-        if not ct_cons:
-            return None
-        qry = CTTukka.query(CTTukka.user == ct_user.key, CTTukka.constituency == ct_cons.key)
-        tukkalist = qry.fetch(1)
-        if not tukkalist:
-            return None
-        else:
-            return tukkalist[0]
+            
+            
+# League
+#  - creator
+#  - name (OK with repetitions)
+#  - create and update dates
+#  - members
+class CTLeague(ndb.Model):
+    '''Models a constituency, always use the slug as the key'''
+    name = ndb.StringProperty(required=True)
+    creator = ndb.KeyProperty(kind=CTUser,repeated=False)
+    members = ndb.KeyProperty(kind=CTUser,repeated=True)
+    created_at = ndb.DateTimeProperty(auto_now_add=True)
+    updated_at = ndb.DateTimeProperty(auto_now=True)

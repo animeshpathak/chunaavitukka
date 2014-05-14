@@ -14,6 +14,7 @@ from models import CTCandidate
 from models import CTConstituency
 from models import CTTukka 
 from models import CTOverallTukka 
+from models import CTLeague 
 
 import jinja2
 import webapp2
@@ -209,6 +210,7 @@ class UserPageHandler(webapp2.RequestHandler):
         if user:
             predictions = get_predictions(user)
             overall_predictions = CTOverallTukka.get_overall_tukka(user)
+            my_leagues = None #init to none
 
             (ct_user, url, url_linktext) = user_setup(self)
             follows = [] #list of people whom this guy follows, but only if it is me!
@@ -224,6 +226,7 @@ class UserPageHandler(webapp2.RequestHandler):
                 follow_set = set(id_list)
                 can_follow = (userkey != ct_user.key) and not (userkey.id() in follow_set)
                 if user == ct_user:
+                    my_leagues = [key.get() for key in ct_user.leagues]
                     for (other_id) in follow_set:
                         #TODO properly cast this object
                         other = ndb.Key(CTUser, int(other_id)).get()
@@ -235,13 +238,14 @@ class UserPageHandler(webapp2.RequestHandler):
             template_values = {
                 'ct_user': ct_user,
                 'other_user': user,
+                'my_leagues': my_leagues,
                 'follows': follows,
                 'url': url,
                 'url_linktext': url_linktext,
                 'predictions': predictions,
                 'overall_predictions': overall_predictions,
                 'can_follow': can_follow,
-                'my_overall_predictions': my_overall_predictions
+                'my_overall_predictions': my_overall_predictions,
             }
 
             if (format == 'json'):
@@ -488,12 +492,97 @@ class OverallTallyHandler(webapp2.RequestHandler):
             overall_tukka.put()
             status = 200 
             return webapp2.redirect('/u/' + str(ct_user.key.id())+'/')
-
                 
         self.response.headers['Content-Type'] = 'application/json'   
         self.response.status = status
         json.dump(tukka_response,self.response.out)
     
+class NewLeagueFormHandler(webapp2.RequestHandler):
+    '''Handles creation of a new league'''
+    def get(self):
+        (ct_user, url, url_linktext) = user_setup(self)
+        if not ct_user:
+            return webapp2.redirect(url)
+            
+        template_values = {
+            'ct_user': ct_user,
+            'url': url,
+            'url_linktext': url_linktext,
+        }
+        self.response.headers['Content-Type'] = 'text/html'
+        template = JINJA_ENVIRONMENT.get_template('templates/newleague.html')
+        self.response.write(template.render(template_values))
+
+    def post(self):
+        ''' Create a new league with league_name as name'''
+        (ct_user, url, url_linktext) = user_setup(self)
+        if not ct_user:
+            self.response.status = 401 #unauthorized
+            return
+
+        league_name = self.request.get('league_name')
+        p = re.compile('^[a-zA-Z0-9#@_][a-zA-Z0-9#@_ ]*$') #chars,nums,and some others allowed, no spaces in beginning
+        if league_name != None and p.match(league_name):
+            league = CTLeague(creator = ct_user.key, name = league_name, members = [ct_user.key])
+            league.put()
+            ct_user.leagues.append(league.key)
+            ct_user.put()
+            #send to the league
+            return webapp2.redirect('/l/' + str(league.key.id()) + '/')
+        else:
+            self.response.status = 400 #unauthorized
+            self.response.write('Invalid league name "' + league_name + '". Please go back and try again, with only letters, numbers, spaces, @,#, and _. Note that the league name cannot begin with a space.')
+        
+class LeaguePageHandler(webapp2.RequestHandler):
+    def get(self,league_id):
+        (ct_user, url, url_linktext) = user_setup(self)
+        
+        league_key = ndb.Key(CTLeague, int(league_id))
+        league = league_key.get()
+        
+        if not league:
+            self.response.status = 404
+            return
+        
+        predictions = [] # {user:user;overall_pred:overall_pred}
+        
+        league_members = [key.get() for key in league.members]
+        
+        for user in league_members:
+            predictions.append({'user': user, 'overall_tukka': CTOverallTukka.get_overall_tukka(user)})
+        
+        template_values = {
+            'ct_user': ct_user,
+            'url': url,
+            'url_linktext': url_linktext,
+            'league_id': league_id,
+            'league_name': league.name,
+            'league_creator': league.creator.get(),
+            'league_members': league_members,
+            'predictions': predictions,
+        }
+        self.response.headers['Content-Type'] = 'text/html'
+        template = JINJA_ENVIRONMENT.get_template('templates/league.html')
+        self.response.write(template.render(template_values))
+    def post(self,league_id):
+        '''The currently logged in user wants to join this league'''
+        (ct_user, url, url_linktext) = user_setup(self)
+        if not ct_user:
+            self.response.status = 401 #unauthorized
+            return
+            
+        league_key = ndb.Key(CTLeague, int(league_id))
+        league = league_key.get()
+        if not league:
+            self.response.status = 404
+            return
+            
+        #TODO transaction?    
+        league.members.append(ct_user.key)
+        league.put()
+        ct_user.leagues.append(league_key)
+        ct_user.put()
+        return webapp2.redirect('/l/' + str(league.key.id()) + '/')
 
 class TempAddHandler(webapp2.RequestHandler):
     '''Temp adding bit'''
@@ -525,6 +614,8 @@ application = webapp2.WSGIApplication([
     webapp2.Route(r'/u/<user_id:\d+>/<contest_slug>/', handler=UserPredictionHandler, name='user_prediction'),
     webapp2.Route(r'/follow/', handler=UserFollowHandler, name='follow_user'),
     webapp2.Route(r'/overall-tally/', handler=OverallTallyHandler, name='overall-tally'),
+    webapp2.Route(r'/l/new/', handler=NewLeagueFormHandler, name='new_league_page'),
+    webapp2.Route(r'/l/<league_id:\d+>/', handler=LeaguePageHandler, name='league_page'),
     # -- this is admin only 
     #webapp2.Route(r'/adddata/', handler=TempAddHandler, name='temp_addition'),
 ], debug=True)
