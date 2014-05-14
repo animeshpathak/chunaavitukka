@@ -5,7 +5,7 @@
 {% endblock%}
 
 {% block main_content %}
-<a href="/constituencies/" class='ui-btn third' data-transition="slide">Hot 105</a> <a href="/top20/" class='ui-btn third' data-transition="slide">Top 20</a> <a href="/overall-tall/" class="ui-btn third last" data-transition="slide">The Lok Sabha</a>
+<a href="/constituencies/" class='ui-btn third' data-transition="slide">Hot 105</a> <a href="/top20/" class='ui-btn third' data-transition="slide">Top 20</a> <a href="/overall-tally/" class="ui-btn third last" data-transition="slide">The Lok Sabha</a>
 
 	<div class="toast">{%if success %}Display name changed successfully{%else%} {{error_message}}{%endif %}</div>
 	<form action="/s/" method="POST" data-ajax="false">
