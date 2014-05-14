@@ -4,12 +4,12 @@
 {% block twitter_title%}Chunaavi Tukka: predictions for {{contest_info.name}}{%endblock%}
 {%block gtitle%}Chunaavi Tukka: predictions for {{contest_info.name}}{%endblock%}
 {% block page_header%}
-        <h1>Chunaavi Tukka: predictions for {{contest_info.name}}, {{contest_info.state}}</h1>
+        <h1>Predictions</h1>
 {% endblock%}
 
 {% block main_content %}
 
-
+<h2>{{contest_info.name}}, {{contest_info.state}}</h2>
 	 	<div id="toast" class="ui-content" style='display:none; background:#eeeeee; text-align:center; font-weight:bold; color:red; '></div>
 	 	<div id="thanks" class="ui-content" style='display:none; background:#fffff0; text-align:center; font-weight:bold; '>Thanks for making a prediction!</div>
         {% for prediction in contest_info.predictions %}
