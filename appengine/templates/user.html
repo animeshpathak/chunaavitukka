@@ -12,7 +12,7 @@
 	<h3>Predictions</h3>
 	{% for prediction in predictions %}
 	<div class="prediction">
-	For constituency <a href="/c/{{prediction.cons.slug}}/" data-transition="slide">{{prediction.cons.name}}</a> : {{prediction.candidate.name}} of {{prediction.candidate.party}}{% if prediction.candidate.coalition %}/{{prediction.candidate.coalition}}{% endif %}
+	For constituency <a href="/c/{{prediction.cons.slug}}/" data-transition="slide"  data-ajax="false>{{prediction.cons.name}}</a> : {{prediction.candidate.name}} of {{prediction.candidate.party}}{% if prediction.candidate.coalition %}/{{prediction.candidate.coalition}}{% endif %}
 	 </div>
     {% endfor %}
 	{%if ct_user != other_user %}<div id="toast" class="ui-content" style='display:none; background:#eeeeee; text-align:center; font-weight:bold; color:red; '></div>
@@ -23,10 +23,10 @@
 	<li><a href="/u/{{other.id}}/" data-transition="slide">{{other.display_name}}</a></li>
 	{% endfor %}
 	</ul>
-	<!-- put where you want the button to appear -->
 	<div id="share_tukkas">
 	<h3>Share your prediction with friends, let them know how good you are with your tukkas!</h3>
 	(Please reload page if you do not see the buttons)<br/>
+	<!-- put where you want the button to appear -->
 	<div class="fb-share-button" data-href="http://www.chunaavitukka.com/u/{{ct_user.key.id()}}/" data-type="button"></div> 
 	<br/><br/><br/>
 	<a  data-ajax="false" href="https://twitter.com/share/?via=chunaavitukka&url=http://www.chunaavitukka.com/u/{{ct_user.key.id()}}/" class="twitter-share-button" data-lang="en">Tweet</a>
