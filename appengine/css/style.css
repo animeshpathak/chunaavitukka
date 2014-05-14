@@ -36,11 +36,12 @@
 	line-height: 53px;
 	clear: both;
 	margin-right: 30px;
-	min-width: 65px;
+	min-width: 95px;
 }
 
 #overall .ui-input-text {
-	float: left;
+	float: right;
+	width: 60%;
 }
 
 #overall .ui-input-btn {
