@@ -50,6 +50,7 @@ def get_predictions(ct_user):
     return predictions
 
 def get_constituency_info(ct_user, contest_slug):
+    '''check if ct_user is none!'''
     conskey = ndb.Key(CTConstituency, contest_slug)
     #TODO exception handling
     cons = conskey.get()
@@ -58,7 +59,10 @@ def get_constituency_info(ct_user, contest_slug):
     #initialize to None
     selected_candidate = None
     #this may be a tukka, or None
-    selected_candidate_key = CTTukka.get_tukka(ct_user,cons).candidate
+    if ct_user:
+        selected_candidate_key = CTTukka.get_tukka(ct_user,cons).candidate
+    else:
+        selected_candidate_key = None
 
     for candidate_key in cons.candidates:
         c = candidate_key.get()
