@@ -72,3 +72,9 @@
 .coalition {
 	background: #efefef !important;
 }
+
+.third {
+	width: 38%;
+	margin: 0;
+	display: inline-block;
+}
