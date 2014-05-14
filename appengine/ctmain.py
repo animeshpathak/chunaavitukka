@@ -517,7 +517,7 @@ application = webapp2.WSGIApplication([
     webapp2.Route(r'/', handler=HomeHandler, name='home'),
     webapp2.Route(r'/faq/', handler=FAQHandler, name='faq'),
     webapp2.Route(r'/constituencies/', handler=AllConsHandler, name='constituencies'),
-    webapp2.Route(r'/top20/', handler=TopConsHandler, name='constituencies'),
+    webapp2.Route(r'/top20/', handler=TopConsHandler, name='top20'),
     webapp2.Route(r'/c/<contest_slug>/', handler=ContestPageHandler, name='contest_page'),
     webapp2.Route(r'/s/', handler=SettingsPageHandler, name='settings_page'),
     webapp2.Route(r'/t/', handler=TukkaPageHandler, name='tukka_page'),
