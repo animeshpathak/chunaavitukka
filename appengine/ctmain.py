@@ -49,7 +49,7 @@ def get_predictions(ct_user):
         constituency = tukka.constituency.get()
         predictions.append({'cons':{'name':constituency.name,'slug':constituency.key.id()},'candidate':{'id':candidate.key.id(),'name':candidate.name,'party':candidate.party,'coalition': candidate.coalition}})
     return predictions
-
+    
 def get_constituency_info(ct_user, contest_slug):
     '''check if ct_user is none!'''
     conskey = ndb.Key(CTConstituency, contest_slug)
@@ -208,6 +208,8 @@ class UserPageHandler(webapp2.RequestHandler):
         user = userkey.get()
         if user:
             predictions = get_predictions(user)
+            overall_predictions = CTOverallTukka.get_overall_tukka(user)
+
             (ct_user, url, url_linktext) = user_setup(self)
             follows = [] #list of people whom this guy follows, but only if it is me!
 
@@ -233,6 +235,7 @@ class UserPageHandler(webapp2.RequestHandler):
                 'url': url,
                 'url_linktext': url_linktext,
                 'predictions': predictions,
+                'overall_predictions': overall_predictions,
                 'can_follow': can_follow
             }
 

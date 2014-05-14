@@ -10,8 +10,33 @@
 {% block main_content %}
 <a href="/constituencies/" class='ui-btn' data-transition="slide">Most Important 105</a> <a href="/top20/" class='ui-btn' data-transition="slide">Top 20</a>
 	<h2>{{other_user.display_name}}'s Profile</h2>
-	<h3>Predictions</h3>
+	{% if overall_predictions %}
+	<h3>Overall Predictions</h3>
+	<div id="overall_predictions">
+	<table>
+		<tr><td>UPA</td><td>{{overall_predictions.upa}}</td></tr>
+		<tr><td>NDA</td><td>{{overall_predictions.nda}}</td></tr>
+		<tr><td>INC</td><td>{{overall_predictions.inc}}</td></tr>
+		<tr><td>BJP</td><td>{{overall_predictions.bjp}}</td></tr>
+		<tr><td>AAP</td><td>{{overall_predictions.aap}}</td></tr>
+		<tr><td>TMC</td><td>{{overall_predictions.tmc}}</td></tr>
+		<tr><td>DMK</td><td>{{overall_predictions.dmk}}</td></tr>
+		<tr><td>AIADMK</td><td>{{overall_predictions.aiadmk}}</td></tr>
+		<tr><td>SP</td><td>{{overall_predictions.sp}}</td></tr>
+		<tr><td>BSP</td><td>{{overall_predictions.bsp}}</td></tr>
+		<tr><td>JD</td><td>{{overall_predictions.jd}}</td></tr>
+		<tr><td>RJD</td><td>{{overall_predictions.rjd}}</td></tr>
+		<tr><td>CPI</td><td>{{overall_predictions.cpi}}</td></tr>
+		<tr><td>BJD</td><td>{{overall_predictions.bjd}}</td></tr>
+		<tr><td>SS</td><td>{{overall_predictions.ss}}</td></tr>
+		<tr><td>MNS</td><td>{{overall_predictions.mns}}</td></tr>
+		<tr><td>NCP</td><td>{{overall_predictions.ncp}}</td></tr>
+		<tr><td>Others</td><td>{{overall_predictions.others}}</td></tr>
+	</table>
+	</div>
+	{% endif %}
 	{% for prediction in predictions %}
+	<h3>Predictions</h3>
 	<div class="prediction">
 	For constituency <a href="/c/{{prediction.cons.slug}}/" data-transition="slide" data-ajax="false">{{prediction.cons.name}}</a> : {{prediction.candidate.name}} of {{prediction.candidate.party}}{% if prediction.candidate.coalition %}/{{prediction.candidate.coalition}}{% endif %}
 	 </div>
