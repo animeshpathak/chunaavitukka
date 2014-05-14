@@ -213,6 +213,8 @@ class UserPageHandler(webapp2.RequestHandler):
             (ct_user, url, url_linktext) = user_setup(self)
             follows = [] #list of people whom this guy follows, but only if it is me!
 
+            my_overall_predictions = None
+
             if not ct_user:
                 can_follow = True
             else:
@@ -226,6 +228,8 @@ class UserPageHandler(webapp2.RequestHandler):
                         #TODO properly cast this object
                         other = ndb.Key(CTUser, int(other_id)).get()
                         follows.append({'id':other_id, 'display_name':other.display_name})
+                else:
+                    my_overall_predictions = CTOverallTukka.get_overall_tukka(ct_user)
             
             format = self.request.get("f")
             template_values = {
@@ -236,7 +240,8 @@ class UserPageHandler(webapp2.RequestHandler):
                 'url_linktext': url_linktext,
                 'predictions': predictions,
                 'overall_predictions': overall_predictions,
-                'can_follow': can_follow
+                'can_follow': can_follow,
+                'my_overall_predictions': my_overall_predictions
             }
 
             if (format == 'json'):

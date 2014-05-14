@@ -11,31 +11,69 @@
 <a href="/constituencies/" class='ui-btn third' data-transition="slide">Hot 105</a> <a href="/top20/" class='ui-btn third' data-transition="slide">Top 20</a> <a href="/overall-tally/" class="ui-btn third last" data-transition="slide" data-ajax="false">The Lok Sabha</a>
 
 	<h2>{{other_user.display_name}}'s Profile</h2>
-	{% if overall_predictions %}
 	<h3>Overall Predictions</h3>
 	<div id="overall_predictions">
-	<table>
-		<tr><td>UPA</td><td>{{overall_predictions.upa}}</td></tr>
-		<tr><td>NDA</td><td>{{overall_predictions.nda}}</td></tr>
-		<tr><td>INC</td><td>{{overall_predictions.inc}}</td></tr>
-		<tr><td>BJP</td><td>{{overall_predictions.bjp}}</td></tr>
-		<tr><td>AAP</td><td>{{overall_predictions.aap}}</td></tr>
-		<tr><td>TMC</td><td>{{overall_predictions.tmc}}</td></tr>
-		<tr><td>DMK</td><td>{{overall_predictions.dmk}}</td></tr>
-		<tr><td>AIADMK</td><td>{{overall_predictions.aiadmk}}</td></tr>
-		<tr><td>SP</td><td>{{overall_predictions.sp}}</td></tr>
-		<tr><td>BSP</td><td>{{overall_predictions.bsp}}</td></tr>
-		<tr><td>JD</td><td>{{overall_predictions.jd}}</td></tr>
-		<tr><td>RJD</td><td>{{overall_predictions.rjd}}</td></tr>
-		<tr><td>CPI</td><td>{{overall_predictions.cpi}}</td></tr>
-		<tr><td>BJD</td><td>{{overall_predictions.bjd}}</td></tr>
-		<tr><td>SS</td><td>{{overall_predictions.ss}}</td></tr>
-		<tr><td>MNS</td><td>{{overall_predictions.mns}}</td></tr>
-		<tr><td>NCP</td><td>{{overall_predictions.ncp}}</td></tr>
-		<tr><td>Others</td><td>{{overall_predictions.others}}</td></tr>
+	<table cellborder="1px">
+	{%if ct_user == other_user %}
+		<tr><td>UPA</td><td>{% if overall_predictions %}{{overall_predictions.upa}}{% else %} - {% endif %}</td></tr>
+		<tr><td>NDA</td><td>{% if overall_predictions %}{{overall_predictions.nda}}{% else %} - {% endif %}</td></tr>
+		<tr><td>INC</td><td>{% if overall_predictions %}{{overall_predictions.inc}}{% else %} - {% endif %}</td></tr>
+		<tr><td>BJP</td><td>{% if overall_predictions %}{{overall_predictions.bjp}}{% else %} - {% endif %}</td></tr>
+		<tr><td>AAP</td><td>{% if overall_predictions %}{{overall_predictions.aap}}{% else %} - {% endif %}</td></tr>
+		<tr><td>TMC</td><td>{% if overall_predictions %}{{overall_predictions.tmc}}{% else %} - {% endif %}</td></tr>
+		<tr><td>DMK</td><td>{% if overall_predictions %}{{overall_predictions.dmk}}{% else %} - {% endif %}</td></tr>
+		<tr><td>AIADMK</td><td>{% if overall_predictions %}{{overall_predictions.aiadmk}}{% else %} - {% endif %}</td></tr>
+		<tr><td>SP</td><td>{% if overall_predictions %}{{overall_predictions.sp}}{% else %} - {% endif %}</td></tr>
+		<tr><td>BSP</td><td>{% if overall_predictions %}{{overall_predictions.bsp}}{% else %} - {% endif %}</td></tr>
+		<tr><td>JD</td><td>{% if overall_predictions %}{{overall_predictions.jd}}{% else %} - {% endif %}</td></tr>
+		<tr><td>RJD</td><td>{% if overall_predictions %}{{overall_predictions.rjd}}{% else %} - {% endif %}</td></tr>
+		<tr><td>CPI</td><td>{% if overall_predictions %}{{overall_predictions.cpi}}{% else %} - {% endif %}</td></tr>
+		<tr><td>BJD</td><td>{% if overall_predictions %}{{overall_predictions.bjd}}{% else %} - {% endif %}</td></tr>
+		<tr><td>SS</td><td>{% if overall_predictions %}{{overall_predictions.ss}}{% else %} - {% endif %}</td></tr>
+		<tr><td>MNS</td><td>{% if overall_predictions %}{{overall_predictions.mns}}{% else %} - {% endif %}</td></tr>
+		<tr><td>NCP</td><td>{% if overall_predictions %}{{overall_predictions.ncp}}{% else %} - {% endif %}</td></tr>
+		<tr><td>Others</td><td>{% if overall_predictions %}{{overall_predictions.others}}{% else %} - {% endif %}</td></tr>
+	{% else %}
+		<tr class="table-header"><td>Party</td><td>{{other_user.display_name}}</td><td>Me</td></tr>
+		<tr><td>UPA</td><td>{% if overall_predictions %}{{overall_predictions.upa}}{% else %} - {% endif %}</td>
+		<td>{% if my_overall_predictions %}{{my_overall_predictions.upa}}{% else %} - {% endif %}</td></tr>
+		<tr><td>NDA</td><td>{% if overall_predictions %}{{overall_predictions.nda}}{% else %} - {% endif %}</td>
+		<td>{% if my_overall_predictions %}{{my_overall_predictions.nda}}{% else %} - {% endif %}</td></tr>
+		<tr><td>INC</td><td>{% if overall_predictions %}{{overall_predictions.inc}}{% else %} - {% endif %}</td>
+		<td>{% if my_overall_predictions %}{{my_overall_predictions.inc}}{% else %} - {% endif %}</td></tr>
+		<tr><td>BJP</td><td>{% if overall_predictions %}{{overall_predictions.bjp}}{% else %} - {% endif %}</td>
+		<td>{% if my_overall_predictions %}{{my_overall_predictions.bjp}}{% else %} - {% endif %}</td></tr>
+		<tr><td>AAP</td><td>{% if overall_predictions %}{{overall_predictions.aap}}{% else %} - {% endif %}</td>
+		<td>{% if my_overall_predictions %}{{my_overall_predictions.aap}}{% else %} - {% endif %}</td></tr>
+		<tr><td>TMC</td><td>{% if overall_predictions %}{{overall_predictions.tmc}}{% else %} - {% endif %}</td>
+		<td>{% if my_overall_predictions %}{{my_overall_predictions.tmc}}{% else %} - {% endif %}</td></tr>
+		<tr><td>DMK</td><td>{% if overall_predictions %}{{overall_predictions.dmk}}{% else %} - {% endif %}</td>
+		<td>{% if my_overall_predictions %}{{my_overall_predictions.dmk}}{% else %} - {% endif %}</td></tr>
+		<tr><td>AIADMK</td><td>{% if overall_predictions %}{{overall_predictions.aiadmk}}{% else %} - {% endif %}</td>
+		<td>{% if my_overall_predictions %}{{my_overall_predictions.aiadmk}}{% else %} - {% endif %}</td></tr>
+		<tr><td>SP</td><td>{% if overall_predictions %}{{overall_predictions.sp}}{% else %} - {% endif %}</td>
+		<td>{% if my_overall_predictions %}{{my_overall_predictions.sp}}{% else %} - {% endif %}</td></tr>
+		<tr><td>BSP</td><td>{% if overall_predictions %}{{overall_predictions.bsp}}{% else %} - {% endif %}</td>
+		<td>{% if my_overall_predictions %}{{my_overall_predictions.bsp}}{% else %} - {% endif %}</td></tr>
+		<tr><td>JD</td><td>{% if overall_predictions %}{{overall_predictions.jd}}{% else %} - {% endif %}</td>
+		<td>{% if my_overall_predictions %}{{my_overall_predictions.jd}}{% else %} - {% endif %}</td></tr>
+		<tr><td>RJD</td><td>{% if overall_predictions %}{{overall_predictions.rjd}}{% else %} - {% endif %}</td>
+		<td>{% if my_overall_predictions %}{{my_overall_predictions.rjd}}{% else %} - {% endif %}</td></tr>
+		<tr><td>CPI</td><td>{% if overall_predictions %}{{overall_predictions.cpi}}{% else %} - {% endif %}</td>
+		<td>{% if my_overall_predictions %}{{my_overall_predictions.cpi}}{% else %} - {% endif %}</td></tr>
+		<tr><td>BJD</td><td>{% if overall_predictions %}{{overall_predictions.bjd}}{% else %} - {% endif %}</td>
+		<td>{% if my_overall_predictions %}{{my_overall_predictions.bjd}}{% else %} - {% endif %}</td></tr>
+		<tr><td>SS</td><td>{% if overall_predictions %}{{overall_predictions.ss}}{% else %} - {% endif %}</td>
+		<td>{% if my_overall_predictions %}{{my_overall_predictions.ss}}{% else %} - {% endif %}</td></tr>
+		<tr><td>MNS</td><td>{% if overall_predictions %}{{overall_predictions.mns}}{% else %} - {% endif %}</td>
+		<td>{% if my_overall_predictions %}{{my_overall_predictions.mns}}{% else %} - {% endif %}</td></tr>
+		<tr><td>NCP</td><td>{% if overall_predictions %}{{overall_predictions.ncp}}{% else %} - {% endif %}</td>
+		<td>{% if my_overall_predictions %}{{my_overall_predictions.ncp}}{% else %} - {% endif %}</td></tr>
+		<tr><td>Others</td><td>{% if overall_predictions %}{{overall_predictions.others}}{% else %} - {% endif %}</td>
+		<td>{% if my_overall_predictions %}{{my_overall_predictions.others}}{% else %} - {% endif %}</td></tr>
+	{% endif %}
 	</table>
 	</div>
-	{% endif %}
 	{% for prediction in predictions %}
 	<h3>Predictions</h3>
 	<div class="prediction">
