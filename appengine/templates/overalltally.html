@@ -5,12 +5,12 @@
 {% endblock%}
 
 {% block main_content %}
-<a href="/constituencies/" class='ui-btn ui-corner-all ui-shadow' data-transition="slide">Most Important 105</a> 
-<a href="/top20/" class='ui-btn ui-corner-all ui-shadow' data-transition="slide">Top 20</a>
+<!-- a href="/constituencies/" class='ui-btn ui-corner-all ui-shadow' data-transition="slide">Most Important 105</a> 
+<a href="/top20/" class='ui-btn ui-corner-all ui-shadow' data-transition="slide">Top 20</a> -->
 	<form action="/t/" method="POST" id="overall">
 	<br />
 	{% for cons in conslist %}
-	<label for="{{cons.key}}">{{cons.title}}</label>	<input type="number" name="{{cons.key}}" limit="{{cons.max}}"  min="0" max="{{cons.max}}" step="1" team-type="{{cons.teamtype}}"/>
+	<label for="{{cons.key}}">{{cons.title}}</label>	<input type="number" name="{{cons.key}}" limit="{{cons.max}}"  min="0" max="{{cons.max}}" step="1" team-type="{{cons.teamtype}}" class="{{cons.teamtype}}"/>
 	{% endfor %}
 	<div class="ui-content" id="total">Total: 0</div>
 	<input type="submit" value="Submit"/>
