@@ -112,12 +112,22 @@ $(document).on('pageinit', function() {
 	// overall tally totals 
 	$("#overall input[type='number']").change( function() {
 		//total = 543
-		var total = 0;
-		$("#overall input[type='number']").each( function() {
-			if ($(this).val() == "") { $(this).val(1); }
+		var total = 0,
+			c_total = 0;
+
+		$("#overall .coalition").each( function() {
+			if ($(this).val() == "") { $(this).val(0); }
+			c_total = c_total + parseInt($(this).val());
+		});
+
+		$("#overall .party").each( function() {
+			if ($(this).val() == "") { $(this).val(0); }
 			total = total + parseInt($(this).val());
 		});
 
+		if (c_total > 543) {
+			$(this).val( parseInt($(this).val()) - 1 );
+		}
 		if (total > 543) {
 			// return false;
 			$(this).val( parseInt($(this).val()) - 1 );
