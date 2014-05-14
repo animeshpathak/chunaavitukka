@@ -12,3 +12,11 @@
 	font-weight: bold;
 	margin-top: 10px;
 }
+
+.selected {
+	background: #67aa54;
+	color: #fff;
+	border-radius: 6px;
+	padding: 0 7px;
+	text-shadow: none;
+}
