@@ -437,7 +437,7 @@ class OverallTallyHandler(webapp2.RequestHandler):
         self.response.write(template.render(template_values))
 
 class TempAddHandler(webapp2.RequestHandler):
-    '''Show and manage settings page'''
+    '''Temp adding bit'''
     def get(self):
         user = users.get_current_user()
 
@@ -446,23 +446,13 @@ class TempAddHandler(webapp2.RequestHandler):
         if not users.is_current_user_admin():
             return
         
-        infos = []
+        gsqry = CTCandidate.query(CTCandidate.name== 'Geetha Shivrajkumar')
+        gs = gsqry.fetch(1)[0]
 
-        for (cons,candidates) in infos:
-            (slug,name,state) = cons
-            print slug, name, state
-            print "candidates"
-            candidate_list = []
-            for (cname, cparty, ccoalition) in candidates:
-                print "   ", cname, cparty, ccoalition
-                candidate = CTCandidate(name=cname,party=cparty, coalition=ccoalition)
-                candidate.put()
-                candidate_list.append(candidate.key)
-            conskey = ndb.Key(CTConstituency, slug)
-            cons = CTConstituency(key=conskey,name=name,state=state, candidates=candidate_list)
-            cons.put()
+        shimoga = ndb.Key(CTConstituency, 'shimoga').get()
 
-
+        shimoga.candidates.append(gs.key)
+        shimoga.put()
         
 application = webapp2.WSGIApplication([
     webapp2.Route(r'/', handler=HomeHandler, name='home'),
@@ -476,7 +466,8 @@ application = webapp2.WSGIApplication([
     webapp2.Route(r'/u/<user_id:\d+>/<contest_slug>/', handler=UserPredictionHandler, name='user_prediction'),
     webapp2.Route(r'/follow/', handler=UserFollowHandler, name='follow_user'),
     webapp2.Route(r'/overall-tally/', handler=OverallTallyHandler, name='overall-tally'),
-    # -- this is admin only webapp2.Route(r'/adddata/', handler=TempAddHandler, name='temp_addition'),
+    # -- this is admin only 
+    #webapp2.Route(r'/adddata/', handler=TempAddHandler, name='temp_addition'),
 ], debug=True)
 
 # URL mapping, for reference
