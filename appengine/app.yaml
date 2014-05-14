@@ -14,6 +14,21 @@ handlers:
 - url: /(robots\.txt)
   static_files: \1
   upload: (robots\.txt)
+- url: /css/(.*\.woff)
+  static_files: css/\1
+  upload: css/(.*\.woff)
+  mime_type: application/font-woff
+
+- url: /css/(.*\.eot)
+  static_files: css/\1
+  upload: css/(.*\.eot)
+  mime_type: application/vnd.ms-fontobject
+
+- url: /css/(.*\.ttf)
+  static_files: css/\1
+  upload: css/(.*\.ttf)
+  mime_type: application/x-font-ttf
+
 - url: /css
   static_dir: css
 - url: /js
