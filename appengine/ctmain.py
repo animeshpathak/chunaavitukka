@@ -57,12 +57,13 @@ def get_constituency_info(ct_user, contest_slug):
     predictions = []
 
     #initialize to None
+    selected_candidate_key = None
     selected_candidate = None
     #this may be a tukka, or None
     if ct_user:
-        selected_candidate_key = CTTukka.get_tukka(ct_user,cons).candidate
-    else:
-        selected_candidate_key = None
+        tukka = CTTukka.get_tukka(ct_user,cons)
+        if tukka: 
+            selected_candidate_key = tukka.candidate
 
     for candidate_key in cons.candidates:
         c = candidate_key.get()
