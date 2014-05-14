@@ -20,3 +20,8 @@
 	padding: 0 7px;
 	text-shadow: none;
 }
+
+#share_tukkas{
+	border: 1px dotted black;
+	padding: 5px;
+}
