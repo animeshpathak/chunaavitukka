@@ -8,11 +8,11 @@
 {% endblock%}
 
 {% block main_content %}
-<a href="/constituencies/" class='ui-btn third' data-transition="slide">Hot 105</a> <a href="/top20/" class='ui-btn third' data-transition="slide">Top 20</a> <a href="/overall-tally/" class="ui-btn third" data-transition="slide">The Lok Sabha</a> <a href="/l/new/" class="ui-btn third last" data-transition="slide">Make your League</a> 
 
 	<h2>{{other_user.display_name}}{% if ct_user == other_user%}(<a href="/s/" data-transition="slide">change</a>){% endif%}'s Profile</h2>
 	<h3>Overall Predictions</h3>
 	<div id="overall_predictions">
+	{% if ct_user == other_user%}(reload page if you don't see latest votes){% endif%}
 	<table cellborder="1px">
 	{%if ct_user == other_user %}
 		<tr><td>UPA</td><td>{% if overall_predictions %}{{overall_predictions.upa}}{% else %} - {% endif %}</td></tr>

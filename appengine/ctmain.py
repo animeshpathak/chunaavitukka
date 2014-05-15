@@ -453,7 +453,7 @@ class OverallTallyHandler(webapp2.RequestHandler):
             'url': url,
             'url_linktext': url_linktext,
             'conslist': consinfo,
-            'user_overall_tukkas': user_overall_tukkas,
+            'overall_tukkas': user_overall_tukkas,
         }
         self.response.headers['Content-Type'] = 'text/html'
         template = JINJA_ENVIRONMENT.get_template('templates/overalltally.html')
@@ -473,23 +473,23 @@ class OverallTallyHandler(webapp2.RequestHandler):
             # if user has already voted for this, say he has already voted. Send 409
             #status = 409
             #tukka_response['message'] = "You have already made an overall prediction."
-            overall_tukka.upa = int(self.request.get("UPA")),
-            overall_tukka.nda = int(self.request.get("NDA")),
-            overall_tukka.inc = int(self.request.get("INC")),
-            overall_tukka.bjp = int(self.request.get("BJP")),
-            overall_tukka.aap = int(self.request.get("AAP")),
-            overall_tukka.tmc = int(self.request.get("TMC")),
-            overall_tukka.dmk = int(self.request.get("DMK")),
-            overall_tukka.aiadmk = int(self.request.get("AIADMK")),
-            overall_tukka.sp = int(self.request.get("SP")),
-            overall_tukka.bsp = int(self.request.get("BSP")),
-            overall_tukka.jd = int(self.request.get("JD")),
-            overall_tukka.rjd = int(self.request.get("RJD")),
-            overall_tukka.cpi = int(self.request.get("CPI")),
-            overall_tukka.bjd = int(self.request.get("BJD")),
-            overall_tukka.ss = int(self.request.get("SS")),
-            overall_tukka.mns = int(self.request.get("MNS")),
-            overall_tukka.ncp = int(self.request.get("NCP")),
+            overall_tukka.upa = int(self.request.get("UPA"))
+            overall_tukka.nda = int(self.request.get("NDA"))
+            overall_tukka.inc = int(self.request.get("INC"))
+            overall_tukka.bjp = int(self.request.get("BJP"))
+            overall_tukka.aap = int(self.request.get("AAP"))
+            overall_tukka.tmc = int(self.request.get("TMC"))
+            overall_tukka.dmk = int(self.request.get("DMK"))
+            overall_tukka.aiadmk = int(self.request.get("AIADMK"))
+            overall_tukka.sp = int(self.request.get("SP"))
+            overall_tukka.bsp = int(self.request.get("BSP"))
+            overall_tukka.jd = int(self.request.get("JD"))
+            overall_tukka.rjd = int(self.request.get("RJD"))
+            overall_tukka.cpi = int(self.request.get("CPI"))
+            overall_tukka.bjd = int(self.request.get("BJD"))
+            overall_tukka.ss = int(self.request.get("SS"))
+            overall_tukka.mns = int(self.request.get("MNS"))
+            overall_tukka.ncp = int(self.request.get("NCP"))
             overall_tukka.others = int(self.request.get("Others"))
         else:
             # insert, send 200 
