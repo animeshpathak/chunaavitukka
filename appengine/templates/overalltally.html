@@ -11,9 +11,44 @@
 
 	<form action="/overall-tally/" method="POST" id="overall" data-ajax="false">
 	<br />
-	{% for cons in conslist %}
-	<label for="{{cons.key}}">{{cons.title}} ({{cons.max}})</label>	<input type="number" name="{{cons.key}}" limit="{{cons.max}}"  min="0" max="{{cons.max}}" step="1" team-type="{{cons.teamtype}}" class="{{cons.teamtype}}" value="0"/>
-	{% endfor %}
+
+	<label for="UPA">UPA (538)</label>	<input type="number" name="UPA" limit="538"  min="0" max="538" step="1" team-type="coalition" class="coalition" value="{% if user_overall_tukkas %}user_overall_tukkas.upa{% else %}0{% endif%}"/>
+	
+	<label for="NDA">NDA (542)</label>	<input type="number" name="NDA" limit="542"  min="0" max="542" step="1" team-type="coalition" class="coalition" value="{% if user_overall_tukkas %}{% else %}0{% endif%}"/>
+	
+	<label for="INC">INC (464)</label>	<input type="number" name="INC" limit="464"  min="0" max="464" step="1" team-type="party" class="party" value="{% if user_overall_tukkas %}{% else %}0{% endif%}"/>
+	
+	<label for="BJP">BJP (428)</label>	<input type="number" name="BJP" limit="428"  min="0" max="428" step="1" team-type="party" class="party" value="{% if user_overall_tukkas %}{% else %}0{% endif%}"/>
+	
+	<label for="AAP">AAP (432)</label>	<input type="number" name="AAP" limit="432"  min="0" max="432" step="1" team-type="party" class="party" value="{% if user_overall_tukkas %}{% else %}0{% endif%}"/>
+	
+	<label for="TMC">AITC (131)</label>	<input type="number" name="TMC" limit="131"  min="0" max="131" step="1" team-type="party" class="party" value="{% if user_overall_tukkas %}{% else %}0{% endif%}"/>
+	
+	<label for="DMK">DMK (35)</label>	<input type="number" name="DMK" limit="35"  min="0" max="35" step="1" team-type="party" class="party" value="{% if user_overall_tukkas %}{% else %}0{% endif%}"/>
+	
+	<label for="AIADMK">AIADMK (40)</label>	<input type="number" name="AIADMK" limit="40"  min="0" max="40" step="1" team-type="party" class="party" value="{% if user_overall_tukkas %}{% else %}0{% endif%}"/>
+	
+	<label for="SP">SP (197)</label>	<input type="number" name="SP" limit="197"  min="0" max="197" step="1" team-type="party" class="party" value="{% if user_overall_tukkas %}{% else %}0{% endif%}"/>
+	
+	<label for="BSP">BSP (503)</label>	<input type="number" name="BSP" limit="503"  min="0" max="503" step="1" team-type="party" class="party" value="{% if user_overall_tukkas %}{% else %}0{% endif%}"/>
+	
+	<label for="JD">JDU (93)</label>	<input type="number" name="JD" limit="93"  min="0" max="93" step="1" team-type="party" class="party" value="{% if user_overall_tukkas %}{% else %}0{% endif%}"/>
+	
+	<label for="RJD">RJD (29)</label>	<input type="number" name="RJD" limit="29"  min="0" max="29" step="1" team-type="party" class="party" value="{% if user_overall_tukkas %}{% else %}0{% endif%}"/>
+	
+	<label for="CPI">CPI (68)</label>	<input type="number" name="CPI" limit="68"  min="0" max="68" step="1" team-type="party" class="party" value="{% if user_overall_tukkas %}{% else %}0{% endif%}"/>
+	
+	<label for="BJD">BJD (21)</label>	<input type="number" name="BJD" limit="21"  min="0" max="21" step="1" team-type="party" class="party" value="{% if user_overall_tukkas %}{% else %}0{% endif%}"/>
+	
+	<label for="SS">SS (58)</label>	<input type="number" name="SS" limit="58"  min="0" max="58" step="1" team-type="party" class="party" value="{% if user_overall_tukkas %}{% else %}0{% endif%}"/>
+	
+	<label for="MNS">MNS (10)</label>	<input type="number" name="MNS" limit="10"  min="0" max="10" step="1" team-type="party" class="party" value="{% if user_overall_tukkas %}{% else %}0{% endif%}"/>
+	
+	<label for="NCP">NCP (36)</label>	<input type="number" name="NCP" limit="36"  min="0" max="36" step="1" team-type="party" class="party" value="{% if user_overall_tukkas %}{% else %}0{% endif%}"/>
+	
+	<label for="Others">Others (543)</label>	<input type="number" name="Others" limit="543"  min="0" max="543" step="1" team-type="party" class="party" value="{% if user_overall_tukkas %}{% else %}0{% endif%}"/>
+	
+
 	<div class="ui-content" id="total">Total: 0</div>
 	<input type="submit" value="Submit"/>
 	</form>
