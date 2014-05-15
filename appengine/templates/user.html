@@ -10,7 +10,7 @@
 {% block main_content %}
 
 	<h2>{{other_user.display_name}}{% if ct_user == other_user%}(<a href="/s/" data-transition="slide">change</a>){% endif%}'s Profile</h2>
-	<h3>Overall Predictions by {{other_user.display_name}} {% if ct_user == other_user%}(<a href="/overall-tally/" data-transition="slide">update</a>){% endif%}</h3>
+	<h3>Overall Predictions by {{other_user.display_name}} </h3>
 	<div id="overall_predictions">
 	{% if ct_user == other_user%}(reload page if you don't see latest votes){% endif%}
 	<table cellborder="1px">

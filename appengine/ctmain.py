@@ -28,7 +28,7 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     autoescape=True)
 
 SENDING_MAIL = True
-TUKKA_CHANGE_ALLOWED = True #AP says change it later
+TUKKA_CHANGE_ALLOWED = False #AP says change it later
 
     
 def user_setup(self):
