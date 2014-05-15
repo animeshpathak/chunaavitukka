@@ -8,6 +8,7 @@ import re
 
 from google.appengine.api import users
 from google.appengine.ext import ndb
+from google.appengine.api import mail
 
 from models import CTUser 
 from models import CTCandidate 
@@ -605,7 +606,7 @@ class LeaguePageHandler(webapp2.RequestHandler):
         template = JINJA_ENVIRONMENT.get_template('templates/league.html')
         self.response.write(template.render(template_values))
     def post(self,league_id):
-        '''The currently logged in user wants to join this league'''
+        '''The currently logged in user wants to post a comment on this league'''
         (ct_user, url, url_linktext) = user_setup(self)
         if not ct_user:
             self.response.status = 401 #unauthorized
@@ -626,6 +627,24 @@ class LeaguePageHandler(webapp2.RequestHandler):
                 league.comments.append(comment.key)
                 league.put()
                 #send to the league
+                
+                #notify users of new comment:
+                sender_address = "ChunaaviTukka.com Admin <animesh@gmail.com>"
+                subject = "New comment posted on your league \"" + league.name + "\" at Chunaavi Tukka"
+                body = """
+Hi,
+A new comment has been posted at your league "%s" by user %s.
+You can see it at http://www.chunaavitukka.com/l/%s/
+regards,
+The Chunaavi Tukka Team
+...putting the guesswork back into politics
+www.chunaavitukka.com
+""" % (league.name, ct_user.display_name, league_id)
+                #logging.error(body)
+                for user_key in league.members:
+                    mail.send_mail(sender_address, user_key.get().google_user.email(), subject, body)
+                    #logging.error(user_key.get().google_user.email())
+                
                 return webapp2.redirect('/l/' + str(league.key.id()) + '/')
             else:
                 self.response.status = 501
