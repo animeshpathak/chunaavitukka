@@ -146,6 +146,12 @@ class CTOverallTukka(ndb.Model):
     created_at = ndb.DateTimeProperty(auto_now_add=True)
     updated_at = ndb.DateTimeProperty(auto_now=True)
             
+class CTLeagueComment(ndb.Model):
+    '''Models a constituency, always use the slug as the key'''
+    contents = ndb.StringProperty(required=True)
+    author = ndb.KeyProperty(kind=CTUser,repeated=False)
+    created_at = ndb.DateTimeProperty(auto_now_add=True)
+    updated_at = ndb.DateTimeProperty(auto_now=True)
             
 # League
 #  - creator
@@ -159,3 +165,6 @@ class CTLeague(ndb.Model):
     members = ndb.KeyProperty(kind=CTUser,repeated=True)
     created_at = ndb.DateTimeProperty(auto_now_add=True)
     updated_at = ndb.DateTimeProperty(auto_now=True)
+    comments = ndb.KeyProperty(kind=CTLeagueComment, repeated=True)
+
+    

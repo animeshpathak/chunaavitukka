@@ -15,6 +15,7 @@ from models import CTConstituency
 from models import CTTukka 
 from models import CTOverallTukka 
 from models import CTLeague 
+from models import CTLeagueComment 
 
 import jinja2
 import webapp2
@@ -584,6 +585,11 @@ class LeaguePageHandler(webapp2.RequestHandler):
         for user in league_members:
             predictions.append({'user': user, 'overall_tukka': CTOverallTukka.get_overall_tukka(user)})
         
+        league_comments = []
+        for comment_key in league.comments:
+            comment = comment_key.get()
+            league_comments.append({'author_id':comment.author.id(),'author_name':comment.author.get().display_name,'contents':comment.contents,'created_at':comment.created_at})
+        
         template_values = {
             'ct_user': ct_user,
             'url': url,
@@ -592,6 +598,7 @@ class LeaguePageHandler(webapp2.RequestHandler):
             'league_name': league.name,
             'league_creator': league.creator.get(),
             'league_members': league_members,
+            'league_comments': league_comments,
             'predictions': predictions,
         }
         self.response.headers['Content-Type'] = 'text/html'
@@ -609,6 +616,21 @@ class LeaguePageHandler(webapp2.RequestHandler):
         if not league:
             self.response.status = 404
             return
+            
+        if (self.request.get('action') and self.request.get('action') == 'comment'):
+            # check if he is in league
+            if ct_user.key in league.members:
+                # he wants to post a comment, create a new comment
+                comment = CTLeagueComment(author = ct_user.key, contents = self.request.get('contents'))
+                comment.put()
+                league.comments.append(comment.key)
+                league.put()
+                #send to the league
+                return webapp2.redirect('/l/' + str(league.key.id()) + '/')
+            else:
+                self.response.status = 501
+                return
+            
             
         #TODO transaction?    
         league.members.append(ct_user.key)
