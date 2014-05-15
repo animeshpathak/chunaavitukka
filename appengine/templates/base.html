@@ -63,18 +63,18 @@
   	<div data-role="header">
   		<a href="/" data-transition="slide" data-direction="reverse" class="ui-btn ui-icon-home ui-btn-icon-left ui-corner-all ui-shadow">Home</a>
 		{% block page_header %}{% endblock %}
-		{% if ct_user %}<a href="/u/{{ct_user.key.id()}}/" data-transition="slide"  data-ajax="false">My Page</a> {% endif %}
+		{% if ct_user %}<a href="/u/{{ct_user.key.id()}}/" data-transition="slide">My Page</a> {% endif %}
 		
 	</div>
 	<div data-role="main" class="ui-content {% block main_css_class %}{% endblock%}">
 		{% block top_buttons %}
-		<a href="/constituencies/" class='ui-btn third' data-transition="slide">Hot 105</a> <a href="/top20/" class='ui-btn third' data-transition="slide">Top 20</a> <a href="/overall-tally/" class="ui-btn third" data-transition="slide"  data-ajax="false">The Lok Sabha</a> <a href="/l/new/" class="ui-btn third last" data-transition="slide">Make your League</a> 
+		<a href="/constituencies/" class='ui-btn third' data-transition="slide">Hot 105</a> <a href="/top20/" class='ui-btn third' data-transition="slide">Top 20</a> <a href="/overall-tally/" class="ui-btn third" data-transition="slide" {%if not ct_user%} data-ajax="false"{%endif%}>The Lok Sabha</a> <a href="/l/new/" class="ui-btn third last" data-transition="slide" {%if not ct_user%} data-ajax="false"{%endif%}>Make your League</a> 
 		{% endblock %}
 		{% block main_content %}{% endblock %}
 	</div>
 	
     <div data-role="footer">
-		<a id='login_path' href="{{ url|safe }}" class="ui-btn" data-transition="slide">{{ url_linktext }}</a> {%if ct_user%} <a href="/s/" data-transition="slide" class="ui-btn" data-ajax="false">Change Name</a>{% endif %} <a href="/faq/" data-transition="slide">FAQ</a> <span class="gap"></span> Powered by <a href="https://github.com/animeshpathak/chunaavitukka" data-transition="slide" target="_blank">ChunaaviTukka</a> <span class="gap"></span><!-- Share --> <a href="http://twitter.com/ChunaaviTukka" data-ajax="false" target="_blank">Feedback (Twitter)</a> <a href="https://www.facebook.com/chunaavitukka" data-ajax="false" target="_blank">Feedback (Facebook)</a> 	
+		<a id='login_path' href="{{ url|safe }}" class="ui-btn" data-transition="slide">{{ url_linktext }}</a> {%if ct_user%} <a href="/s/" data-transition="slide" class="ui-btn" >Change Name</a>{% endif %} <a href="/faq/" data-transition="slide">FAQ</a> <span class="gap"></span> Powered by <a href="https://github.com/animeshpathak/chunaavitukka" data-transition="slide" target="_blank">ChunaaviTukka</a> <span class="gap"></span><!-- Share --> <a href="http://twitter.com/ChunaaviTukka" data-ajax="false" target="_blank">Feedback (Twitter)</a> <a href="https://www.facebook.com/chunaavitukka" data-ajax="false" target="_blank">Feedback (Facebook)</a> 	
 				<a href="mailto:animesh@gmail.com?subject=ChunaaviTukka%20Feedback" data-ajax="false">Feedback (Email)</a> 
 
 				<div class="fb-share-button" data-href="http://www.chunaavitukka.com/" data-type="button"></div> <!-- Place this tag where you want the share button to render. -->
