@@ -431,10 +431,14 @@ class OverallTallyHandler(webapp2.RequestHandler):
         (ct_user, url, url_linktext) = user_setup(self)
         if not ct_user:
             return webapp2.redirect(url)
+
+        user_overall_tukkas = CTOverallTukka.get_overall_tukka(ct_user)
             
-        if CTOverallTukka.get_overall_tukka(ct_user):
-            #already make a tukka
-            return webapp2.redirect('/u/' + str(ct_user.key.id())+'/')
+        tukka_change_allowed = True #AP says change it later
+        if not tukka_change_allowed:
+            if user_overall_tukkas:
+                #already make a tukka
+                return webapp2.redirect('/u/' + str(ct_user.key.id())+'/')
 
         conslist = [
  ('UPA', 'UPA', 538, 'coalition'),
@@ -463,6 +467,7 @@ class OverallTallyHandler(webapp2.RequestHandler):
             'url': url,
             'url_linktext': url_linktext,
             'conslist': consinfo,
+            'overall_tukkas': user_overall_tukkas,
         }
         self.response.headers['Content-Type'] = 'text/html'
         template = JINJA_ENVIRONMENT.get_template('templates/overalltally.html')
@@ -477,10 +482,29 @@ class OverallTallyHandler(webapp2.RequestHandler):
         tukka_response = {'message':''} # empty response object
 
         #TODO exception handling
-        if CTOverallTukka.get_overall_tukka(ct_user):
+        overall_tukka = CTOverallTukka.get_overall_tukka(ct_user)
+        if overall_tukka:
             # if user has already voted for this, say he has already voted. Send 409
-            status = 409
-            tukka_response['message'] = "You have already made an overall prediction."
+            #status = 409
+            #tukka_response['message'] = "You have already made an overall prediction."
+            overall_tukka.upa = int(self.request.get("UPA"))
+            overall_tukka.nda = int(self.request.get("NDA"))
+            overall_tukka.inc = int(self.request.get("INC"))
+            overall_tukka.bjp = int(self.request.get("BJP"))
+            overall_tukka.aap = int(self.request.get("AAP"))
+            overall_tukka.tmc = int(self.request.get("TMC"))
+            overall_tukka.dmk = int(self.request.get("DMK"))
+            overall_tukka.aiadmk = int(self.request.get("AIADMK"))
+            overall_tukka.sp = int(self.request.get("SP"))
+            overall_tukka.bsp = int(self.request.get("BSP"))
+            overall_tukka.jd = int(self.request.get("JD"))
+            overall_tukka.rjd = int(self.request.get("RJD"))
+            overall_tukka.cpi = int(self.request.get("CPI"))
+            overall_tukka.bjd = int(self.request.get("BJD"))
+            overall_tukka.ss = int(self.request.get("SS"))
+            overall_tukka.mns = int(self.request.get("MNS"))
+            overall_tukka.ncp = int(self.request.get("NCP"))
+            overall_tukka.others = int(self.request.get("Others"))
         else:
             # insert, send 200 
             overall_tukka = CTOverallTukka(user=ct_user.key,
@@ -503,9 +527,9 @@ class OverallTallyHandler(webapp2.RequestHandler):
                 ncp = int(self.request.get("NCP")),
                 others = int(self.request.get("Others"))
             )
-            overall_tukka.put()
-            status = 200 
-            return webapp2.redirect('/u/' + str(ct_user.key.id())+'/')
+        overall_tukka.put()
+        status = 200 
+        return webapp2.redirect('/u/' + str(ct_user.key.id())+'/')
                 
         self.response.headers['Content-Type'] = 'application/json'   
         self.response.status = status

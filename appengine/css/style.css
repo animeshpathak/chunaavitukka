@@ -93,6 +93,13 @@ td {
 
 td:first-child {
 	text-align: left;
+	position: absolute;
+	background: #eee;
+	min-width: 70px;
+}
+
+td:nth-child(2) {
+	padding-left: 90px;
 }
 
 th
@@ -104,6 +111,13 @@ tr:nth-child(even)
 {
 	background:#e9e9e9;
 }
+
+
+
+#league-table {
+	overflow: auto;
+}
+
 
 @media screen and (max-width: 780px) {
 	.third {

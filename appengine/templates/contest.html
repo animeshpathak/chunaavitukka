@@ -8,9 +8,6 @@
 {% endblock%}
 
 {% block main_content %}
-<a href="/constituencies/" class='ui-btn third' data-transition="slide">Hot 105</a> <a href="/top20/" class='ui-btn third' data-transition="slide">Top 20</a> <a href="/overall-tally/" class="ui-btn third" data-transition="slide">The Lok Sabha</a> <a href="/l/new/" class="ui-btn third last" data-transition="slide">Make your League</a> 
-
-
 <h2>{{contest_info.name}}, {{contest_info.state}}</h2>
 	 	<div id="toast" class="ui-content" style='display:none; background:#eeeeee; text-align:center; font-weight:bold; color:red; '></div>
         {% for prediction in contest_info.predictions %}
