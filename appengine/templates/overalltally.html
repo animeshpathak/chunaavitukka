@@ -42,6 +42,14 @@
 	
 	<label for="NCP">NCP (36)</label>	<input type="number" name="NCP" limit="36"  min="0" max="36" step="1" team-type="party" class="party" value="{% if overall_tukkas %}{{overall_tukkas.ncp}}{% else %}0{% endif%}"/>
 	
+	<label for="TDP">TDP (30)</label>	<input type="number" name="TDP" limit="36"  min="0" max="36" step="1" team-type="party" class="party" value="{% if overall_tukkas %}{{overall_tukkas.tdp}}{% else %}0{% endif%}"/>
+	
+	<label for="YSRC">YSRC (38)</label>	<input type="number" name="YSRC" limit="36"  min="0" max="36" step="1" team-type="party" class="party" value="{% if overall_tukkas %}{{overall_tukkas.ysrc}}{% else %}0{% endif%}"/>
+	
+	<label for="TRS">TRS (17)</label>	<input type="number" name="TRS" limit="36"  min="0" max="36" step="1" team-type="party" class="party" value="{% if overall_tukkas %}{{overall_tukkas.trs}}{% else %}0{% endif%}"/>
+	
+	<label for="CPI(M)">CPIM (36)</label>	<input type="number" name="CPIM" limit="36"  min="0" max="36" step="1" team-type="party" class="party" value="{% if overall_tukkas %}{{overall_tukkas.cpim}}{% else %}0{% endif%}"/>
+
 	<label for="Others">Others (543)</label>	<input type="number" name="Others" limit="543"  min="0" max="543" step="1" team-type="party" class="party" value="{% if overall_tukkas %}{{overall_tukkas.others}}{% else %}0{% endif%}"/>
 	
 

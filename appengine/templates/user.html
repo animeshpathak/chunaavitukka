@@ -10,7 +10,7 @@
 {% block main_content %}
 
 	<h2>{{other_user.display_name}}{% if ct_user == other_user%}(<a href="/s/" data-transition="slide">change</a>){% endif%}'s Profile</h2>
-	<h3>Overall Predictions</h3>
+	<h3>Overall Predictions by {{other_user.display_name}} {% if ct_user == other_user%}(<a href="/overall-tally/" data-transition="slide">update</a>){% endif%}</h3>
 	<div id="overall_predictions">
 	{% if ct_user == other_user%}(reload page if you don't see latest votes){% endif%}
 	<table cellborder="1px">
@@ -33,6 +33,10 @@
 		<tr><td>SS</td><td>{% if overall_predictions %}{{overall_predictions.ss}}{% else %} - {% endif %}</td></tr>
 		<tr><td>MNS</td><td>{% if overall_predictions %}{{overall_predictions.mns}}{% else %} - {% endif %}</td></tr>
 		<tr><td>NCP</td><td>{% if overall_predictions %}{{overall_predictions.ncp}}{% else %} - {% endif %}</td></tr>
+		<tr><td>TDP</td><td>{% if overall_predictions %}{{overall_predictions.tdp}}{% else %} - {% endif %}</td></tr>
+		<tr><td>YSRC</td><td>{% if overall_predictions %}{{overall_predictions.ysrc}}{% else %} - {% endif %}</td></tr>
+		<tr><td>TRS</td><td>{% if overall_predictions %}{{overall_predictions.trs}}{% else %} - {% endif %}</td></tr>
+		<tr><td>CPI(M)</td><td>{% if overall_predictions %}{{overall_predictions.cpim}}{% else %} - {% endif %}</td></tr>
 		<tr><td>Others</td><td>{% if overall_predictions %}{{overall_predictions.others}}{% else %} - {% endif %}</td></tr>
 	{% else %}
 		<tr class="table-header"><td>Party</td><td>{{other_user.display_name}}{% if overall_predictions %}<br/>updated at {{overall_predictions.updated_at.strftime('%Y-%m-%d %I:%M %p')}}{% endif %}</td><td>Me{%if my_overall_predictions%}<br/>updated at {{my_overall_predictions.updated_at.strftime('%Y-%m-%d %I:%M %p')}}{% endif %}</td></tr>
@@ -70,6 +74,14 @@
 		<td>{% if my_overall_predictions %}{{my_overall_predictions.mns}}{% else %} - {% endif %}</td></tr>
 		<tr><td>NCP</td><td>{% if overall_predictions %}{{overall_predictions.ncp}}{% else %} - {% endif %}</td>
 		<td>{% if my_overall_predictions %}{{my_overall_predictions.ncp}}{% else %} - {% endif %}</td></tr>
+		<tr><td>TDP</td><td>{% if overall_predictions %}{{overall_predictions.tdp}}{% else %} - {% endif %}</td>
+		<td>{% if my_overall_predictions %}{{my_overall_predictions.tdp}}{% else %} - {% endif %}</td></tr>
+		<tr><td>YSRC</td><td>{% if overall_predictions %}{{overall_predictions.ysrc}}{% else %} - {% endif %}</td>
+		<td>{% if my_overall_predictions %}{{my_overall_predictions.ysrc}}{% else %} - {% endif %}</td></tr>
+		<tr><td>TRS</td><td>{% if overall_predictions %}{{overall_predictions.trs}}{% else %} - {% endif %}</td>
+		<td>{% if my_overall_predictions %}{{my_overall_predictions.trs}}{% else %} - {% endif %}</td></tr>
+		<tr><td>CPI(M)</td><td>{% if overall_predictions %}{{overall_predictions.cpim}}{% else %} - {% endif %}</td>
+		<td>{% if my_overall_predictions %}{{my_overall_predictions.cpim}}{% else %} - {% endif %}</td></tr>
 		<tr><td>Others</td><td>{% if overall_predictions %}{{overall_predictions.others}}{% else %} - {% endif %}</td>
 		<td>{% if my_overall_predictions %}{{my_overall_predictions.others}}{% else %} - {% endif %}</td></tr>
 	{% endif %}

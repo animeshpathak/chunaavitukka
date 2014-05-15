@@ -469,6 +469,7 @@ class OverallTallyHandler(webapp2.RequestHandler):
 
         #TODO exception handling
         overall_tukka = CTOverallTukka.get_overall_tukka(ct_user)
+        
         if overall_tukka:
             # if user has already voted for this, say he has already voted. Send 409
             #status = 409
@@ -490,6 +491,10 @@ class OverallTallyHandler(webapp2.RequestHandler):
             overall_tukka.ss = int(self.request.get("SS"))
             overall_tukka.mns = int(self.request.get("MNS"))
             overall_tukka.ncp = int(self.request.get("NCP"))
+            overall_tukka.tdp = (int(self.request.get("TDP")) if self.request.get("TDP") != '' else 0)
+            overall_tukka.ysrc = (int(self.request.get("YSRC")) if self.request.get("YSRC") != '' else 0)
+            overall_tukka.trs = (int(self.request.get("TRS")) if self.request.get("TRS") != '' else 0)
+            overall_tukka.cpim = (int(self.request.get("CPIM")) if self.request.get("CPIM") != '' else 0)
             overall_tukka.others = int(self.request.get("Others"))
         else:
             # insert, send 200 
@@ -510,6 +515,10 @@ class OverallTallyHandler(webapp2.RequestHandler):
                 bjd = int(self.request.get("BJD")),
                 ss = int(self.request.get("SS")),
                 mns = int(self.request.get("MNS")),
+                tdp = (int(self.request.get("TDP")) if self.request.get("TDP") != '' else 0),
+                ysrc = (int(self.request.get("YSRC")) if self.request.get("YSRC") != '' else 0),
+                trs = (int(self.request.get("TRS")) if self.request.get("TRS") != '' else 0),
+                cpim = (int(self.request.get("CPIM")) if self.request.get("CPIM") != '' else 0),
                 ncp = int(self.request.get("NCP")),
                 others = int(self.request.get("Others"))
             )
