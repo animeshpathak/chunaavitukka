@@ -25,9 +25,9 @@
 
 	<div id="league-table">
 		<table cellborder="1px" class="ui-responsive">
-			<tr><td></td>
+			<tr><td>Party</td>
 				{% for prediction in predictions %}
-					<th>{{ prediction.user.display_name }}</td>
+					<th>{{ prediction.user.display_name }}{% if prediction.overall_tukka %}<br/>{{prediction.overall_tukka.updated_at.strftime('%Y-%m-%d')}}<br/>{{prediction.overall_tukka.updated_at.strftime('%I:%M %p')}}{% endif %}</td>
 				{% endfor %}
 			</tr>
 			<tr><td>UPA</td>
@@ -55,7 +55,7 @@
 				<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.aap}}{% else %} - {% endif %}</td>
 			{% endfor %}
 			</tr>
-			<tr><td>TMC</td>
+			<tr><td>TMC/AITC</td>
 			{% for prediction in predictions %}
 				<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.tmc}}{% else %} - {% endif %}</td>
 			{% endfor %}

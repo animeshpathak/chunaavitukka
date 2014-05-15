@@ -15,12 +15,13 @@
 	{% if ct_user == other_user%}(reload page if you don't see latest votes){% endif%}
 	<table cellborder="1px">
 	{%if ct_user == other_user %}
+		<tr class="table-header"><td>Party</td><td>{{other_user.display_name}}{% if overall_predictions %}<br/>updated at {{overall_predictions.updated_at.strftime('%Y-%m-%d %I:%M %p')}}{% endif %}</td></tr>	
 		<tr><td>UPA</td><td>{% if overall_predictions %}{{overall_predictions.upa}}{% else %} - {% endif %}</td></tr>
 		<tr><td>NDA</td><td>{% if overall_predictions %}{{overall_predictions.nda}}{% else %} - {% endif %}</td></tr>
 		<tr><td>INC</td><td>{% if overall_predictions %}{{overall_predictions.inc}}{% else %} - {% endif %}</td></tr>
 		<tr><td>BJP</td><td>{% if overall_predictions %}{{overall_predictions.bjp}}{% else %} - {% endif %}</td></tr>
 		<tr><td>AAP</td><td>{% if overall_predictions %}{{overall_predictions.aap}}{% else %} - {% endif %}</td></tr>
-		<tr><td>TMC</td><td>{% if overall_predictions %}{{overall_predictions.tmc}}{% else %} - {% endif %}</td></tr>
+		<tr><td>TMC/AITC</td><td>{% if overall_predictions %}{{overall_predictions.tmc}}{% else %} - {% endif %}</td></tr>
 		<tr><td>DMK</td><td>{% if overall_predictions %}{{overall_predictions.dmk}}{% else %} - {% endif %}</td></tr>
 		<tr><td>AIADMK</td><td>{% if overall_predictions %}{{overall_predictions.aiadmk}}{% else %} - {% endif %}</td></tr>
 		<tr><td>SP</td><td>{% if overall_predictions %}{{overall_predictions.sp}}{% else %} - {% endif %}</td></tr>
@@ -34,7 +35,7 @@
 		<tr><td>NCP</td><td>{% if overall_predictions %}{{overall_predictions.ncp}}{% else %} - {% endif %}</td></tr>
 		<tr><td>Others</td><td>{% if overall_predictions %}{{overall_predictions.others}}{% else %} - {% endif %}</td></tr>
 	{% else %}
-		<tr class="table-header"><td>Party</td><td>{{other_user.display_name}}</td><td>Me</td></tr>
+		<tr class="table-header"><td>Party</td><td>{{other_user.display_name}}{% if overall_predictions %}<br/>updated at {{overall_predictions.updated_at.strftime('%Y-%m-%d %I:%M %p')}}{% endif %}</td><td>Me{%if my_overall_predictions%}<br/>updated at {{my_overall_predictions.updated_at.strftime('%Y-%m-%d %I:%M %p')}}{% endif %}</td></tr>
 		<tr><td>UPA</td><td>{% if overall_predictions %}{{overall_predictions.upa}}{% else %} - {% endif %}</td>
 		<td>{% if my_overall_predictions %}{{my_overall_predictions.upa}}{% else %} - {% endif %}</td></tr>
 		<tr><td>NDA</td><td>{% if overall_predictions %}{{overall_predictions.nda}}{% else %} - {% endif %}</td>
@@ -45,7 +46,7 @@
 		<td>{% if my_overall_predictions %}{{my_overall_predictions.bjp}}{% else %} - {% endif %}</td></tr>
 		<tr><td>AAP</td><td>{% if overall_predictions %}{{overall_predictions.aap}}{% else %} - {% endif %}</td>
 		<td>{% if my_overall_predictions %}{{my_overall_predictions.aap}}{% else %} - {% endif %}</td></tr>
-		<tr><td>TMC</td><td>{% if overall_predictions %}{{overall_predictions.tmc}}{% else %} - {% endif %}</td>
+		<tr><td>TMC/AITC</td><td>{% if overall_predictions %}{{overall_predictions.tmc}}{% else %} - {% endif %}</td>
 		<td>{% if my_overall_predictions %}{{my_overall_predictions.tmc}}{% else %} - {% endif %}</td></tr>
 		<tr><td>DMK</td><td>{% if overall_predictions %}{{overall_predictions.dmk}}{% else %} - {% endif %}</td>
 		<td>{% if my_overall_predictions %}{{my_overall_predictions.dmk}}{% else %} - {% endif %}</td></tr>

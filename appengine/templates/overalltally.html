@@ -8,8 +8,7 @@
 
 	<form action="/overall-tally/" method="POST" id="overall" data-ajax="false">
 	<br />
-
-	<label for="UPA">UPA (538)</label>	<input type="number" name="UPA" limit="538"  min="0" max="538" step="1" team-type="coalition" class="coalition" value="{% if overall_tukkas %}{{overall_tukkas.upa}}{% else %}0{% endif%}"/>
+	{% if overall_tukkas %}(last updated at {{overall_tukkas.updated_at.strftime('%Y-%m-%d %I:%M %p')}} GMT){% endif %}<br/><label for="UPA">UPA (538)</label>	<input type="number" name="UPA" limit="538"  min="0" max="538" step="1" team-type="coalition" class="coalition" value="{% if overall_tukkas %}{{overall_tukkas.upa}}{% else %}0{% endif%}"/>
 	
 	<label for="NDA">NDA (542)</label>	<input type="number" name="NDA" limit="542"  min="0" max="542" step="1" team-type="coalition" class="coalition" value="{% if overall_tukkas %}{{overall_tukkas.nda}}{% else %}0{% endif%}"/>
 	
@@ -19,7 +18,7 @@
 	
 	<label for="AAP">AAP (432)</label>	<input type="number" name="AAP" limit="432"  min="0" max="432" step="1" team-type="party" class="party" value="{% if overall_tukkas %}{{overall_tukkas.aap}}{% else %}0{% endif%}"/>
 	
-	<label for="TMC">AITC (131)</label>	<input type="number" name="TMC" limit="131"  min="0" max="131" step="1" team-type="party" class="party" value="{% if overall_tukkas %}{{overall_tukkas.tmc}}{% else %}0{% endif%}"/>
+	<label for="TMC">TMC/AITC (131)</label>	<input type="number" name="TMC" limit="131"  min="0" max="131" step="1" team-type="party" class="party" value="{% if overall_tukkas %}{{overall_tukkas.tmc}}{% else %}0{% endif%}"/>
 	
 	<label for="DMK">DMK (35)</label>	<input type="number" name="DMK" limit="35"  min="0" max="35" step="1" team-type="party" class="party" value="{% if overall_tukkas %}{{overall_tukkas.dmk}}{% else %}0{% endif%}"/>
 	
