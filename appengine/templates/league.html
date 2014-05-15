@@ -23,103 +23,106 @@
 	<h3>Overall Predictions</h3>
 	<div id="overall_predictions">
 	(<a href="/overall-tally/"  data-transition="slide">make your own if not done already</a>)
-	<table cellborder="1px" class="ui-responsive">
-		<tr><td></td>
+
+	<div id="league-table">
+		<table cellborder="1px" class="ui-responsive">
+			<tr><td></td>
+				{% for prediction in predictions %}
+					<td><b>{{ prediction.user.display_name }}</b></td>
+				{% endfor %}
+			</tr>
+			<tr><td>UPA</td>
+				{% for prediction in predictions %}
+					<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.upa}}{% else %} - {% endif %}</td>
+				{% endfor %}
+			</tr>
+			<tr><td>NDA</td>
 			{% for prediction in predictions %}
-				<td><b>{{ prediction.user.display_name }}</b></td>
-			{% endfor %}
-		</tr>
-		<tr><td>UPA</td>
+				<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.nda}}{% else %} - {% endif %}</td>
+				{% endfor %}
+			</tr>
+			<tr><td>INC</td>
 			{% for prediction in predictions %}
-				<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.upa}}{% else %} - {% endif %}</td>
+				<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.inc}}{% else %} - {% endif %}</td>
 			{% endfor %}
-		</tr>
-		<tr><td>NDA</td>
-		{% for prediction in predictions %}
-			<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.nda}}{% else %} - {% endif %}</td>
+			</tr>
+			<tr><td>BJP</td>
+			{% for prediction in predictions %}
+				<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.bjp}}{% else %} - {% endif %}</td>
 			{% endfor %}
-		</tr>
-		<tr><td>INC</td>
-		{% for prediction in predictions %}
-			<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.inc}}{% else %} - {% endif %}</td>
-		{% endfor %}
-		</tr>
-		<tr><td>BJP</td>
-		{% for prediction in predictions %}
-			<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.bjp}}{% else %} - {% endif %}</td>
-		{% endfor %}
-		</tr>
-		<tr><td>AAP</td>
-		{% for prediction in predictions %}
-			<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.aap}}{% else %} - {% endif %}</td>
-		{% endfor %}
-		</tr>
-		<tr><td>TMC</td>
-		{% for prediction in predictions %}
-			<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.tmc}}{% else %} - {% endif %}</td>
-		{% endfor %}
-		</tr>
-		<tr><td>DMK</td>
-		{% for prediction in predictions %}
-			<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.dmk}}{% else %} - {% endif %}</td>
-		{% endfor %}
-		</tr>
-		<tr><td>AIADMK</td>
-		{% for prediction in predictions %}
-			<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.aiadmk}}{% else %} - {% endif %}</td>
-		{% endfor %}
-		</tr>
-		<tr><td>SP</td>
-		{% for prediction in predictions %}
-			<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.sp}}{% else %} - {% endif %}</td>
-		{% endfor %}
-		</tr>
-		<tr><td>BSP</td>
-		{% for prediction in predictions %}
-			<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.bsp}}{% else %} - {% endif %}</td>
-		{% endfor %}
-		</tr>
-		<tr><td>JD</td>
-		{% for prediction in predictions %}
-			<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.jd}}{% else %} - {% endif %}</td>
-		{% endfor %}
-		</tr>
-		<tr><td>RJD</td>
-		{% for prediction in predictions %}
-			<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.rjd}}{% else %} - {% endif %}</td>
-		{% endfor %}
-		</tr>
-		<tr><td>CPI</td>
-		{% for prediction in predictions %}
-			<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.cpi}}{% else %} - {% endif %}</td>
-		{% endfor %}
-		</tr>
-		<tr><td>BJD</td>
-		{% for prediction in predictions %}
-			<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.bjd}}{% else %} - {% endif %}</td>
-		{% endfor %}
-		</tr>
-		<tr><td>SS</td>
-		{% for prediction in predictions %}
-			<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.ss}}{% else %} - {% endif %}</td>
-		{% endfor %}
-		</tr>
-		<tr><td>MNS</td>
-		{% for prediction in predictions %}
-			<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.mns}}{% else %} - {% endif %}</td>
-		{% endfor %}
-		</tr>
-		<tr><td>NCP</td>
-		{% for prediction in predictions %}
-			<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.ncp}}{% else %} - {% endif %}</td>
-		{% endfor %}
-		</tr>
-		<tr><td>Others</td>
-		{% for prediction in predictions %}
-			<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.others}}{% else %} - {% endif %}</td>
-		{% endfor %}
-		</tr>
-	</table>
+			</tr>
+			<tr><td>AAP</td>
+			{% for prediction in predictions %}
+				<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.aap}}{% else %} - {% endif %}</td>
+			{% endfor %}
+			</tr>
+			<tr><td>TMC</td>
+			{% for prediction in predictions %}
+				<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.tmc}}{% else %} - {% endif %}</td>
+			{% endfor %}
+			</tr>
+			<tr><td>DMK</td>
+			{% for prediction in predictions %}
+				<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.dmk}}{% else %} - {% endif %}</td>
+			{% endfor %}
+			</tr>
+			<tr><td>AIADMK</td>
+			{% for prediction in predictions %}
+				<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.aiadmk}}{% else %} - {% endif %}</td>
+			{% endfor %}
+			</tr>
+			<tr><td>SP</td>
+			{% for prediction in predictions %}
+				<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.sp}}{% else %} - {% endif %}</td>
+			{% endfor %}
+			</tr>
+			<tr><td>BSP</td>
+			{% for prediction in predictions %}
+				<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.bsp}}{% else %} - {% endif %}</td>
+			{% endfor %}
+			</tr>
+			<tr><td>JD</td>
+			{% for prediction in predictions %}
+				<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.jd}}{% else %} - {% endif %}</td>
+			{% endfor %}
+			</tr>
+			<tr><td>RJD</td>
+			{% for prediction in predictions %}
+				<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.rjd}}{% else %} - {% endif %}</td>
+			{% endfor %}
+			</tr>
+			<tr><td>CPI</td>
+			{% for prediction in predictions %}
+				<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.cpi}}{% else %} - {% endif %}</td>
+			{% endfor %}
+			</tr>
+			<tr><td>BJD</td>
+			{% for prediction in predictions %}
+				<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.bjd}}{% else %} - {% endif %}</td>
+			{% endfor %}
+			</tr>
+			<tr><td>SS</td>
+			{% for prediction in predictions %}
+				<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.ss}}{% else %} - {% endif %}</td>
+			{% endfor %}
+			</tr>
+			<tr><td>MNS</td>
+			{% for prediction in predictions %}
+				<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.mns}}{% else %} - {% endif %}</td>
+			{% endfor %}
+			</tr>
+			<tr><td>NCP</td>
+			{% for prediction in predictions %}
+				<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.ncp}}{% else %} - {% endif %}</td>
+			{% endfor %}
+			</tr>
+			<tr><td>Others</td>
+			{% for prediction in predictions %}
+				<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.others}}{% else %} - {% endif %}</td>
+			{% endfor %}
+			</tr>
+		</table>
+	</div>
 	</div>
 
 	<hr/>
@@ -142,11 +145,3 @@
 
 	</div>
 {% endblock %}
-
-
-
-
-
-
-
-
