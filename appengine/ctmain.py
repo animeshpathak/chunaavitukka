@@ -636,7 +636,7 @@ class LeaguePageHandler(webapp2.RequestHandler):
                 
                     #notify users of new comment:
                     sender_address = "ChunaaviTukka.com Admin <animesh@gmail.com>"
-                    subject = "New comment posted on your league \"" + league.name + "\" at Chunaavi Tukka"
+                    subject = "New comment posted on your league \"" + league.name + "\" by \""+ ct_user.display_name +"\" at Chunaavi Tukka"
                     body = """
 Hi,
 
