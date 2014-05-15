@@ -13,11 +13,11 @@
 	<div>{% if not ct_user %}<a href="{{url}}" data-transition="slide" class="ui-btn" data-ajax="false">Login to Join</a>{% elif ct_user not in league_members %}<form action="/l/{{league_id}}/" method="POST" data-ajax="false"><input type="hidden" name="league_id" value="{{league_id}}"><input type="submit" value="Join League"/></form>{% endif 	%}</div>
 
 	<h3>Members</h3>
-	<ul>
+	<ol>
 	{% for other in league_members %}
 	<li><a href="/u/{{other.key.id()}}/" data-transition="slide">{{other.display_name}}</a></li>
 	{% endfor %}
-	</ul>
+	</ol>
 	<hr/>
 	<h3>Overall Predictions</h3>
 	<div id="overall_predictions" style="width:100%; overflow:auto">
@@ -25,9 +25,9 @@
 
 	<div id="league-table">
 		<table cellborder="1px" class="ui-responsive">
-			<tr><td></td>
+			<tr><th>Party</th>
 				{% for prediction in predictions %}
-					<th>{{ prediction.user.display_name }}</td>
+					<th>{{ prediction.user.display_name }}{% if prediction.overall_tukka %}<br/>{{prediction.overall_tukka.updated_at.strftime('%Y-%m-%d')}}<br/>{{prediction.overall_tukka.updated_at.strftime('%I:%M %p')}} GMT{% endif %}</td>
 				{% endfor %}
 			</tr>
 			<tr><td>UPA</td>
@@ -55,7 +55,7 @@
 				<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.aap}}{% else %} - {% endif %}</td>
 			{% endfor %}
 			</tr>
-			<tr><td>TMC</td>
+			<tr><td>TMC/AITC</td>
 			{% for prediction in predictions %}
 				<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.tmc}}{% else %} - {% endif %}</td>
 			{% endfor %}
@@ -113,6 +113,26 @@
 			<tr><td>NCP</td>
 			{% for prediction in predictions %}
 				<td>{% if prediction.overall_tukka %}{{prediction.overall_tukka.ncp}}{% else %} - {% endif %}</td>
+			{% endfor %}
+			</tr>
+			<tr><td>TDP</td>
+			{% for prediction in predictions %}
+				<td>{% if prediction.overall_tukka and prediction.overall_tukka.tdp != None%}{{prediction.overall_tukka.tdp}}{% else %} - {% endif %}</td>
+			{% endfor %}
+			</tr>
+			<tr><td>YSRC</td>
+			{% for prediction in predictions %}
+				<td>{% if prediction.overall_tukka and prediction.overall_tukka.ysrc != None %}{{prediction.overall_tukka.ysrc}}{% else %} - {% endif %}</td>
+			{% endfor %}
+			</tr>
+			<tr><td>TRS</td>
+			{% for prediction in predictions %}
+				<td>{% if prediction.overall_tukka and prediction.overall_tukka.trs != None%}{{prediction.overall_tukka.trs}}{% else %} - {% endif %}</td>
+			{% endfor %}
+			</tr>
+			<tr><td>CPI(M)</td>
+			{% for prediction in predictions %}
+				<td>{% if prediction.overall_tukka and prediction.overall_tukka.cpim != None%}{{prediction.overall_tukka.cpim}}{% else %} - {% endif %}</td>
 			{% endfor %}
 			</tr>
 			<tr><td>Others</td>

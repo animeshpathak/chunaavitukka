@@ -123,6 +123,10 @@ class CTOverallTukka(ndb.Model):
     ss = ndb.IntegerProperty(repeated=False)
     mns = ndb.IntegerProperty(repeated=False)
     ncp = ndb.IntegerProperty(repeated=False)
+    ysrc = ndb.IntegerProperty(repeated=False)
+    trs = ndb.IntegerProperty(repeated=False)
+    tdp = ndb.IntegerProperty(repeated=False)
+    cpim = ndb.IntegerProperty(repeated=False)
     others = ndb.IntegerProperty(repeated=False)
     
     @classmethod
