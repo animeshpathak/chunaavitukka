@@ -633,13 +633,18 @@ class LeaguePageHandler(webapp2.RequestHandler):
                 subject = "New comment posted on your league \"" + league.name + "\" at Chunaavi Tukka"
                 body = """
 Hi,
-A new comment has been posted at your league "%s" by user %s.
-You can see it at http://www.chunaavitukka.com/l/%s/
+
+The following comment has been posted at your league "%s" by user %s.
+
+"%s"
+
+You can reply to it at http://www.chunaavitukka.com/l/%s/
+
 regards,
 The Chunaavi Tukka Team
 ...putting the guesswork back into politics
 www.chunaavitukka.com
-""" % (league.name, ct_user.display_name, league_id)
+""" % (league.name, ct_user.display_name, self.request.get('contents'), league_id)
                 #logging.error(body)
                 for user_key in league.members:
                     mail.send_mail(sender_address, user_key.get().google_user.email(), subject, body)
