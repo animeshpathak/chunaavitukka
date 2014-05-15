@@ -75,9 +75,14 @@
 }
 
 .third {
-	width: 30%;
+	width: 24%;
 	margin: 0;
 	display: inline-block;
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	    -ms-box-sizing: border-box;
+	     -o-box-sizing: border-box;
+	        box-sizing: border-box;
 }
 
 td {
@@ -92,4 +97,10 @@ th
 tr:nth-child(even)
 {
 	background:#e9e9e9;
+}
+
+@media screen and (max-width: 780px) {
+	.third {
+		width: 48%;
+	}
 }
