@@ -13,11 +13,11 @@
 	<div>{% if not ct_user %}<a href="{{url}}" data-transition="slide" class="ui-btn" data-ajax="false">Login to Join</a>{% elif ct_user not in league_members %}<form action="/l/{{league_id}}/" method="POST" data-ajax="false"><input type="hidden" name="league_id" value="{{league_id}}"><input type="submit" value="Join League"/></form>{% endif 	%}</div>
 
 	<h3>Members</h3>
-	<ul>
+	<ol>
 	{% for other in league_members %}
 	<li><a href="/u/{{other.key.id()}}/" data-transition="slide">{{other.display_name}}</a></li>
 	{% endfor %}
-	</ul>
+	</ol>
 	<hr/>
 	<h3>Overall Predictions</h3>
 	<div id="overall_predictions" style="width:100%; overflow:auto">
