@@ -24,7 +24,7 @@
 	<h3>Overall Predictions</h3>
 	<div id="overall_predictions">
 	(<a href="/overall-tally/"  data-transition="slide">make your own if not done already</a>)
-	<table cellborder="1px">
+	<table cellborder="1px" data-role="table" class="ui-responsive">
 		<tr><td></td>
 			{% for prediction in predictions %}
 				<td><b>{{ prediction.user.display_name }}</b></td>
