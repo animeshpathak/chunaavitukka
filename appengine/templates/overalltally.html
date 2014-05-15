@@ -8,7 +8,7 @@
 <!-- a href="/constituencies/" class='ui-btn ui-corner-all ui-shadow' data-transition="slide">Most Important 105</a> 
 <a href="/top20/" class='ui-btn ui-corner-all ui-shadow' data-transition="slide">Top 20</a> -->
 <a href="/constituencies/" class='ui-btn third' data-transition="slide">Hot 105</a> <a href="/top20/" class='ui-btn third' data-transition="slide">Top 20</a> <a href="/overall-tally/" class="ui-btn third last" data-transition="slide" data-ajax="false">The Lok Sabha</a>
-	<form action="/overall-tally/" method="POST" id="overall">
+	<form action="/overall-tally/" method="POST" id="overall" data-ajax="false">
 	<br />
 	{% for cons in conslist %}
 	<label for="{{cons.key}}">{{cons.title}} ({{cons.max}})</label>	<input type="number" name="{{cons.key}}" limit="{{cons.max}}"  min="0" max="{{cons.max}}" step="1" team-type="{{cons.teamtype}}" class="{{cons.teamtype}}" value="0"/>
