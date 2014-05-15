@@ -10,7 +10,7 @@
 {% block main_content %}
 <a href="/constituencies/" class='ui-btn third' data-transition="slide">Hot 105</a> <a href="/top20/" class='ui-btn third' data-transition="slide">Top 20</a> <a href="/overall-tally/" class="ui-btn third" data-transition="slide">The Lok Sabha</a> <a href="/l/new/" class="ui-btn third last" data-transition="slide">Make your League</a> 
 
-	<h2>{{other_user.display_name}}'s Profile</h2>
+	<h2>{{other_user.display_name}}{% if ct_user == other_user%}(<a href="/s/" data-transition="slide">change</a>){% endif%}'s Profile</h2>
 	<h3>Overall Predictions</h3>
 	<div id="overall_predictions">
 	<table cellborder="1px">
@@ -77,7 +77,7 @@
 	<h3>Predictions</h3>
 	{% for prediction in predictions %}
 	<div class="prediction">
-	For constituency <a href="/c/{{prediction.cons.slug}}/" data-transition="slide" data-ajax="false">{{prediction.cons.name}}</a> : {{prediction.candidate.name}} of {{prediction.candidate.party}}{% if prediction.candidate.coalition %}/{{prediction.candidate.coalition}}{% endif %}
+	<a href="/c/{{prediction.cons.slug}}/" data-transition="slide" data-ajax="false">{{prediction.cons.name}}</a> : {{prediction.candidate.name}} ({{prediction.candidate.party}}{% if prediction.candidate.coalition %}/{{prediction.candidate.coalition}}{% endif %})
 	 </div>
     {% endfor %}
 	{%if ct_user != other_user %}<div id="toast" class="ui-content" style='display:none; background:#eeeeee; text-align:center; font-weight:bold; color:red; '></div>
