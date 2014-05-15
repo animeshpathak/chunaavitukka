@@ -8,8 +8,7 @@
 {% endblock%}
 
 {% block main_content %}
-<a href="/constituencies/" class='ui-btn third' data-transition="slide">Hot 105</a> <a href="/top20/" class='ui-btn third' data-transition="slide">Top 20</a> <a href="/overall-tally/" class="ui-btn third last" data-transition="slide" data-ajax="false">The Lok Sabha</a>
-
+<a href="/constituencies/" class='ui-btn third' data-transition="slide">Hot 105</a> <a href="/top20/" class='ui-btn third' data-transition="slide">Top 20</a> <a href="/overall-tally/" class="ui-btn third" data-transition="slide">The Lok Sabha</a> <a href="/l/new/" class="ui-btn third last" data-transition="slide">Make your League</a> 
 <h1>{{league_name}}</h1>
 <h2>by {{league_creator.display_name}}</h2>
 	<div>{% if not ct_user %}<a href="{{url}}" data-transition="slide" class="ui-btn" data-ajax="false">Login to Join</a>{% elif ct_user not in league_members %}<form action="/l/{{league_id}}/" method="POST" data-ajax="false"><input type="hidden" name="league_id" value="{{league_id}}"><input type="submit" value="Join League"/></form>{% endif 	%}</div>
