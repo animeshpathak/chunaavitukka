@@ -216,6 +216,7 @@ class UserPageHandler(webapp2.RequestHandler):
             follows = [] #list of people whom this guy follows, but only if it is me!
 
             my_overall_predictions = None
+            my_preds = None
 
             if not ct_user:
                 can_follow = True
@@ -233,6 +234,18 @@ class UserPageHandler(webapp2.RequestHandler):
                         follows.append({'id':other_id, 'display_name':other.display_name})
                 else:
                     my_overall_predictions = CTOverallTukka.get_overall_tukka(ct_user)
+                    #get my individual predictions , for his predictions
+                    #make a dict key,val
+                    #make a query in the DB for predictions by this user.
+                    #TODO exception handling
+                    qry = CTTukka.query(CTTukka.user == ct_user.key)
+                    #TODO make this a map()?
+                    my_preds = dict()
+                    for tukka in qry.iter():
+                        constituency = tukka.constituency.get()
+                        candidate = tukka.candidate.get()
+                        my_preds[constituency.key.id()] = {'id':candidate.key.id(),'name':candidate.name,'party':candidate.party,'coalition': candidate.coalition}
+
             
             format = self.request.get("f")
             template_values = {
@@ -246,6 +259,7 @@ class UserPageHandler(webapp2.RequestHandler):
                 'overall_predictions': overall_predictions,
                 'can_follow': can_follow,
                 'my_overall_predictions': my_overall_predictions,
+                'my_preds' : my_preds,
             }
 
             if (format == 'json'):

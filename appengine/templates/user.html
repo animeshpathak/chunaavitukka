@@ -75,11 +75,16 @@
 	</table>
 	</div>
 	<h3>Predictions</h3>
+	<table cellborder="1px">
 	{% for prediction in predictions %}
-	<div class="prediction">
-	<a href="/c/{{prediction.cons.slug}}/" data-transition="slide" data-ajax="false">{{prediction.cons.name}}</a> : {{prediction.candidate.name}} ({{prediction.candidate.party}}{% if prediction.candidate.coalition %}/{{prediction.candidate.coalition}}{% endif %})
-	 </div>
+	<tr class="prediction">
+	<td><a href="/c/{{prediction.cons.slug}}/" data-transition="slide" data-ajax="false">{{prediction.cons.name}}</a></td><td>{{prediction.candidate.name}} ({{prediction.candidate.party}}{% if prediction.candidate.coalition %}/{{prediction.candidate.coalition}}{% endif %})</td>
+	{% if my_preds %}
+	<td>{{ my_preds.get(prediction.cons.slug) }}</td>
+	{% endif %}
+	</tr>
     {% endfor %}
+	</table>
 	{%if ct_user != other_user %}<div id="toast" class="ui-content" style='display:none; background:#eeeeee; text-align:center; font-weight:bold; color:red; '></div>
 	<div>{% if can_follow %}{% if ct_user %}<input type="button" id="user_follow_button" data-other-id="{{other_user.key.id()}}" value="Follow"/>{%else%}<a href="{{url}}" data-transition="slide" class="ui-btn" data-ajax="false">Login to Follow</a>{%endif%}{%else %} Already Following{%endif%}</div>{%else%}
 
