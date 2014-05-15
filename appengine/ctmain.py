@@ -27,6 +27,10 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
 
+SENDING_MAIL = True
+TUKKA_CHANGE_ALLOWED = True #AP says change it later
+
+    
 def user_setup(self):
     '''Function to do basic user URL setup'''
     google_user = users.get_current_user()
@@ -422,8 +426,7 @@ class OverallTallyHandler(webapp2.RequestHandler):
 
         user_overall_tukkas = CTOverallTukka.get_overall_tukka(ct_user)
             
-        tukka_change_allowed = True #AP says change it later
-        if not tukka_change_allowed:
+        if not TUKKA_CHANGE_ALLOWED:
             if user_overall_tukkas:
                 #already make a tukka
                 return webapp2.redirect('/u/' + str(ct_user.key.id())+'/')
@@ -627,11 +630,14 @@ class LeaguePageHandler(webapp2.RequestHandler):
                 league.comments.append(comment.key)
                 league.put()
                 #send to the league
+
                 
-                #notify users of new comment:
-                sender_address = "ChunaaviTukka.com Admin <animesh@gmail.com>"
-                subject = "New comment posted on your league \"" + league.name + "\" at Chunaavi Tukka"
-                body = """
+                if SENDING_MAIL:
+                
+                    #notify users of new comment:
+                    sender_address = "ChunaaviTukka.com Admin <animesh@gmail.com>"
+                    subject = "New comment posted on your league \"" + league.name + "\" at Chunaavi Tukka"
+                    body = """
 Hi,
 
 The following comment has been posted at your league "%s" by user %s.
@@ -645,10 +651,10 @@ The Chunaavi Tukka Team
 ...putting the guesswork back into politics
 www.chunaavitukka.com
 """ % (league.name, ct_user.display_name, self.request.get('contents'), league_id)
-                #logging.error(body)
-                for user_key in league.members:
-                    mail.send_mail(sender_address, user_key.get().google_user.email(), subject, body)
-                    #logging.error(user_key.get().google_user.email())
+                    #logging.error(body)
+                    for user_key in league.members:
+                        mail.send_mail(sender_address, user_key.get().google_user.email(), subject, body)
+                        #logging.error(user_key.get().google_user.email())
                 
                 return webapp2.redirect('/l/' + str(league.key.id()) + '/')
             else:
