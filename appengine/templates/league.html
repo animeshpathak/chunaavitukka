@@ -25,7 +25,7 @@
 
 	<div id="league-table">
 		<table cellborder="1px" class="ui-responsive">
-			<tr><td>Party</td>
+			<tr><th>Party</th>
 				{% for prediction in predictions %}
 					<th>{{ prediction.user.display_name }}{% if prediction.overall_tukka %}<br/>{{prediction.overall_tukka.updated_at.strftime('%Y-%m-%d')}}<br/>{{prediction.overall_tukka.updated_at.strftime('%I:%M %p')}}{% endif %}</td>
 				{% endfor %}
