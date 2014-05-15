@@ -68,7 +68,7 @@
 	</div>
 	<div data-role="main" class="ui-content {% block main_css_class %}{% endblock%}">
 		{% block top_buttons %}
-		<a href="/constituencies/" class='ui-btn third' data-transition="slide">Hot 105</a> <a href="/top20/" class='ui-btn third' data-transition="slide">Top 20</a> <a href="/overall-tally/" class="ui-btn third" data-transition="slide" {%if not ct_user%} data-ajax="false"{%endif%}>The Lok Sabha</a> <a href="/l/new/" class="ui-btn third last" data-transition="slide" {%if not ct_user%} data-ajax="false"{%endif%}>Make your League</a> 
+		<a href="/constituencies/" class='ui-btn third' data-transition="slide">Hot 105</a> <a href="/top20/" class='ui-btn third' data-transition="slide">Top 20</a> <a href="/overall-tally/" class="ui-btn third" data-transition="slide" data-ajax="false">The Lok Sabha</a> <a href="/l/new/" class="ui-btn third last" data-transition="slide" data-ajax="false">Make your League</a> 
 		{% endblock %}
 		{% block main_content %}{% endblock %}
 	</div>
