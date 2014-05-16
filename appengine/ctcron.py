@@ -40,7 +40,7 @@ class TallyUpdateHandler(webapp2.RequestHandler):
                 results[aname] = alliance['ALPR']
                 if aname == 'Cong+' or aname == 'BJP+' or aname == 'Others':
                     for party in alliance['p']:
-                        results[party['nm']] = party['L'] 
+                        results[party['nm']] = party['LPR'] 
             
             tally_key = ndb.Key(CTFinalTally, tally_id)
             r = tally_key.get()
