@@ -104,7 +104,14 @@ td:first-child, th:first-child {
 }
 
 td:nth-child(2), th:nth-child(2){
-	padding-left: 90px;
+	background: #eee;
+	min-width: 80px;
+	position:absolute;
+	left: 90px;
+}
+
+td:nth-child(3), th:nth-child(3){
+	padding-left: 190px;
 }
 
 tr:nth-child(even)

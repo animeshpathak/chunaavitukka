@@ -114,14 +114,15 @@
 		<td>{% if overall_predictions %}{{overall_predictions.tmc}}{% else %} - {% endif %}</td>
 		<td>{% if my_overall_predictions %}{{my_overall_predictions.tmc}}{% else %} - {% endif %}</td></tr>
 		<tr><td>DMK</td>
-		<td>{% if overall_predictions %}{{overall_predictions.dmk}}{% else %} - {% endif %}</td>
 		<td>{{current_tally.dmk}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.dmk}}{% else %} - {% endif %}</td>
 		<td>{% if my_overall_predictions %}{{my_overall_predictions.dmk}}{% else %} - {% endif %}</td></tr>
-		<tr><td>AIADMK</td><td>{% if overall_predictions %}{{overall_predictions.aiadmk}}{% else %} - {% endif %}</td>
-		<td>{{current_tally.sp}}</td>
+		<tr><td>AIADMK</td>
 		<td>{{current_tally.aiadmk}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.aiadmk}}{% else %} - {% endif %}</td>
 		<td>{% if my_overall_predictions %}{{my_overall_predictions.aiadmk}}{% else %} - {% endif %}</td></tr>
 		<tr><td>SP</td>
+		<td>{{current_tally.sp}}</td>
 		<td>{% if overall_predictions %}{{overall_predictions.sp}}{% else %} - {% endif %}</td>
 		<td>{% if my_overall_predictions %}{{my_overall_predictions.sp}}{% else %} - {% endif %}</td></tr>
 		<tr><td>BSP</td>
