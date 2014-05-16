@@ -1,0 +1,4 @@
+cron:
+- description: periodic pull job
+  url: /admin/tallyupdate/
+  schedule: every 5 minutes

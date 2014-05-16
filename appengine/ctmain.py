@@ -8,6 +8,7 @@ import re
 
 from google.appengine.api import users
 from google.appengine.ext import ndb
+from google.appengine.api import mail
 
 from models import CTUser 
 from models import CTCandidate 
@@ -15,6 +16,8 @@ from models import CTConstituency
 from models import CTTukka 
 from models import CTOverallTukka 
 from models import CTLeague 
+from models import CTLeagueComment 
+from models import CTFinalTally 
 
 import jinja2
 import webapp2
@@ -25,6 +28,11 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
 
+SENDING_MAIL = True
+TUKKA_CHANGE_ALLOWED = False #AP says change it later
+TALLY_ID = "overall_tally"
+
+    
 def user_setup(self):
     '''Function to do basic user URL setup'''
     google_user = users.get_current_user()
@@ -208,6 +216,8 @@ class UserPageHandler(webapp2.RequestHandler):
         userkey = ndb.Key(CTUser, int(user_id))
         user = userkey.get()
         if user:
+            tally_key = ndb.Key(CTFinalTally, TALLY_ID)
+            current_tally = tally_key.get()
             predictions = get_predictions(user)
             overall_predictions = CTOverallTukka.get_overall_tukka(user)
             my_leagues = None #init to none
@@ -216,7 +226,6 @@ class UserPageHandler(webapp2.RequestHandler):
             follows = [] #list of people whom this guy follows, but only if it is me!
 
             my_overall_predictions = None
-            my_preds = None
 
             if not ct_user:
                 can_follow = True
@@ -234,18 +243,6 @@ class UserPageHandler(webapp2.RequestHandler):
                         follows.append({'id':other_id, 'display_name':other.display_name})
                 else:
                     my_overall_predictions = CTOverallTukka.get_overall_tukka(ct_user)
-                    #get my individual predictions , for his predictions
-                    #make a dict key,val
-                    #make a query in the DB for predictions by this user.
-                    #TODO exception handling
-                    qry = CTTukka.query(CTTukka.user == ct_user.key)
-                    #TODO make this a map()?
-                    my_preds = dict()
-                    for tukka in qry.iter():
-                        constituency = tukka.constituency.get()
-                        candidate = tukka.candidate.get()
-                        my_preds[constituency.key.id()] = {'id':candidate.key.id(),'name':candidate.name,'party':candidate.party,'coalition': candidate.coalition}
-
             
             format = self.request.get("f")
             template_values = {
@@ -259,7 +256,7 @@ class UserPageHandler(webapp2.RequestHandler):
                 'overall_predictions': overall_predictions,
                 'can_follow': can_follow,
                 'my_overall_predictions': my_overall_predictions,
-                'my_preds' : my_preds,
+                'current_tally': current_tally,
             }
 
             if (format == 'json'):
@@ -434,8 +431,7 @@ class OverallTallyHandler(webapp2.RequestHandler):
 
         user_overall_tukkas = CTOverallTukka.get_overall_tukka(ct_user)
             
-        tukka_change_allowed = True #AP says change it later
-        if not tukka_change_allowed:
+        if not TUKKA_CHANGE_ALLOWED:
             if user_overall_tukkas:
                 #already make a tukka
                 return webapp2.redirect('/u/' + str(ct_user.key.id())+'/')
@@ -587,6 +583,9 @@ class LeaguePageHandler(webapp2.RequestHandler):
         league_key = ndb.Key(CTLeague, int(league_id))
         league = league_key.get()
         
+        tally_key = ndb.Key(CTFinalTally, TALLY_ID)
+        current_tally = tally_key.get()
+
         if not league:
             self.response.status = 404
             return
@@ -598,6 +597,11 @@ class LeaguePageHandler(webapp2.RequestHandler):
         for user in league_members:
             predictions.append({'user': user, 'overall_tukka': CTOverallTukka.get_overall_tukka(user)})
         
+        league_comments = []
+        for comment_key in league.comments:
+            comment = comment_key.get()
+            league_comments.append({'author_id':comment.author.id(),'author_name':comment.author.get().display_name,'contents':comment.contents,'created_at':comment.created_at})
+        
         template_values = {
             'ct_user': ct_user,
             'url': url,
@@ -606,13 +610,15 @@ class LeaguePageHandler(webapp2.RequestHandler):
             'league_name': league.name,
             'league_creator': league.creator.get(),
             'league_members': league_members,
+            'league_comments': league_comments,
             'predictions': predictions,
+            'current_tally': current_tally,
         }
         self.response.headers['Content-Type'] = 'text/html'
         template = JINJA_ENVIRONMENT.get_template('templates/league.html')
         self.response.write(template.render(template_values))
     def post(self,league_id):
-        '''The currently logged in user wants to join this league'''
+        '''The currently logged in user wants to post a comment on this league'''
         (ct_user, url, url_linktext) = user_setup(self)
         if not ct_user:
             self.response.status = 401 #unauthorized
@@ -623,6 +629,47 @@ class LeaguePageHandler(webapp2.RequestHandler):
         if not league:
             self.response.status = 404
             return
+            
+        if (self.request.get('action') and self.request.get('action') == 'comment'):
+            # check if he is in league
+            if ct_user.key in league.members:
+                # he wants to post a comment, create a new comment
+                comment = CTLeagueComment(author = ct_user.key, contents = self.request.get('contents'))
+                comment.put()
+                league.comments.append(comment.key)
+                league.put()
+                #send to the league
+
+                
+                if SENDING_MAIL:
+                
+                    #notify users of new comment:
+                    sender_address = "ChunaaviTukka.com Admin <animesh@gmail.com>"
+                    subject = "New comment posted on your league \"" + league.name + "\" by \""+ ct_user.display_name +"\" at Chunaavi Tukka"
+                    body = """
+Hi,
+
+The following comment has been posted at your league "%s" by user %s.
+
+"%s"
+
+You can reply to it at http://www.chunaavitukka.com/l/%s/
+
+regards,
+The Chunaavi Tukka Team
+...putting the guesswork back into politics
+www.chunaavitukka.com
+""" % (league.name, ct_user.display_name, self.request.get('contents'), league_id)
+                    #logging.error(body)
+                    for user_key in league.members:
+                        mail.send_mail(sender_address, user_key.get().google_user.email(), subject, body)
+                        #logging.error(user_key.get().google_user.email())
+                
+                return webapp2.redirect('/l/' + str(league.key.id()) + '/')
+            else:
+                self.response.status = 501
+                return
+            
             
         #TODO transaction?    
         league.members.append(ct_user.key)

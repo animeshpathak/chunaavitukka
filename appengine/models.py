@@ -146,6 +146,12 @@ class CTOverallTukka(ndb.Model):
     created_at = ndb.DateTimeProperty(auto_now_add=True)
     updated_at = ndb.DateTimeProperty(auto_now=True)
             
+class CTLeagueComment(ndb.Model):
+    '''Models a constituency, always use the slug as the key'''
+    contents = ndb.StringProperty(required=True)
+    author = ndb.KeyProperty(kind=CTUser,repeated=False)
+    created_at = ndb.DateTimeProperty(auto_now_add=True)
+    updated_at = ndb.DateTimeProperty(auto_now=True)
             
 # League
 #  - creator
@@ -158,4 +164,31 @@ class CTLeague(ndb.Model):
     creator = ndb.KeyProperty(kind=CTUser,repeated=False)
     members = ndb.KeyProperty(kind=CTUser,repeated=True)
     created_at = ndb.DateTimeProperty(auto_now_add=True)
+    updated_at = ndb.DateTimeProperty(auto_now=True)
+    comments = ndb.KeyProperty(kind=CTLeagueComment, repeated=True)
+
+class CTFinalTally(ndb.Model):
+    '''Models the final tally for overall scores'''
+    upa = ndb.IntegerProperty(repeated=False) #Cong+
+    nda = ndb.IntegerProperty(repeated=False) #BJP+
+    inc = ndb.IntegerProperty(repeated=False) #Cong
+    bjp = ndb.IntegerProperty(repeated=False) #BJP
+    aap = ndb.IntegerProperty(repeated=False) #AAP
+    tmc = ndb.IntegerProperty(repeated=False) #TMC
+    dmk = ndb.IntegerProperty(repeated=False) #DMK
+    aiadmk = ndb.IntegerProperty(repeated=False) #ADMK
+    sp = ndb.IntegerProperty(repeated=False) # SP
+    bsp = ndb.IntegerProperty(repeated=False) #BSP
+    jd = ndb.IntegerProperty(repeated=False) #JDU
+    rjd = ndb.IntegerProperty(repeated=False) #RJD
+    cpi = ndb.IntegerProperty(repeated=False) #CPI
+    bjd = ndb.IntegerProperty(repeated=False) #BJD
+    ss = ndb.IntegerProperty(repeated=False) #SS
+    mns = ndb.IntegerProperty(repeated=False) #MNS
+    ncp = ndb.IntegerProperty(repeated=False) #NCP
+    ysrc = ndb.IntegerProperty(repeated=False) #YSRC
+    trs = ndb.IntegerProperty(repeated=False) #TRS
+    tdp = ndb.IntegerProperty(repeated=False) #TDP
+    cpim = ndb.IntegerProperty(repeated=False) #CPM
+    others = ndb.IntegerProperty(repeated=False)
     updated_at = ndb.DateTimeProperty(auto_now=True)
