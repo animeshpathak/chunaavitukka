@@ -15,74 +15,166 @@
 	{% if ct_user == other_user%}(reload page if you don't see latest votes){% endif%}
 	<table cellborder="1px">
 	{%if ct_user == other_user %}
-		<tr class="table-header"><td>Party</td><td>{{other_user.display_name}}{% if overall_predictions %}<br/>updated at {{overall_predictions.updated_at.strftime('%Y-%m-%d %I:%M %p')}}{% endif %}</td></tr>	
-		<tr><td>UPA</td><td>{% if overall_predictions %}{{overall_predictions.upa}}{% else %} - {% endif %}</td></tr>
-		<tr><td>NDA</td><td>{% if overall_predictions %}{{overall_predictions.nda}}{% else %} - {% endif %}</td></tr>
-		<tr><td>INC</td><td>{% if overall_predictions %}{{overall_predictions.inc}}{% else %} - {% endif %}</td></tr>
-		<tr><td>BJP</td><td>{% if overall_predictions %}{{overall_predictions.bjp}}{% else %} - {% endif %}</td></tr>
-		<tr><td>AAP</td><td>{% if overall_predictions %}{{overall_predictions.aap}}{% else %} - {% endif %}</td></tr>
-		<tr><td>TMC/AITC</td><td>{% if overall_predictions %}{{overall_predictions.tmc}}{% else %} - {% endif %}</td></tr>
-		<tr><td>DMK</td><td>{% if overall_predictions %}{{overall_predictions.dmk}}{% else %} - {% endif %}</td></tr>
-		<tr><td>AIADMK</td><td>{% if overall_predictions %}{{overall_predictions.aiadmk}}{% else %} - {% endif %}</td></tr>
-		<tr><td>SP</td><td>{% if overall_predictions %}{{overall_predictions.sp}}{% else %} - {% endif %}</td></tr>
-		<tr><td>BSP</td><td>{% if overall_predictions %}{{overall_predictions.bsp}}{% else %} - {% endif %}</td></tr>
-		<tr><td>JD</td><td>{% if overall_predictions %}{{overall_predictions.jd}}{% else %} - {% endif %}</td></tr>
-		<tr><td>RJD</td><td>{% if overall_predictions %}{{overall_predictions.rjd}}{% else %} - {% endif %}</td></tr>
-		<tr><td>CPI</td><td>{% if overall_predictions %}{{overall_predictions.cpi}}{% else %} - {% endif %}</td></tr>
-		<tr><td>BJD</td><td>{% if overall_predictions %}{{overall_predictions.bjd}}{% else %} - {% endif %}</td></tr>
-		<tr><td>SS</td><td>{% if overall_predictions %}{{overall_predictions.ss}}{% else %} - {% endif %}</td></tr>
-		<tr><td>MNS</td><td>{% if overall_predictions %}{{overall_predictions.mns}}{% else %} - {% endif %}</td></tr>
-		<tr><td>NCP</td><td>{% if overall_predictions %}{{overall_predictions.ncp}}{% else %} - {% endif %}</td></tr>
-		<tr><td>TDP</td><td>{% if overall_predictions %}{{overall_predictions.tdp}}{% else %} - {% endif %}</td></tr>
-		<tr><td>YSRC</td><td>{% if overall_predictions %}{{overall_predictions.ysrc}}{% else %} - {% endif %}</td></tr>
-		<tr><td>TRS</td><td>{% if overall_predictions %}{{overall_predictions.trs}}{% else %} - {% endif %}</td></tr>
-		<tr><td>CPI(M)</td><td>{% if overall_predictions %}{{overall_predictions.cpim}}{% else %} - {% endif %}</td></tr>
-		<tr><td>Others</td><td>{% if overall_predictions %}{{overall_predictions.others}}{% else %} - {% endif %}</td></tr>
+		<tr class="table-header"><td>Party</td>
+		<td>Latest leads (NDTV)<br/>{{current_tally.updated_at.strftime('%I:%M %p')}} GMT</td>
+		<td>{{other_user.display_name}}{% if overall_predictions %}<br/>updated at {{overall_predictions.updated_at.strftime('%Y-%m-%d %I:%M %p')}}{% endif %}</td></tr>	
+		<tr><td>UPA</td>
+		<td>{{current_tally.upa}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.upa}}{% else %} - {% endif %}</td></tr>
+		<tr><td>NDA</td>
+		<td>{{current_tally.nda}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.nda}}{% else %} - {% endif %}</td></tr>
+		<tr><td>INC</td>
+		<td>{{current_tally.inc}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.inc}}{% else %} - {% endif %}</td></tr>
+		<tr><td>BJP</td>
+		<td>{{current_tally.bjp}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.bjp}}{% else %} - {% endif %}</td></tr>
+		<tr><td>AAP</td>
+		<td>{{current_tally.aap}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.aap}}{% else %} - {% endif %}</td></tr>
+		<tr><td>TMC/AITC</td>
+		<td>{{current_tally.tmc}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.tmc}}{% else %} - {% endif %}</td></tr>
+		<tr><td>DMK</td>
+		<td>{{current_tally.dmk}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.dmk}}{% else %} - {% endif %}</td></tr>
+		<tr><td>AIADMK</td>
+		<td>{{current_tally.aiadmk}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.aiadmk}}{% else %} - {% endif %}</td></tr>
+		<tr><td>SP</td>
+		<td>{{current_tally.sp}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.sp}}{% else %} - {% endif %}</td></tr>
+		<tr><td>BSP</td>
+		<td>{{current_tally.bsp}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.bsp}}{% else %} - {% endif %}</td></tr>
+		<tr><td>JD</td>
+		<td>{{current_tally.jd}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.jd}}{% else %} - {% endif %}</td></tr>
+		<tr><td>RJD</td>
+		<td>{{current_tally.rjd}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.rjd}}{% else %} - {% endif %}</td></tr>
+		<tr><td>CPI</td>
+		<td>{{current_tally.cpi}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.cpi}}{% else %} - {% endif %}</td></tr>
+		<tr><td>BJD</td>
+		<td>{{current_tally.bjd}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.bjd}}{% else %} - {% endif %}</td></tr>
+		<tr><td>SS</td>
+		<td>{{current_tally.ss}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.ss}}{% else %} - {% endif %}</td></tr>
+		<tr><td>MNS</td>
+		<td>{{current_tally.mns}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.mns}}{% else %} - {% endif %}</td></tr>
+		<tr><td>NCP</td>
+		<td>{{current_tally.ncp}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.ncp}}{% else %} - {% endif %}</td></tr>
+		<tr><td>TDP</td>
+		<td>{{current_tally.tdp}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.tdp}}{% else %} - {% endif %}</td></tr>
+		<tr><td>YSRC</td>
+		<td>{{current_tally.ysrc}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.ysrc}}{% else %} - {% endif %}</td></tr>
+		<tr><td>TRS</td>
+		<td>{{current_tally.trs}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.trs}}{% else %} - {% endif %}</td></tr>
+		<tr><td>CPI(M)</td>
+		<td>{{current_tally.cpim}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.cpim}}{% else %} - {% endif %}</td></tr>
+		<tr><td>Others</td>
+		<td>-</td>
+		<td>{% if overall_predictions %}{{overall_predictions.others}}{% else %} - {% endif %}</td></tr>
 	{% else %}
-		<tr class="table-header"><td>Party</td><td>{{other_user.display_name}}{% if overall_predictions %}<br/>updated at {{overall_predictions.updated_at.strftime('%Y-%m-%d %I:%M %p')}}{% endif %}</td><td>Me{%if my_overall_predictions%}<br/>updated at {{my_overall_predictions.updated_at.strftime('%Y-%m-%d %I:%M %p')}}{% endif %}</td></tr>
-		<tr><td>UPA</td><td>{% if overall_predictions %}{{overall_predictions.upa}}{% else %} - {% endif %}</td>
+		<tr class="table-header"><td>Party</td>
+		<td>Latest leads (NDTV)<br/>{{current_tally.updated_at.strftime('%I:%M %p')}} GMT</td>
+
+		<td>{{other_user.display_name}}{% if overall_predictions %}<br/>updated at {{overall_predictions.updated_at.strftime('%Y-%m-%d %I:%M %p')}}{% endif %}</td><td>Me{%if my_overall_predictions%}<br/>updated at {{my_overall_predictions.updated_at.strftime('%Y-%m-%d %I:%M %p')}}{% endif %}</td></tr>
+		<tr><td>UPA</td>
+		<td>{{current_tally.upa}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.upa}}{% else %} - {% endif %}</td>
 		<td>{% if my_overall_predictions %}{{my_overall_predictions.upa}}{% else %} - {% endif %}</td></tr>
-		<tr><td>NDA</td><td>{% if overall_predictions %}{{overall_predictions.nda}}{% else %} - {% endif %}</td>
+		<tr><td>NDA</td>
+		<td>{{current_tally.nda}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.nda}}{% else %} - {% endif %}</td>
 		<td>{% if my_overall_predictions %}{{my_overall_predictions.nda}}{% else %} - {% endif %}</td></tr>
-		<tr><td>INC</td><td>{% if overall_predictions %}{{overall_predictions.inc}}{% else %} - {% endif %}</td>
+		<tr><td>INC</td>
+		<td>{{current_tally.inc}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.inc}}{% else %} - {% endif %}</td>
 		<td>{% if my_overall_predictions %}{{my_overall_predictions.inc}}{% else %} - {% endif %}</td></tr>
-		<tr><td>BJP</td><td>{% if overall_predictions %}{{overall_predictions.bjp}}{% else %} - {% endif %}</td>
+		<tr><td>BJP</td>
+		<td>{{current_tally.bjp}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.bjp}}{% else %} - {% endif %}</td>
 		<td>{% if my_overall_predictions %}{{my_overall_predictions.bjp}}{% else %} - {% endif %}</td></tr>
-		<tr><td>AAP</td><td>{% if overall_predictions %}{{overall_predictions.aap}}{% else %} - {% endif %}</td>
+		<tr><td>AAP</td>
+		<td>{{current_tally.aap}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.aap}}{% else %} - {% endif %}</td>
 		<td>{% if my_overall_predictions %}{{my_overall_predictions.aap}}{% else %} - {% endif %}</td></tr>
-		<tr><td>TMC/AITC</td><td>{% if overall_predictions %}{{overall_predictions.tmc}}{% else %} - {% endif %}</td>
+		<tr><td>TMC/AITC</td>
+		<td>{{current_tally.tmc}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.tmc}}{% else %} - {% endif %}</td>
 		<td>{% if my_overall_predictions %}{{my_overall_predictions.tmc}}{% else %} - {% endif %}</td></tr>
-		<tr><td>DMK</td><td>{% if overall_predictions %}{{overall_predictions.dmk}}{% else %} - {% endif %}</td>
+		<tr><td>DMK</td>
+		<td>{% if overall_predictions %}{{overall_predictions.dmk}}{% else %} - {% endif %}</td>
+		<td>{{current_tally.dmk}}</td>
 		<td>{% if my_overall_predictions %}{{my_overall_predictions.dmk}}{% else %} - {% endif %}</td></tr>
 		<tr><td>AIADMK</td><td>{% if overall_predictions %}{{overall_predictions.aiadmk}}{% else %} - {% endif %}</td>
+		<td>{{current_tally.sp}}</td>
+		<td>{{current_tally.aiadmk}}</td>
 		<td>{% if my_overall_predictions %}{{my_overall_predictions.aiadmk}}{% else %} - {% endif %}</td></tr>
-		<tr><td>SP</td><td>{% if overall_predictions %}{{overall_predictions.sp}}{% else %} - {% endif %}</td>
+		<tr><td>SP</td>
+		<td>{% if overall_predictions %}{{overall_predictions.sp}}{% else %} - {% endif %}</td>
 		<td>{% if my_overall_predictions %}{{my_overall_predictions.sp}}{% else %} - {% endif %}</td></tr>
-		<tr><td>BSP</td><td>{% if overall_predictions %}{{overall_predictions.bsp}}{% else %} - {% endif %}</td>
+		<tr><td>BSP</td>
+		<td>{{current_tally.bsp}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.bsp}}{% else %} - {% endif %}</td>
 		<td>{% if my_overall_predictions %}{{my_overall_predictions.bsp}}{% else %} - {% endif %}</td></tr>
-		<tr><td>JD</td><td>{% if overall_predictions %}{{overall_predictions.jd}}{% else %} - {% endif %}</td>
+		<tr><td>JD</td>
+		<td>{{current_tally.jd}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.jd}}{% else %} - {% endif %}</td>
 		<td>{% if my_overall_predictions %}{{my_overall_predictions.jd}}{% else %} - {% endif %}</td></tr>
-		<tr><td>RJD</td><td>{% if overall_predictions %}{{overall_predictions.rjd}}{% else %} - {% endif %}</td>
+		<tr><td>RJD</td>
+		<td>{{current_tally.rjd}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.rjd}}{% else %} - {% endif %}</td>
 		<td>{% if my_overall_predictions %}{{my_overall_predictions.rjd}}{% else %} - {% endif %}</td></tr>
-		<tr><td>CPI</td><td>{% if overall_predictions %}{{overall_predictions.cpi}}{% else %} - {% endif %}</td>
+		<tr><td>CPI</td>
+		<td>{{current_tally.cpi}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.cpi}}{% else %} - {% endif %}</td>
 		<td>{% if my_overall_predictions %}{{my_overall_predictions.cpi}}{% else %} - {% endif %}</td></tr>
-		<tr><td>BJD</td><td>{% if overall_predictions %}{{overall_predictions.bjd}}{% else %} - {% endif %}</td>
+		<tr><td>BJD</td>
+		<td>{{current_tally.bjd}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.bjd}}{% else %} - {% endif %}</td>
 		<td>{% if my_overall_predictions %}{{my_overall_predictions.bjd}}{% else %} - {% endif %}</td></tr>
-		<tr><td>SS</td><td>{% if overall_predictions %}{{overall_predictions.ss}}{% else %} - {% endif %}</td>
+		<tr><td>SS</td>
+		<td>{{current_tally.ss}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.ss}}{% else %} - {% endif %}</td>
 		<td>{% if my_overall_predictions %}{{my_overall_predictions.ss}}{% else %} - {% endif %}</td></tr>
-		<tr><td>MNS</td><td>{% if overall_predictions %}{{overall_predictions.mns}}{% else %} - {% endif %}</td>
+		<tr><td>MNS</td>
+		<td>{{current_tally.mns}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.mns}}{% else %} - {% endif %}</td>
 		<td>{% if my_overall_predictions %}{{my_overall_predictions.mns}}{% else %} - {% endif %}</td></tr>
-		<tr><td>NCP</td><td>{% if overall_predictions %}{{overall_predictions.ncp}}{% else %} - {% endif %}</td>
+		<tr><td>NCP</td>
+		<td>{{current_tally.ncp}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.ncp}}{% else %} - {% endif %}</td>
 		<td>{% if my_overall_predictions %}{{my_overall_predictions.ncp}}{% else %} - {% endif %}</td></tr>
-		<tr><td>TDP</td><td>{% if overall_predictions %}{{overall_predictions.tdp}}{% else %} - {% endif %}</td>
+		<tr><td>TDP</td>
+		<td>{{current_tally.tdp}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.tdp}}{% else %} - {% endif %}</td>
 		<td>{% if my_overall_predictions %}{{my_overall_predictions.tdp}}{% else %} - {% endif %}</td></tr>
-		<tr><td>YSRC</td><td>{% if overall_predictions %}{{overall_predictions.ysrc}}{% else %} - {% endif %}</td>
+		<tr><td>YSRC</td>
+		<td>{{current_tally.ysrc}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.ysrc}}{% else %} - {% endif %}</td>
 		<td>{% if my_overall_predictions %}{{my_overall_predictions.ysrc}}{% else %} - {% endif %}</td></tr>
-		<tr><td>TRS</td><td>{% if overall_predictions %}{{overall_predictions.trs}}{% else %} - {% endif %}</td>
+		<tr><td>TRS</td>
+		<td>{{current_tally.trs}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.trs}}{% else %} - {% endif %}</td>
 		<td>{% if my_overall_predictions %}{{my_overall_predictions.trs}}{% else %} - {% endif %}</td></tr>
-		<tr><td>CPI(M)</td><td>{% if overall_predictions %}{{overall_predictions.cpim}}{% else %} - {% endif %}</td>
+		<tr><td>CPI(M)</td>
+		<td>{{current_tally.cpim}}</td>
+		<td>{% if overall_predictions %}{{overall_predictions.cpim}}{% else %} - {% endif %}</td>
 		<td>{% if my_overall_predictions %}{{my_overall_predictions.cpim}}{% else %} - {% endif %}</td></tr>
-		<tr><td>Others</td><td>{% if overall_predictions %}{{overall_predictions.others}}{% else %} - {% endif %}</td>
+		<tr><td>Others</td>
+		<td>-</td>
+		<td>{% if overall_predictions %}{{overall_predictions.others}}{% else %} - {% endif %}</td>
 		<td>{% if my_overall_predictions %}{{my_overall_predictions.others}}{% else %} - {% endif %}</td></tr>
 	{% endif %}
 	</table>

@@ -35,5 +35,9 @@ handlers:
   static_dir: js
 - url: /images
   static_dir: images
+
+- url: /admin/tallyupdate/
+  script: ctcron.application
+
 - url: /.*
   script: ctmain.application

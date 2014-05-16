@@ -17,6 +17,7 @@ from models import CTTukka
 from models import CTOverallTukka 
 from models import CTLeague 
 from models import CTLeagueComment 
+from models import CTFinalTally 
 
 import jinja2
 import webapp2
@@ -29,6 +30,7 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 
 SENDING_MAIL = True
 TUKKA_CHANGE_ALLOWED = False #AP says change it later
+TALLY_ID = "overall_tally"
 
     
 def user_setup(self):
@@ -214,6 +216,8 @@ class UserPageHandler(webapp2.RequestHandler):
         userkey = ndb.Key(CTUser, int(user_id))
         user = userkey.get()
         if user:
+            tally_key = ndb.Key(CTFinalTally, TALLY_ID)
+            current_tally = tally_key.get()
             predictions = get_predictions(user)
             overall_predictions = CTOverallTukka.get_overall_tukka(user)
             my_leagues = None #init to none
@@ -252,6 +256,7 @@ class UserPageHandler(webapp2.RequestHandler):
                 'overall_predictions': overall_predictions,
                 'can_follow': can_follow,
                 'my_overall_predictions': my_overall_predictions,
+                'current_tally': current_tally,
             }
 
             if (format == 'json'):
@@ -578,6 +583,9 @@ class LeaguePageHandler(webapp2.RequestHandler):
         league_key = ndb.Key(CTLeague, int(league_id))
         league = league_key.get()
         
+        tally_key = ndb.Key(CTFinalTally, TALLY_ID)
+        current_tally = tally_key.get()
+
         if not league:
             self.response.status = 404
             return
@@ -604,6 +612,7 @@ class LeaguePageHandler(webapp2.RequestHandler):
             'league_members': league_members,
             'league_comments': league_comments,
             'predictions': predictions,
+            'current_tally': current_tally,
         }
         self.response.headers['Content-Type'] = 'text/html'
         template = JINJA_ENVIRONMENT.get_template('templates/league.html')

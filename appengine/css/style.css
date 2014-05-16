@@ -103,7 +103,7 @@ td:first-child, th:first-child {
 	min-width: 80px;
 }
 
-td:nth-child(2), th:nth-child(2) {
+td:nth-child(2), th:nth-child(2){
 	padding-left: 90px;
 }
 
